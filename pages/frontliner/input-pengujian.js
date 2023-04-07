@@ -1,11 +1,13 @@
 import {
   Box,
+  Center,
   Flex,
   HStack,
   Input,
   InputGroup,
   InputLeftElement,
   Spacer,
+  Spinner,
   Table,
   Tbody,
   Text,
@@ -23,15 +25,23 @@ import DashboardPagination from "../../components/dashboard/DashboardPagination"
 import useRemotePengujian from "../../components/hooks/remote/useRemotePengujian";
 import PengujianTableFrontliner from "../../components/tables/frontlinerTable/pengujianTable";
 import { getServerSidePropsFrontliner } from "../../utils/getServerSidePropsFrontliner";
+import MessageNotFoundData from "../../utils/MessageNotFoundData";
 
 const InputPengujian = () => {
   const [pageIndex, setPageIndex] = useState(1);
   const [dataLimit, setDataLimit] = useState(10);
 
-  const { data: dataPengujian, error } = useRemotePengujian({
+  const {
+    data: dataPengujian,
+    isLoading: isLoadingDataPengujian,
+    error,
+    isError,
+  } = useRemotePengujian({
     page: pageIndex,
     limit: dataLimit,
   });
+
+  console.log(isError);
 
   const pengujianListRef = useRef(null);
 
@@ -92,6 +102,12 @@ const InputPengujian = () => {
             ))}
           </Tbody>
         </Table>
+        {isLoadingDataPengujian && (
+          <Center my="6">
+            <Spinner />
+          </Center>
+        )}
+        {isError && <MessageNotFoundData />}
       </Box>
       <Flex
         flexDir={{ base: "column", md: "row", xl: "row" }}

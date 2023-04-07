@@ -23,34 +23,13 @@ axiosInstance.interceptors.request.use((config) => {
 }, undefined);
 
 export const fetcher = (resource, init) =>
-  axiosInstance
-    .get(resource, init)
-    .then((res) => res.data)
-    .catch((err) => {
-      destroyCookie(null, "_e", { path: "/" });
-      destroyCookie(null, "_t", { path: "/" });
-      useRouter().push("/login");
-    });
+  axiosInstance.get(resource, init).then((res) => res.data);
 
 export const postFetcher = (resource, init) =>
-  axiosInstance
-    .post(resource, init)
-    .then((res) => res.data)
-    .catch((err) => {
-      destroyCookie(null, "_e", { path: "/" });
-      destroyCookie(null, "_t", { path: "/" });
-      useRouter().push("/login");
-    });
+  axiosInstance.post(resource, init).then((res) => res.data);
 
 export const deleteFetcher = (resource, init) =>
-  axiosInstance
-    .delete(resource, init)
-    .then((res) => res.data)
-    .catch((err) => {
-      destroyCookie(null, "_e", { path: "/" });
-      destroyCookie(null, "_t", { path: "/" });
-      useRouter().push("/login");
-    });
+  axiosInstance.delete(resource, init).then((res) => res.data);
 
 export const fetcherWithContext = async (resource, context) => {
   const { _t: accessToken } = parseCookies(context);
