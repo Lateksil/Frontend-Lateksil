@@ -51,8 +51,6 @@ const InputPengujian = () => {
     }
   };
 
-  console.log(dataPengujian);
-
   return (
     <VStack align="stretch">
       <Head>

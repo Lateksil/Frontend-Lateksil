@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postFetcher } from "../../../libs/axios";
+import axiosInstance, { postFetcher } from "../../../libs/axios";
 import useToastNotification from "../useToastNotification";
 
 const useMutationCreatePengujian = () => {
@@ -10,8 +10,12 @@ const useMutationCreatePengujian = () => {
 
   const { mutate, ...others } = useMutation(
     async (formData) => {
-      const data = await postFetcher(uri, formData);
-      return data;
+      const response = await axiosInstance.post(uri, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
     },
     {
       onSuccess: () => {

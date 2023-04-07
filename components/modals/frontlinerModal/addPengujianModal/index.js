@@ -23,7 +23,8 @@ import useMutationCreatePengujian from "../../../hooks/mutation/useMutationCreat
 const AddPengujianModal = ({ isOpen, onClose }) => {
   const { register, handleSubmit, reset } = useForm();
 
-  const { mutate: mutateCreatePengujian } = useMutationCreatePengujian();
+  const { mutate: mutateCreatePengujian, isLoading } =
+    useMutationCreatePengujian();
 
   const onModalClose = () => {
     onClose();
@@ -31,17 +32,17 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
   };
 
   const onSubmit = async (data) => {
-    const requestPayload = {
-      jenis_pengujian: data.jenis_pengujian,
-      code: data.code,
-      description: data.description,
-      sampler: data.sampler,
-      image: data.image[0],
-      price: data.price,
-      category: data.category,
-      catatan_khusus: data.catatan_khusus,
-    };
-    mutateCreatePengujian(requestPayload);
+    const formData = new FormData();
+    formData.append("jenis_pengujian", data.jenis_pengujian);
+    formData.append("code", data.code);
+    formData.append("category", data.category);
+    formData.append("description", data.description);
+    formData.append("sampler", data.sampler);
+    formData.append("price", data.price);
+    formData.append("catatan_khusus", data.catatan_khusus);
+    formData.append("image", data.image[0]);
+
+    mutateCreatePengujian(formData);
     onClose();
     reset();
   };
@@ -142,6 +143,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
                 bg="blue.700"
                 color="white"
                 rounded="md"
+                isLoading={isLoading}
               >
                 Tambah
               </Button>
