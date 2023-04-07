@@ -1,39 +1,28 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postFetcher } from "../../../libs/axios";
+import useToastNotification from "../useToastNotification";
 
-const useMutationCreatePengujian = ({
-  image,
-  jenis_pengujian,
-  code,
-  category,
-  description,
-  sampler,
-  catatan_khusus,
-  price,
-}) => {
+const useMutationCreatePengujian = () => {
+  const queryClient = useQueryClient();
+  const showToast = useToastNotification();
+
   const uri = "/pengujian/create";
 
-  const createPengujian = postFetcher(uri, {
-    image,
-    jenis_pengujian,
-    code,
-    category,
-    description,
-    sampler,
-    catatan_khusus,
-    price,
-  });
-
-  const createData = useMutation(createPengujian, {
-    onSuccess: () => {
-      console.log("Create successfully!");
+  const { mutate, ...others } = useMutation(
+    async (formData) => {
+      const data = await postFetcher(uri, formData);
+      return data;
     },
-    onError: () => {
-      console.log("Error....");
-    },
-  });
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("pengujian").then(() => {
+          showToast("Berhasil Menambahkan Pengujian", "success");
+        });
+      },
+    }
+  );
 
-  return createData;
+  return { mutate, ...others };
 };
 
 export default useMutationCreatePengujian;

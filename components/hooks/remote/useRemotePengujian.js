@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { postFetcher } from "../../../libs/axios";
 
-const useRemotePengujian = () => {
+const useRemotePengujian = ({ page, limit }) => {
   const uri = `/pengujian`;
 
-  const { data, ...others } = useQuery(["pengujian", 1, 10], () =>
+  const { data, ...others } = useQuery(["pengujian", page, page], () =>
     postFetcher(uri, {
-      page: 1,
-      limit: 10,
+      page,
+      limit,
     })
   );
 

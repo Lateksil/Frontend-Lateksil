@@ -42,6 +42,16 @@ export const postFetcher = (resource, init) =>
       useRouter().push("/login");
     });
 
+export const deleteFetcher = (resource, init) =>
+  axiosInstance
+    .delete(resource, init)
+    .then((res) => res.data)
+    .catch((err) => {
+      destroyCookie(null, "_e", { path: "/" });
+      destroyCookie(null, "_t", { path: "/" });
+      useRouter().push("/login");
+    });
+
 export const fetcherWithContext = async (resource, context) => {
   const { _t: accessToken } = parseCookies(context);
 

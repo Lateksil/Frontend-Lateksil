@@ -1,22 +1,23 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postFetcher } from "../../../libs/axios";
-import useToastNotification from "../useToastNotification";
+import { deleteFetcher } from "../../../../libs/axios";
+import useToastNotification from "../../useToastNotification";
 
-const useMutationCreateCategories = () => {
+const useMutationDeletePengujian = () => {
   const queryClient = useQueryClient();
   const showToast = useToastNotification();
 
-  const uri = "/category/create";
+  const uri = "/pengujian/";
+  
 
   const { mutate, ...others } = useMutation(
-    async (formData) => {
-      const data = await postFetcher(uri, formData);
+    async (id) => {
+      const data = await deleteFetcher(uri + id);
       return data;
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries("categories").then(() => {
-          showToast("create data successfully", "success");
+            showToast("delete pengujian successfully", "warning");
         });
       },
     }
@@ -25,4 +26,4 @@ const useMutationCreateCategories = () => {
   return { mutate, ...others };
 };
 
-export default useMutationCreateCategories;
+export default useMutationDeletePengujian;

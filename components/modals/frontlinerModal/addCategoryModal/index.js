@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Button,
@@ -15,23 +16,27 @@ import {
   ModalOverlay,
   Stack,
   Text,
+  Icon,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { GrFormClose } from "react-icons/gr";
 import useMutationCreateCategories from "../../../hooks/mutation/useMutationCreateCategories";
 import useRemoteCategories from "../../../hooks/remote/useRemoteCategories";
+import useMutationDeleteCategories from "../../../hooks/mutation/delete/useMutationDeleteCategories";
 
 const AddCategoryModal = ({ isOpen, onClose }) => {
   const { data: dataCategories } = useRemoteCategories();
-  const [formData, setFormData] = useState({});
-
-  const { mutate } = useMutationCreateCategories(formData);
+  const { mutate: mutateCreateCategories } = useMutationCreateCategories();
+  const { mutate: mutateDeleteCategories } = useMutationDeleteCategories();
 
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = async (data) => {
-    setFormData(data);
-    mutate(data);
+  const onSubmit = (data) => {
+    mutateCreateCategories(data);
+  };
+
+  const handleDeleteCategory = (id) => {
+    mutateDeleteCategories(id);
   };
 
   return (
@@ -47,24 +52,34 @@ const AddCategoryModal = ({ isOpen, onClose }) => {
             <Stack>
               <Flex flexWrap="wrap">
                 {dataCategories?.data.map((category) => (
-                  <Box
+                  <Flex
                     key={category.id}
                     border="1px solid black"
                     w="max"
-                    px={2}
+                    pl={2}
                     mb={2}
                     rounded="md"
                     mr={2}
                   >
-                    <Text>{category.name_category}</Text>
-                  </Box>
+                    <Box mr="2">
+                      <Text>{category.name_category}</Text>
+                    </Box>
+                    <Flex
+                      alignItems="center"
+                      mr={1}
+                      cursor="pointer"
+                      onClick={() => handleDeleteCategory(category.id)}
+                    >
+                      <Icon as={GrFormClose} boxSize={5} />
+                    </Flex>
+                  </Flex>
                 ))}
               </Flex>
               <FormControl id="name_category">
-                <FormLabel>Nama Kategori</FormLabel>
+                <FormLabel>Nama Kategori Pengujian</FormLabel>
                 <Input
                   type="text"
-                  placeholder="Tambah Pengujian"
+                  placeholder="Tambah Kategori Pengujian"
                   {...register("name_category")}
                 />
               </FormControl>

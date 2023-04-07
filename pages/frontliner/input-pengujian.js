@@ -15,15 +15,44 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import CreateNewInputPengujian from "../../components/create/frontlinerCreate/CreateNewPengujian";
 import DashboardLayout from "../../components/dashboard/DashboardLayout";
 import DashboardPagination from "../../components/dashboard/DashboardPagination";
+import useRemotePengujian from "../../components/hooks/remote/useRemotePengujian";
 import PengujianTableFrontliner from "../../components/tables/frontlinerTable/pengujianTable";
 import { getServerSidePropsFrontliner } from "../../utils/getServerSidePropsFrontliner";
 
 const InputPengujian = () => {
+  const [pageIndex, setPageIndex] = useState(1);
+  const [dataLimit, setDataLimit] = useState(10);
+
+  const { data: dataPengujian, error } = useRemotePengujian({
+    page: pageIndex,
+    limit: dataLimit,
+  });
+
+  const pengujianListRef = useRef(null);
+
+  useEffect(() => {
+    setPageIndex(1);
+  }, [dataLimit]);
+
+  useEffect(() => {
+    if (error && pageIndex > 1) setPageIndex(pageIndex - 1);
+  }, [error, pageIndex]);
+
+  const handlePageClick = (page) => {
+    setPageIndex(page);
+
+    if (pengujianListRef && pengujianListRef.current) {
+      pengujianListRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  console.log(dataPengujian);
+
   return (
     <VStack align="stretch">
       <Head>
@@ -59,8 +88,10 @@ const InputPengujian = () => {
               <Th>Aksi</Th>
             </Tr>
           </Thead>
-          <Tbody is>
-            <PengujianTableFrontliner />
+          <Tbody>
+            {dataPengujian?.data.map((pengujian, i) => (
+              <PengujianTableFrontliner key={i} pengujian={pengujian} />
+            ))}
           </Tbody>
         </Table>
       </Box>
@@ -71,7 +102,11 @@ const InputPengujian = () => {
         alignItems="center"
         py="2"
       >
-        <DashboardPagination current={1} total={10} onPageClick={() => {}} />
+        <DashboardPagination
+          current={pageIndex}
+          total={dataPengujian ? dataPengujian?.totalPages : 0}
+          onPageClick={handlePageClick}
+        />
       </Flex>
     </VStack>
   );

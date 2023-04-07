@@ -21,25 +21,10 @@ import { FiSearch } from "react-icons/fi";
 import DashboardPagination from "../components/dashboard/DashboardPagination";
 import TableFirstMainPage from "../components/tables/TableFirstMainPage";
 import { getServerSidePropsCostumer } from "../utils/getServerSidePropsCostumer";
+import useRemoteCategoriesClient from "../components/hooks/remote/useRemoteCategoriesClient";
 
 const HomeDashboard = () => {
-  const DataCategory = [
-    {
-      name_category: "Pengujian Aspal",
-    },
-    {
-      name_category: "Pengujian Struktur",
-    },
-    {
-      name_category: "Pengujian Beton",
-    },
-    {
-      name_category: "Pengujian Tanah",
-    },
-    {
-      name_category: "Pengujian Lainnya",
-    },
-  ];
+  const { data: dataCategoryClient } = useRemoteCategoriesClient();
 
   const DataPengujian = [
     { jenis_pengujian: "Core Drill Aspal", kuantitas: 7, harga: "RP1050.000" },
@@ -52,7 +37,7 @@ const HomeDashboard = () => {
     { jenis_pengujian: "Core Drill Aspal", kuantitas: 7, harga: "RP1050.000" },
   ];
 
-  const readDataFirstCategory = DataCategory[0].name_category;
+  const readDataFirstCategory = dataCategoryClient?.data[0].name_category;
 
   const [dataCat, setDataCat] = useState(readDataFirstCategory);
 
@@ -68,7 +53,7 @@ const HomeDashboard = () => {
       </HStack>
       <Tabs variant="line">
         <TabList color="gray.500">
-          {DataCategory.map((catergory, index) => (
+          {dataCategoryClient?.data.map((catergory, index) => (
             <React.Fragment key={index}>
               <Tab
                 onClick={() => setDataCat(catergory.name_category)}
@@ -81,7 +66,7 @@ const HomeDashboard = () => {
           ))}
         </TabList>
         <TabPanels>
-          {DataCategory.map((catergory, index) => (
+          {dataCategoryClient?.data.map((catergory, index) => (
             <React.Fragment key={index}>
               <TabPanel px="0">
                 <VStack>
