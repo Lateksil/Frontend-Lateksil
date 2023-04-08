@@ -28,6 +28,9 @@ export const fetcher = (resource, init) =>
 export const postFetcher = (resource, init) =>
   axiosInstance.post(resource, init).then((res) => res.data);
 
+export const putFetcher = (resource, init) =>
+  axiosInstance.put(resource, init).then((res) => res.data);
+
 export const deleteFetcher = (resource, init) =>
   axiosInstance.delete(resource, init).then((res) => res.data);
 

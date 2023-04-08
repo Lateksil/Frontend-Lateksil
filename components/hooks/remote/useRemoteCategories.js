@@ -8,6 +8,10 @@ const useRemoteCategories = () => {
     postFetcher(uri, {
       page: 1,
       limit: 30,
+      search: "",
+      filter: {
+        name_category: "",
+      },
     })
   );
 

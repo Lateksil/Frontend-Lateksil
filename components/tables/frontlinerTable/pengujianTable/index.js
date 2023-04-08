@@ -1,27 +1,55 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
+  Box,
+  Button,
+  ButtonGroup,
+  Collapse,
+  FormControl,
+  FormLabel,
+  HStack,
   IconButton,
+  Image,
+  Input,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
   Td,
+  Text,
+  Textarea,
   Tooltip,
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiEdit, FiTrash } from "react-icons/fi";
+import formatCurrency from "../../../../utils/formatCurrently";
 import useMutationDeletePengujian from "../../../hooks/mutation/delete/useMutationDeletePengujian";
-import useRemotePengujian from "../../../hooks/remote/useRemotePengujian";
-import DetailPengujianModal from "../../../modals/frontlinerModal/detailPengujianModal";
+import useMutationUpdatePengujian from "../../../hooks/mutation/put/useMutationUpdatePengujian";
 import ModalWarning from "../../../modals/ModalWarning";
 
 const PengujianTableFrontliner = ({ pengujian }) => {
+  const [getIdPengujian, setGetIdPengujian] = useState(null);
+
+  const { mutate: mutateDeletePengujian } = useMutationDeletePengujian();
+  const { mutate: mutateUpdatePengujian } = useMutationUpdatePengujian();
+
+  const { register, handleSubmit, setValue, reset, control } = useForm();
+
   const {
-    isOpen: isOpenDetailPengujian,
-    onOpen,
-    onClose: onCloseDetailPengujian,
+    isOpen: isOpenUpdate,
+    onOpen: onOpenUpdate,
+    onClose: onCloseUpdate,
   } = useDisclosure();
 
   const {
@@ -30,9 +58,29 @@ const PengujianTableFrontliner = ({ pengujian }) => {
     onClose: onCloseDelete,
   } = useDisclosure();
 
-  const [getIdPengujian, setGetIdPengujian] = useState(null);
+  const { isOpen: isOpenFullTextDescription, onToggle: onToggleDescription } =
+    useDisclosure();
 
-  const { mutate: mutateDeletePengujian } = useMutationDeletePengujian();
+  const {
+    isOpen: isOpenFullTextCatatanKhusus,
+    onToggle: onToggleCatatanKhusus,
+  } = useDisclosure();
+
+  const onSubmit = async (data) => {
+    const formData = {
+      jenis_pengujian: data.jenis_pengujian,
+      code: data.code,
+      category: data.category,
+      description: data.description,
+      min_quantity: data.min_quantity,
+      sampler: data.sampler,
+      catatan_khusus: data.catatan_khusus,
+      price: data.price,
+    };
+    mutateUpdatePengujian({ id: pengujian.id, formData: formData });
+    onCloseUpdate();
+    reset();
+  };
 
   const onOpenDeleteModal = (id) => {
     onOpenDelete();
@@ -44,33 +92,100 @@ const PengujianTableFrontliner = ({ pengujian }) => {
     onCloseDelete();
   };
 
+  useEffect(() => {
+    if (isOpenUpdate && pengujian) {
+      setValue("jenis_pengujian", pengujian.jenis_pengujian);
+      setValue("code", pengujian.code);
+      setValue("category", pengujian.category);
+      setValue("description", pengujian.description);
+      setValue("min_quantity", pengujian.min_quantity);
+      setValue("sampler", pengujian.sampler);
+      setValue("catatan_khusus", pengujian.catatan_khusus);
+      setValue("price", pengujian.price);
+    }
+  }, [isOpenUpdate]);
+
   return (
     <React.Fragment key={pengujian.id}>
       <Tooltip label="cek detail pengujian" hasArrow>
         <Tr cursor="pointer">
-          <Td onClick={onOpen}>{pengujian.jenis_pengujian}</Td>
-          <Td onClick={onOpen}>{pengujian.category}</Td>
-          <Td onClick={onOpen}>{pengujian.description}</Td>
-          <Td onClick={onOpen}>1</Td>
-          <Td onClick={onOpen}>Per {pengujian.sampler}</Td>
-          <Td onClick={onOpen}>{pengujian.catatan_khusus}</Td>
-          <Td onClick={onOpen} isNumeric color="blue.700" fontWeight="semibold">
-            Rp{pengujian.price}
+          <Td w="20%">
+            <HStack>
+              <Image
+                boxSize="70px"
+                objectFit="cover"
+                src={
+                  pengujian.image
+                    ? `http://localhost:3030/uploads/${pengujian.image}`
+                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s"
+                }
+                alt="Dan Abramov"
+              />
+              <Box>
+                <Text fontWeight="medium">{pengujian.jenis_pengujian}</Text>
+                <Text fontSize="sm" color="orange.600">
+                  {pengujian.code}
+                </Text>
+              </Box>
+            </HStack>
+          </Td>
+          <Td textAlign="center">{pengujian.category}</Td>
+          <Td w="20%">
+            <Collapse startingHeight={80} in={isOpenFullTextDescription}>
+              <Text>{pengujian.description}</Text>
+            </Collapse>
+            {pengujian.description.length > 180 && (
+              <Text
+                mt="2"
+                as="button"
+                size="sm"
+                onClick={onToggleDescription}
+                textAlign="start"
+                color="blue.400"
+              >
+                Tampilkan lebih{" "}
+                {isOpenFullTextDescription ? "Sedikit" : "Banyak"}{" "}
+              </Text>
+            )}
+          </Td>
+          <Td textAlign="center">{pengujian.min_quantity}</Td>
+          <Td textAlign="center">Per {pengujian.sampler}</Td>
+          <Td w="20%">
+            <Collapse startingHeight={80} in={isOpenFullTextCatatanKhusus}>
+              <Text>{pengujian.catatan_khusus}</Text>
+            </Collapse>
+            {pengujian.catatan_khusus.length > 40 && (
+              <Text
+                mt="2"
+                as="button"
+                size="sm"
+                onClick={onToggleCatatanKhusus}
+                textAlign="start"
+                color="blue.400"
+              >
+                Tampilkan lebih{" "}
+                {isOpenFullTextCatatanKhusus ? "Sedikit" : "Banyak"}{" "}
+              </Text>
+            )}
+          </Td>
+          <Td isNumeric color="blue.700" fontWeight="semibold">
+            Rp{formatCurrency(pengujian.price)}
           </Td>
 
           <Td>
             <Menu placement="left">
               <MenuButton
                 as={IconButton}
-                icon={<BsThreeDotsVertical color="blue" />}
-                variant="outline"
-                borderColor="blue"
+                icon={<BsThreeDotsVertical />}
                 width={5}
                 rounded="xl"
-                aria-label="Affiliate Materi"
               />
               <MenuList>
-                <MenuItem icon={<FiEdit />} color="blue.700">
+                <MenuItem
+                  onClick={onOpenUpdate}
+                  icon={<FiEdit />}
+                  color="blue.700"
+                >
                   Ubah
                 </MenuItem>
                 <MenuItem
@@ -85,10 +200,107 @@ const PengujianTableFrontliner = ({ pengujian }) => {
           </Td>
         </Tr>
       </Tooltip>
-      <DetailPengujianModal
-        isOpen={isOpenDetailPengujian}
-        onClose={onCloseDetailPengujian}
-      />
+      <Modal
+        isOpen={isOpenUpdate}
+        onClose={onCloseUpdate}
+        scrollBehavior="inside"
+        size="xl"
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent mx="4" as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>
+            <Text>Update Pengujian</Text>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Stack spacing={4} w="full" maxW="xl" fontSize="sm" method="POST">
+              <FormControl id="jenis_pengujian">
+                <FormLabel>Jenis Pengujian</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Jenis Pengujian"
+                  {...register("jenis_pengujian")}
+                />
+              </FormControl>
+              <FormControl id="jenis">
+                <FormLabel>Code</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="SNI XX-XXXX-XXXX"
+                  {...register("code")}
+                />
+              </FormControl>
+              <FormControl id="category">
+                <FormLabel>Kategori Pengujian</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Kategori Pengujian"
+                  {...register("category")}
+                />
+              </FormControl>
+              <FormControl id="description">
+                <FormLabel>Deskripsi</FormLabel>
+                <Textarea
+                  placeholder="Deskripsi..."
+                  {...register("description")}
+                />
+              </FormControl>
+              <FormControl id="min_quantity">
+                <FormLabel>Min Kuantitas</FormLabel>
+                <Input
+                  type="number"
+                  placeholder="Minimal Kuantitas dalam pengujian "
+                  {...register("min_quantity")}
+                />
+              </FormControl>
+              <FormControl id="sampler">
+                <FormLabel>Sampler</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Contoh: Per Titik / Paket / dll."
+                  {...register("sampler")}
+                />
+              </FormControl>
+              <FormControl id="catatan_khusus">
+                <FormLabel>catatan khusus</FormLabel>
+                <Textarea
+                  placeholder="Catatan Khusus Pengujian untuk Costumer"
+                  {...register("catatan_khusus")}
+                />
+              </FormControl>
+              <FormControl id="price">
+                <FormLabel>Harga Rp.</FormLabel>
+                <Input
+                  type="number"
+                  placeholder="Harga"
+                  {...register("price")}
+                />
+              </FormControl>
+              <FormControl id="upload_image">
+                <FormLabel>Upload Image</FormLabel>
+                <Input type="file" p={0} />
+              </FormControl>
+            </Stack>
+          </ModalBody>
+          <ModalFooter bg="gray.100">
+            <ButtonGroup>
+              <Button onClick={onCloseUpdate} border="1px">
+                Batal
+              </Button>
+              <Button
+                type="submit"
+                variant="solid"
+                bg="blue.700"
+                color="white"
+                rounded="md"
+              >
+                Update
+              </Button>
+            </ButtonGroup>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <ModalWarning
         isOpen={isOpenDelete}
         onClose={onCloseDelete}

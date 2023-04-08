@@ -86,14 +86,14 @@ const InputPengujian = () => {
         <Table variant="striped">
           <Thead>
             <Tr>
-              <Th>Jenis Pengujian</Th>
-              <Th>Kategori Pengujian</Th>
-              <Th>Deskripsi</Th>
-              <Th>Min Kuantitas</Th>
-              <Th>Sampler</Th>
-              <Th>Catatan Khusus</Th>
-              <Th>Harga</Th>
-              <Th>Aksi</Th>
+              <Th textAlign="center" w="30%">Jenis Pengujian</Th>
+              <Th textAlign="center">Kategori Pengujian</Th>
+              <Th textAlign="center">Deskripsi</Th>
+              <Th textAlign="center" w="5%">Min Kuantitas</Th>
+              <Th textAlign="center">Sampler</Th>
+              <Th textAlign="center">Catatan Khusus</Th>
+              <Th textAlign="center">Harga</Th>
+              <Th textAlign="center">Aksi</Th>
             </Tr>
           </Thead>
           <Tbody>

@@ -6,8 +6,10 @@ import {
   Image,
   Text,
   useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
 import ModalDetailPengujian from "../../modals/ModalDetailPengujian";
+import formatCurrency from "../../../utils/formatCurrently";
 
 const TableFirstMainPage = ({ pengujian }) => {
   const {
@@ -17,44 +19,51 @@ const TableFirstMainPage = ({ pengujian }) => {
   } = useDisclosure();
 
   return (
-    <Flex w="full"  cursor="pointer" onClick={onOpenDetailPengujian}>
-      <GridItem textAlign="center" alignSelf="center" w="25%" >
-        <Flex h="full" justifyContent="center">
-          <AspectRatio w="80px" ratio={1}>
+    <Flex borderWidth={2} _hover={{ shadow: "xl" }} w="full" rounded="lg" p="2">
+      <Flex w="full" cursor="pointer" onClick={onOpenDetailPengujian}>
+        <GridItem textAlign="center" alignSelf="center" w="55%">
+          <Flex h="full" justifyContent="space-between">
             <Image
-              src="http://localhost:3030/uploads/1680684311677.jpeg"
+              boxSize="90px"
+              src={`http://localhost:3030/uploads/${pengujian.image}`}
               alt=""
               objectFit="cover"
+              rounded="md"
             />
-          </AspectRatio>
-          <Flex justify="center" align="center">
-            <Text px="2" fontSize="small">
-              {pengujian.jenis_pengujian}
+            <Flex w="full" flexDir="column" textAlign="start" px="2">
+              <Text fontSize="md" fontWeight="medium">
+                {pengujian.jenis_pengujian}
+              </Text>
+              <Text fontSize="md" color="orange.600">
+                {pengujian.code}
+              </Text>
+            </Flex>
+          </Flex>
+        </GridItem>
+        <GridItem textAlign="center" alignSelf="center" w="25%">
+          <Flex h="full" direction="column" justifyContent="center">
+            <Text fontSize="small">{pengujian.min_quantity}</Text>
+          </Flex>
+        </GridItem>
+        <GridItem textAlign="center" alignSelf="center" w="25%">
+          <Flex h="full" direction="column" justifyContent="center">
+            <Text fontSize="small">Harga Per {pengujian.sampler}</Text>
+          </Flex>
+        </GridItem>
+        <GridItem textAlign="center" alignSelf="center" w="25%">
+          <Flex h="full" direction="column" justifyContent="center">
+            <Text fontWeight="semibold" fontSize="md" color="blue.700">
+              Rp{formatCurrency(pengujian.price)}
             </Text>
           </Flex>
-        </Flex>
-      </GridItem>
-      <GridItem textAlign="center" alignSelf="center" w="25%">
-        <Flex h="full" direction="column" justifyContent="center">
-          <Text fontSize="small">{pengujian.kuantitas}</Text>
-        </Flex>
-      </GridItem>
-      <GridItem textAlign="center" alignSelf="center" w="25%">
-        <Flex h="full" direction="column" justifyContent="center">
-          <Text fontWeight="semibold" fontSize="small">
-            {pengujian.harga}
-          </Text>
-        </Flex>
-      </GridItem>
-      <GridItem textAlign="center" alignSelf="center" w="25%">
-        <Flex h="full" direction="column" justifyContent="center">
-          <Text fontSize="small">Harga Paket</Text>
-        </Flex>
-      </GridItem>
-      <ModalDetailPengujian
-        isOpen={isOpenDetailPengujian}
-        onClose={onCloseDetailPengujian}
-      />
+        </GridItem>
+
+        <ModalDetailPengujian
+          pengujian={pengujian}
+          isOpen={isOpenDetailPengujian}
+          onClose={onCloseDetailPengujian}
+        />
+      </Flex>
     </Flex>
   );
 };

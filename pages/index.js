@@ -22,20 +22,17 @@ import DashboardPagination from "../components/dashboard/DashboardPagination";
 import TableFirstMainPage from "../components/tables/TableFirstMainPage";
 import { getServerSidePropsCostumer } from "../utils/getServerSidePropsCostumer";
 import useRemoteCategoriesClient from "../components/hooks/remote/useRemoteCategoriesClient";
+import useRemotePengujianClient from "../components/hooks/remote/useRemotePengujianClient";
 
 const HomeDashboard = () => {
   const { data: dataCategoryClient } = useRemoteCategoriesClient();
 
-  const DataPengujian = [
-    { jenis_pengujian: "Core Drill Aspal", kuantitas: 7, harga: "RP1050.000" },
-    { jenis_pengujian: "Core Drill Aspal", kuantitas: 7, harga: "RP1050.000" },
-    { jenis_pengujian: "Core Drill Aspal", kuantitas: 7, harga: "RP1050.000" },
-    { jenis_pengujian: "Core Drill Aspal", kuantitas: 7, harga: "RP1050.000" },
-    { jenis_pengujian: "Core Drill Aspal", kuantitas: 7, harga: "RP1050.000" },
-    { jenis_pengujian: "Core Drill Aspal", kuantitas: 7, harga: "RP1050.000" },
-    { jenis_pengujian: "Core Drill Aspal", kuantitas: 7, harga: "RP1050.000" },
-    { jenis_pengujian: "Core Drill Aspal", kuantitas: 7, harga: "RP1050.000" },
-  ];
+  const { data: dataPengujianClient } = useRemotePengujianClient({
+    page: 1,
+    limit: 10,
+  });
+
+  console.log(dataPengujianClient);
 
   const readDataFirstCategory = dataCategoryClient?.data[0].name_category;
 
@@ -82,7 +79,7 @@ const HomeDashboard = () => {
                     />
                   </InputGroup>
                   <Flex bg="gray.300" w="full" rounded="lg" p="2">
-                    <GridItem textAlign="center" alignSelf="center" w="25%">
+                    <GridItem textAlign="center" alignSelf="center" w="55%">
                       <Flex h="full" direction="column" justifyContent="center">
                         <Text fontWeight="semibold" fontSize="small">
                           JENIS PENGUJIAN
@@ -99,22 +96,20 @@ const HomeDashboard = () => {
                     <GridItem textAlign="center" alignSelf="center" w="25%">
                       <Flex h="full" direction="column" justifyContent="center">
                         <Text fontWeight="semibold" fontSize="small">
-                          HARGA
+                          KETERANGAN
                         </Text>
                       </Flex>
                     </GridItem>
                     <GridItem textAlign="center" alignSelf="center" w="25%">
                       <Flex h="full" direction="column" justifyContent="center">
                         <Text fontWeight="semibold" fontSize="small">
-                          KETERANGAN
+                          HARGA
                         </Text>
                       </Flex>
                     </GridItem>
                   </Flex>
-                  {DataPengujian.map((pengujian, index) => (
-                    <Flex key={index} bg="#E9F0F2" w="full" rounded="lg" p="2">
-                      <TableFirstMainPage pengujian={pengujian} />
-                    </Flex>
+                  {dataPengujianClient?.data.map((pengujian, index) => (
+                    <TableFirstMainPage key={index} pengujian={pengujian} />
                   ))}
                 </VStack>
               </TabPanel>
