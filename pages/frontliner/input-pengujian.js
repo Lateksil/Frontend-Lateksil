@@ -35,14 +35,18 @@ const InputPengujian = () => {
   const [pageIndex, setPageIndex] = useState(1);
   const [dataLimit, setDataLimit] = useState(10);
 
+  const [searchInput, setSearchInput] = useState("");
+  const [filter, setFilter] = useState("");
+
+  console.log(searchInput);
   const {
     data: dataPengujian,
     isLoading: isLoadingDataPengujian,
     error,
-    isError,
   } = useRemotePengujian({
     page: pageIndex,
     limit: dataLimit,
+    search: filter ? filter.found : "",
   });
 
   const pengujianListRef = useRef(null);
@@ -63,6 +67,20 @@ const InputPengujian = () => {
     }
   };
 
+  const handleSearchKeypress = (e) => {
+    if (e.key === "Enter" && searchInput !== "") {
+      setFilter((prev) => ({
+        ...prev,
+        found: searchInput,
+      }));
+    }
+  };
+
+  useEffect(() => {
+    if (searchInput === "") {
+      setFilter("");
+    }
+  }, [searchInput]);
 
   return (
     <VStack align="stretch">
@@ -80,7 +98,7 @@ const InputPengujian = () => {
         />
         <Text>Entries</Text>
         <Spacer />
-        <InputGroup maxW="xs" as="form">
+        <InputGroup maxW="xs">
           <InputLeftElement pointerEvents="none">
             <FiSearch />
           </InputLeftElement>
@@ -89,6 +107,8 @@ const InputPengujian = () => {
             placeholder="Search ..."
             variant="outline"
             shadow="none"
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyPress={handleSearchKeypress}
           />
         </InputGroup>
       </HStack>
@@ -121,7 +141,7 @@ const InputPengujian = () => {
             <Spinner />
           </Center>
         )}
-        {isError && <MessageNotFoundData />}
+        {!dataPengujian && error && <MessageNotFoundData />}
       </Box>
       <Flex
         flexDir={{ base: "column", md: "row", xl: "row" }}

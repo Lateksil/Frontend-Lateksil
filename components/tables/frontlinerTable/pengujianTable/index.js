@@ -30,17 +30,21 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import formatCurrency from "../../../../utils/formatCurrently";
+import Select from "../../../core/select";
 import useMutationDeletePengujian from "../../../hooks/mutation/delete/useMutationDeletePengujian";
 import useMutationUpdatePengujian from "../../../hooks/mutation/put/useMutationUpdatePengujian";
+import useRemoteCategoriesOptions from "../../../hooks/remote/useRemoteCategoriesOptions";
 import ModalWarning from "../../../modals/ModalWarning";
 
 const PengujianTableFrontliner = ({ pengujian }) => {
   const [getIdPengujian, setGetIdPengujian] = useState(null);
+  const [category, setCategory] = useState("");
 
+  const { data: categoryDataOption } = useRemoteCategoriesOptions();
   const { mutate: mutateDeletePengujian } = useMutationDeletePengujian();
   const { mutate: mutateUpdatePengujian } = useMutationUpdatePengujian();
 
@@ -70,7 +74,7 @@ const PengujianTableFrontliner = ({ pengujian }) => {
     const formData = {
       jenis_pengujian: data.jenis_pengujian,
       code: data.code,
-      category: data.category,
+      category: data.category.value,
       description: data.description,
       min_quantity: data.min_quantity,
       sampler: data.sampler,
@@ -93,10 +97,20 @@ const PengujianTableFrontliner = ({ pengujian }) => {
   };
 
   useEffect(() => {
+    if (categoryDataOption) {
+      setCategory(
+        categoryDataOption?.find(
+          (option) => option.value === pengujian.category
+        )
+      );
+    }
+  }, [isOpenUpdate]);
+
+  useEffect(() => {
     if (isOpenUpdate && pengujian) {
       setValue("jenis_pengujian", pengujian.jenis_pengujian);
       setValue("code", pengujian.code);
-      setValue("category", pengujian.category);
+      setValue("category", category);
       setValue("description", pengujian.description);
       setValue("min_quantity", pengujian.min_quantity);
       setValue("sampler", pengujian.sampler);
@@ -230,10 +244,16 @@ const PengujianTableFrontliner = ({ pengujian }) => {
               </FormControl>
               <FormControl id="category">
                 <FormLabel>Kategori Pengujian</FormLabel>
-                <Input
-                  type="text"
-                  placeholder="Kategori Pengujian"
-                  {...register("category")}
+                <Controller
+                  name="category"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      placeholder="Pilih Kategori Pengujian"
+                      options={categoryDataOption}
+                      {...field}
+                    />
+                  )}
                 />
               </FormControl>
               <FormControl id="description">

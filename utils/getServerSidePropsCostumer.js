@@ -8,7 +8,6 @@ export const getServerSidePropsCostumer = async (context) => {
     const url = `/me/${email}`;
 
     const userResponse = await fetcherWithContext(url, context);
-    console.log(userResponse);
 
     if (userResponse) {
       if (userResponse.data.role === "frontliner")
