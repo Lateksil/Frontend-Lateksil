@@ -17,11 +17,15 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import useMutationCreatePengujian from "../../../hooks/mutation/useMutationCreatePengujian";
+import Select from "../../../core/select";
+import useRemoteCategoriesOptions from "../../../hooks/remote/useRemoteCategoriesOptions";
 
 const AddPengujianModal = ({ isOpen, onClose }) => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, control } = useForm();
+
+  const { data: categoryDataOption } = useRemoteCategoriesOptions();
 
   const { mutate: mutateCreatePengujian, isLoading } =
     useMutationCreatePengujian();
@@ -35,7 +39,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
     const formData = new FormData();
     formData.append("jenis_pengujian", data.jenis_pengujian);
     formData.append("code", data.code);
-    formData.append("category", data.category);
+    formData.append("category", data.category.value);
     formData.append("description", data.description);
     formData.append("min_quantity", data.min_quantity);
     formData.append("sampler", data.sampler);
@@ -87,10 +91,16 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
             </FormControl>
             <FormControl id="category">
               <FormLabel>Kategori Pengujian</FormLabel>
-              <Input
-                type="text"
-                placeholder="Kategori Pengujian"
-                {...register("category")}
+              <Controller
+                name="category"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    placeholder="Pilih Kategori Pengujian"
+                    options={categoryDataOption}
+                    {...field}
+                  />
+                )}
               />
             </FormControl>
             <FormControl id="description">

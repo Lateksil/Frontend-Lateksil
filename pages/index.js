@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import Head from "next/head";
 import {
   Box,
+  Center,
   Flex,
   GridItem,
   HStack,
   Input,
   InputGroup,
   InputLeftElement,
+  Spinner,
   Tab,
   TabList,
   TabPanel,
@@ -23,20 +25,22 @@ import TableFirstMainPage from "../components/tables/TableFirstMainPage";
 import { getServerSidePropsCostumer } from "../utils/getServerSidePropsCostumer";
 import useRemoteCategoriesClient from "../components/hooks/remote/useRemoteCategoriesClient";
 import useRemotePengujianClient from "../components/hooks/remote/useRemotePengujianClient";
+import Select from "../components/core/select";
+import { useMemo } from "react";
+import { generateEntryOptions } from "../components/core/select/helper/entryOptions";
+import MessageNotFoundData from "../utils/MessageNotFoundData";
 
 const HomeDashboard = () => {
+  const [dataCat, setDataCat] = useState("Pengujian Aspal");
+  const showEntryOptions = useMemo(() => generateEntryOptions(), []);
   const { data: dataCategoryClient } = useRemoteCategoriesClient();
 
-  const { data: dataPengujianClient } = useRemotePengujianClient({
-    page: 1,
-    limit: 10,
-  });
-
-  console.log(dataPengujianClient);
-
-  const readDataFirstCategory = dataCategoryClient?.data[0].name_category;
-
-  const [dataCat, setDataCat] = useState(readDataFirstCategory);
+  const { data: dataPengujianClient, isLoading: isLoadingPengujianClient, isError } =
+    useRemotePengujianClient({
+      page: 1,
+      limit: 10,
+      category: dataCat,
+    });
 
   return (
     <VStack align="stretch">
@@ -111,6 +115,12 @@ const HomeDashboard = () => {
                   {dataPengujianClient?.data.map((pengujian, index) => (
                     <TableFirstMainPage key={index} pengujian={pengujian} />
                   ))}
+                  {isLoadingPengujianClient && (
+                    <Center my="6">
+                      <Spinner />
+                    </Center>
+                  )}
+                   {isError && <MessageNotFoundData />}
                 </VStack>
               </TabPanel>
             </React.Fragment>
@@ -125,13 +135,18 @@ const HomeDashboard = () => {
             <Box display="flex" fontSize="sm" alignItems="center">
               <HStack>
                 <Text>Show</Text>
-
+                <Select
+                  isSearchable={false}
+                  options={showEntryOptions}
+                  defaultValue={showEntryOptions[0]}
+                  onChange={() => {}}
+                />
                 <Text>Entries</Text>
               </HStack>
             </Box>
             <DashboardPagination
               current={1}
-              total={10}
+              total={dataPengujianClient ? dataPengujianClient?.totalPages : 0}
               onPageClick={() => {}}
             />
           </Flex>

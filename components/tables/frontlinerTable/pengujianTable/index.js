@@ -107,99 +107,96 @@ const PengujianTableFrontliner = ({ pengujian }) => {
 
   return (
     <React.Fragment key={pengujian.id}>
-      <Tooltip label="cek detail pengujian" hasArrow>
-        <Tr cursor="pointer">
-          <Td w="20%">
-            <HStack>
-              <Image
-                boxSize="70px"
-                objectFit="cover"
-                src={
-                  pengujian.image
-                    ? `http://localhost:3030/uploads/${pengujian.image}`
-                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s"
-                }
-                alt="Dan Abramov"
-              />
-              <Box>
-                <Text fontWeight="medium">{pengujian.jenis_pengujian}</Text>
-                <Text fontSize="sm" color="orange.600">
-                  {pengujian.code}
-                </Text>
-              </Box>
-            </HStack>
-          </Td>
-          <Td textAlign="center">{pengujian.category}</Td>
-          <Td w="20%">
-            <Collapse startingHeight={80} in={isOpenFullTextDescription}>
-              <Text>{pengujian.description}</Text>
-            </Collapse>
-            {pengujian.description.length > 180 && (
-              <Text
-                mt="2"
-                as="button"
-                size="sm"
-                onClick={onToggleDescription}
-                textAlign="start"
-                color="blue.400"
-              >
-                Tampilkan lebih{" "}
-                {isOpenFullTextDescription ? "Sedikit" : "Banyak"}{" "}
+      <Tr>
+        <Td w="20%">
+          <HStack>
+            <Image
+              boxSize="70px"
+              objectFit="cover"
+              src={
+                pengujian.image
+                  ? `http://localhost:3030/uploads/${pengujian.image}`
+                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s"
+              }
+              alt="Dan Abramov"
+            />
+            <Box>
+              <Text fontWeight="medium">{pengujian.jenis_pengujian}</Text>
+              <Text fontSize="sm" color="orange.600">
+                {pengujian.code}
               </Text>
-            )}
-          </Td>
-          <Td textAlign="center">{pengujian.min_quantity}</Td>
-          <Td textAlign="center">Per {pengujian.sampler}</Td>
-          <Td w="20%">
-            <Collapse startingHeight={80} in={isOpenFullTextCatatanKhusus}>
-              <Text>{pengujian.catatan_khusus}</Text>
-            </Collapse>
-            {pengujian.catatan_khusus.length > 40 && (
-              <Text
-                mt="2"
-                as="button"
-                size="sm"
-                onClick={onToggleCatatanKhusus}
-                textAlign="start"
-                color="blue.400"
-              >
-                Tampilkan lebih{" "}
-                {isOpenFullTextCatatanKhusus ? "Sedikit" : "Banyak"}{" "}
-              </Text>
-            )}
-          </Td>
-          <Td isNumeric color="blue.700" fontWeight="semibold">
-            Rp{formatCurrency(pengujian.price)}
-          </Td>
+            </Box>
+          </HStack>
+        </Td>
+        <Td textAlign="center">{pengujian.category}</Td>
+        <Td w="20%">
+          <Collapse startingHeight={80} in={isOpenFullTextDescription}>
+            <Text>{pengujian.description}</Text>
+          </Collapse>
+          {pengujian.description.length > 180 && (
+            <Text
+              mt="2"
+              as="button"
+              size="sm"
+              onClick={onToggleDescription}
+              textAlign="start"
+              color="blue.400"
+            >
+              Tampilkan lebih {isOpenFullTextDescription ? "Sedikit" : "Banyak"}{" "}
+            </Text>
+          )}
+        </Td>
+        <Td textAlign="center">{pengujian.min_quantity}</Td>
+        <Td textAlign="center">Per {pengujian.sampler}</Td>
+        <Td w="20%">
+          <Collapse startingHeight={80} in={isOpenFullTextCatatanKhusus}>
+            <Text>{pengujian.catatan_khusus}</Text>
+          </Collapse>
+          {pengujian.catatan_khusus.length > 40 && (
+            <Text
+              mt="2"
+              as="button"
+              size="sm"
+              onClick={onToggleCatatanKhusus}
+              textAlign="start"
+              color="blue.400"
+            >
+              Tampilkan lebih{" "}
+              {isOpenFullTextCatatanKhusus ? "Sedikit" : "Banyak"}{" "}
+            </Text>
+          )}
+        </Td>
+        <Td isNumeric color="blue.700" fontWeight="semibold">
+          Rp{formatCurrency(pengujian.price)}
+        </Td>
 
-          <Td>
-            <Menu placement="left">
-              <MenuButton
-                as={IconButton}
-                icon={<BsThreeDotsVertical />}
-                width={5}
-                rounded="xl"
-              />
-              <MenuList>
-                <MenuItem
-                  onClick={onOpenUpdate}
-                  icon={<FiEdit />}
-                  color="blue.700"
-                >
-                  Ubah
-                </MenuItem>
-                <MenuItem
-                  onClick={() => onOpenDeleteModal(pengujian.id)}
-                  icon={<FiTrash />}
-                  color="red.600"
-                >
-                  Hapus
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </Td>
-        </Tr>
-      </Tooltip>
+        <Td>
+          <Menu placement="left">
+            <MenuButton
+              as={IconButton}
+              icon={<BsThreeDotsVertical />}
+              width={5}
+              rounded="xl"
+            />
+            <MenuList>
+              <MenuItem
+                onClick={onOpenUpdate}
+                icon={<FiEdit />}
+                color="blue.700"
+              >
+                Ubah
+              </MenuItem>
+              <MenuItem
+                onClick={() => onOpenDeleteModal(pengujian.id)}
+                icon={<FiTrash />}
+                color="red.600"
+              >
+                Hapus
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Td>
+      </Tr>
       <Modal
         isOpen={isOpenUpdate}
         onClose={onCloseUpdate}

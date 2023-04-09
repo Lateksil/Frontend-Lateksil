@@ -18,7 +18,10 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
+import { useMemo } from "react";
 import { FiSearch } from "react-icons/fi";
+import Select from "../../components/core/select";
+import { generateEntryOptions } from "../../components/core/select/helper/entryOptions";
 import CreateNewInputPengujian from "../../components/create/frontlinerCreate/CreateNewPengujian";
 import DashboardLayout from "../../components/dashboard/DashboardLayout";
 import DashboardPagination from "../../components/dashboard/DashboardPagination";
@@ -28,6 +31,7 @@ import { getServerSidePropsFrontliner } from "../../utils/getServerSidePropsFron
 import MessageNotFoundData from "../../utils/MessageNotFoundData";
 
 const InputPengujian = () => {
+  const showEntryOptions = useMemo(() => generateEntryOptions(), []);
   const [pageIndex, setPageIndex] = useState(1);
   const [dataLimit, setDataLimit] = useState(10);
 
@@ -40,8 +44,6 @@ const InputPengujian = () => {
     page: pageIndex,
     limit: dataLimit,
   });
-
-  console.log(isError);
 
   const pengujianListRef = useRef(null);
 
@@ -61,6 +63,7 @@ const InputPengujian = () => {
     }
   };
 
+
   return (
     <VStack align="stretch">
       <Head>
@@ -68,7 +71,14 @@ const InputPengujian = () => {
       </Head>
       <CreateNewInputPengujian />
       <HStack>
-        <Text>Show 1 Entries</Text>
+        <Text>Show</Text>
+        <Select
+          isSearchable={false}
+          options={showEntryOptions}
+          defaultValue={showEntryOptions[0]}
+          onChange={(option) => setDataLimit(option.value)}
+        />
+        <Text>Entries</Text>
         <Spacer />
         <InputGroup maxW="xs" as="form">
           <InputLeftElement pointerEvents="none">
@@ -86,10 +96,14 @@ const InputPengujian = () => {
         <Table variant="striped">
           <Thead>
             <Tr>
-              <Th textAlign="center" w="30%">Jenis Pengujian</Th>
+              <Th textAlign="center" w="30%">
+                Jenis Pengujian
+              </Th>
               <Th textAlign="center">Kategori Pengujian</Th>
               <Th textAlign="center">Deskripsi</Th>
-              <Th textAlign="center" w="5%">Min Kuantitas</Th>
+              <Th textAlign="center" w="5%">
+                Min Kuantitas
+              </Th>
               <Th textAlign="center">Sampler</Th>
               <Th textAlign="center">Catatan Khusus</Th>
               <Th textAlign="center">Harga</Th>
