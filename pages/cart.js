@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Button,
@@ -5,37 +6,36 @@ import {
   GridItem,
   HStack,
   IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
   Spacer,
   Text,
+  Tooltip,
   VStack,
 } from "@chakra-ui/react";
 import Head from "next/head";
-import React, { useState } from "react";
 import { FiTrash } from "react-icons/fi";
+import InputQuantitas from "../components/core/InputQuantitas";
 import DashboardLayout from "../components/dashboard/DashboardLayout";
+import useRemoteCart from "../components/hooks/remote/useRemoteCart";
 import formatCurrency from "../utils/formatCurrently";
 import { getServerSidePropsCostumer } from "../utils/getServerSidePropsCostumer";
+import useMutationDeleteCart from "../components/hooks/mutation/delete/useMutationDeleteCart";
 
 const CartPage = () => {
-  const [value, setValue] = useState(1);
+  const { data: dataCartUserId } = useRemoteCart();
+  const { mutate: mutateDeleteCart } = useMutationDeleteCart();
 
-  const hargaSatuan = 743200 
-  const totalPrice = hargaSatuan * value
+  const hargaSatuan = 743200;
+  const totalPrice = hargaSatuan;
 
-  function handleIncrement() {
-    setValue((prevState) => prevState + 1);
-    if (value < 1) {
-      setValue(1);
-    }
-  }
+  let total = 0;
+  dataCartUserId?.data.forEach((product) => {
+    console.log((total += product.quantity * product.Pengujian.price));
+  });
 
-  function handleDecrement() {
-    setValue((prevState) => prevState - 1);
-  }
+  const handleDeleteCart = (id) => {
+    mutateDeleteCart(id);
+  };
+
   return (
     <VStack align="stretch">
       <Head>
@@ -78,70 +78,46 @@ const CartPage = () => {
               </GridItem>
             </Flex>
           </Box>
-          <Box w="full" borderWidth={2}>
-            <Flex py={3} borderBottomWidth={1}>
-              <Box w="25%">
-                <Text textAlign="center" fontWeight="medium">
-                  Ketebalan Jalan Aspal
-                </Text>
-                <Text textAlign="center" fontSize="sm">
-                  (SNI 06-6890-2002)
-                </Text>
-              </Box>
-              <Flex w="20%" align="center" justifyContent="center">
-                <Text fontWeight="semibold">Rp{formatCurrency(hargaSatuan)}</Text>
+          {dataCartUserId?.data.map((cart) => (
+            <Box w="full" borderWidth={2} key={cart.id}>
+              <Flex py={3} borderBottomWidth={1}>
+                <Box w="25%">
+                  <Text textAlign="center" fontWeight="medium">
+                    {cart.Pengujian.jenis_pengujian}
+                  </Text>
+                  <Text textAlign="center" fontSize="sm">
+                    {cart.Pengujian.code}
+                  </Text>
+                </Box>
+                <Flex w="20%" align="center" justifyContent="center">
+                  <Text fontWeight="semibold">
+                    Rp{formatCurrency(cart.Pengujian.price)}
+                  </Text>
+                </Flex>
+                <InputQuantitas cart={cart} total={total} />
+                <Flex w="10%" align="center" justifyContent="center">
+                  <Tooltip label="Delete" hasArrow>
+                    <IconButton
+                      onClick={() => handleDeleteCart(cart.id)}
+                      variant="none"
+                      color="red"
+                      icon={<FiTrash />}
+                    />
+                  </Tooltip>
+                </Flex>
               </Flex>
-              <Flex w="25%" align="center" justifyContent="center">
-                <InputGroup width="150px">
-                  <InputLeftElement>
-                    <Button size="sm" onClick={handleDecrement}>
-                      -
-                    </Button>
-                  </InputLeftElement>
-                  <Input
-                    type="number"
-                    textAlign="center"
-                    max={999}
-                    min={1}
-                    value={value}
-                    onChange={(e) => {
-                      let newValue = parseInt(e.target.value);
-                      if (newValue < 1) {
-                        newValue = 1;
-                      } else if (newValue > 999) {
-                        newValue = 999;
-                      }
-                      setValue(newValue);
-                    }}
-                  />
-                  <InputRightElement>
-                    <Button size="sm" onClick={handleIncrement}>
-                      +
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-                <Text ml="2">titik</Text>
-              </Flex>
-              <Flex w="20%" align="center" justifyContent="center">
-                <Text textAlign="center" color="blue.700" fontWeight="semibold">
-                  Rp{formatCurrency(totalPrice)}
-                </Text>
-              </Flex>
-              <Flex w="10%" align="center" justifyContent="center">
-                <IconButton variant="none" color="red" icon={<FiTrash />} />
-              </Flex>
-            </Flex>
-          </Box>
+            </Box>
+          ))}
         </VStack>
-        <Box borderWidth={2} flex={0.6} p={3}>
+        <Box borderWidth={2} flex={0.6} p={5} h="max-content">
           <Text fontWeight="semibold">Ringkasan Belanja</Text>
           <Flex justifyContent="space-between" borderBottomWidth={1} py={3}>
-            <Text>Total Harga (0 Barang)</Text>
-            <Text>Rp0</Text>
+            <Text>{`Total Harga (${dataCartUserId?.data.length} Barang)`}</Text>
+            <Text>Rp{formatCurrency(total)}</Text>
           </Flex>
           <Flex justifyContent="space-between" py={3}>
             <Text fontWeight="semibold">Total Harga</Text>
-            <Text fontWeight="semibold">Rp0</Text>
+            <Text fontWeight="semibold">Rp{formatCurrency(total)}</Text>
           </Flex>
           <Button
             isDisabled={false}

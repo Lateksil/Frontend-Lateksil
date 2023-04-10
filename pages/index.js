@@ -35,12 +35,15 @@ const HomeDashboard = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
   const { data: dataCategoryClient } = useRemoteCategoriesClient();
 
-  const { data: dataPengujianClient, isLoading: isLoadingPengujianClient, isError } =
-    useRemotePengujianClient({
-      page: 1,
-      limit: 10,
-      category: dataCat,
-    });
+  const {
+    data: dataPengujianClient,
+    isLoading: isLoadingPengujianClient,
+    isError,
+  } = useRemotePengujianClient({
+    page: 1,
+    limit: 10,
+    category: dataCat,
+  });
 
   return (
     <VStack align="stretch">
@@ -120,7 +123,7 @@ const HomeDashboard = () => {
                       <Spinner />
                     </Center>
                   )}
-                   {isError && <MessageNotFoundData />}
+                  {isError && <MessageNotFoundData />}
                 </VStack>
               </TabPanel>
             </React.Fragment>

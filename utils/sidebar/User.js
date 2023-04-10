@@ -18,14 +18,14 @@ function generateSidebaritemUser() {
       path: "/cart",
       icon: HiShoppingCart,
     },
-    {
-      name: "Transaksi",
-      path: "/transaction",
-      icon: HiCreditCard,
-    },
+    // {
+    //   name: "Transaksi",
+    //   path: "/transaction",
+    //   icon: HiCreditCard,
+    // },
     {
       name: "Riwayat Transaksi",
-      path: "/history-transaction",
+      path: "/history-transactions",
       icon: HiDocumentText,
     },
   ];

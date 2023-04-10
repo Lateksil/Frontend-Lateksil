@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import { getServerSidePropsWithNoAuth } from "../utils/getServerSidePropsWithNoAuth";
 import { loginSchema } from "../utils/schema/AuthenticationSchema";
@@ -31,12 +31,12 @@ import useNoAuth from "../components/hooks/useNoAuth";
 
 export default function LoginPage() {
   useNoAuth();
+
   const router = useRouter();
   const [errors, setErrors] = useState();
   const [isLoading, setIsloading] = useBoolean();
   const { isOpen: isPasswordOpen, onToggle: onPasswordToggle } =
-  useDisclosure();
-
+    useDisclosure();
 
   const { register, formState, handleSubmit } = useForm({
     resolver: yupResolver(loginSchema),
@@ -52,9 +52,9 @@ export default function LoginPage() {
   const onSubmit = async (data) => {
     setIsloading.on();
     await makeLogin({ data })
-      .then((response) => {
+      .then(async (response) => {
         const { email, createToken } = response.data;
-        setLogin(email, createToken);
+        await setLogin(email, createToken);
         router.reload("/");
       })
       .catch((error) => {
@@ -99,31 +99,27 @@ export default function LoginPage() {
           >
             <FormLabel>Password</FormLabel>
             <InputGroup>
-                  <Input
-                    placeholder="Password"
-                    type={isPasswordOpen ? 'text' : 'password'}
-                    {...register('password')}
-                  />
-                  <InputRightElement>
-                    <IconButton
-                      bg="transparent"
-                      _hover={{ bg: 'transparent' }}
-                      variant="ghost"
-                      color="ims-linebox"
-                      aria-label={
-                        isPasswordOpen ? 'Mask password' : 'Reveal password'
-                      }
-                      icon={
-                        isPasswordOpen ? (
-                          <BsFillEyeFill />
-                        ) : (
-                          <BsFillEyeSlashFill />
-                        )
-                      }
-                      onClick={onPasswordToggle}
-                    />
-                  </InputRightElement>
-                </InputGroup>
+              <Input
+                placeholder="Password"
+                type={isPasswordOpen ? "text" : "password"}
+                {...register("password")}
+              />
+              <InputRightElement>
+                <IconButton
+                  bg="transparent"
+                  _hover={{ bg: "transparent" }}
+                  variant="ghost"
+                  color="ims-linebox"
+                  aria-label={
+                    isPasswordOpen ? "Mask password" : "Reveal password"
+                  }
+                  icon={
+                    isPasswordOpen ? <BsFillEyeFill /> : <BsFillEyeSlashFill />
+                  }
+                  onClick={onPasswordToggle}
+                />
+              </InputRightElement>
+            </InputGroup>
             <FormErrorMessage fontSize="xs">
               {formState.errors?.password?.message}
             </FormErrorMessage>

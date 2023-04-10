@@ -56,9 +56,8 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
     setValue((prevState) => prevState - 1);
   }
 
-  const handleAddExamination = async () => {
+  const onMoveToCart = async () => {
     if (data) {
-      window.alert("Bisa Tambah Keranjang");
     } else {
       router.push("/login");
     }
@@ -172,10 +171,10 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
               bg="blue.700"
               color="white"
               rounded="md"
-              onClick={handleAddExamination}
+              onClick={onMoveToCart}
               leftIcon={<Icon as={HiShoppingCart} fontSize="xl" />}
             >
-              Tambah Pengujian
+              Tambah Keranjang
             </Button>
           </ButtonGroup>
         </ModalFooter>
