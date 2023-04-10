@@ -24,9 +24,6 @@ const CartPage = () => {
   const { data: dataCartUserId } = useRemoteCart();
   const { mutate: mutateDeleteCart } = useMutationDeleteCart();
 
-  const hargaSatuan = 743200;
-  const totalPrice = hargaSatuan;
-
   let total = 0;
   dataCartUserId?.data.forEach((product) => {
     console.log((total += product.quantity * product.Pengujian.price));
@@ -78,6 +75,7 @@ const CartPage = () => {
               </GridItem>
             </Flex>
           </Box>
+
           {dataCartUserId?.data.map((cart) => (
             <Box w="full" borderWidth={2} key={cart.id}>
               <Flex py={3} borderBottomWidth={1}>
@@ -108,11 +106,18 @@ const CartPage = () => {
               </Flex>
             </Box>
           ))}
+          {dataCartUserId ? (
+            dataCartUserId?.data.length == 0 && <Box>Keranjang Anda Kosong</Box>
+          ) : (
+            <Box>Silahkan Login Terlebih Dahulu</Box>
+          )}
         </VStack>
         <Box borderWidth={2} flex={0.6} p={5} h="max-content">
           <Text fontWeight="semibold">Ringkasan Belanja</Text>
           <Flex justifyContent="space-between" borderBottomWidth={1} py={3}>
-            <Text>{`Total Harga (${dataCartUserId?.data.length} Barang)`}</Text>
+            <Text>{`Total Harga (${
+              dataCartUserId ? dataCartUserId?.data.length : 0
+            } Barang)`}</Text>
             <Text>Rp{formatCurrency(total)}</Text>
           </Flex>
           <Flex justifyContent="space-between" py={3}>
@@ -120,7 +125,9 @@ const CartPage = () => {
             <Text fontWeight="semibold">Rp{formatCurrency(total)}</Text>
           </Flex>
           <Button
-            isDisabled={false}
+            isDisabled={
+              dataCartUserId ? dataCartUserId?.data.length == 0 && true : true
+            }
             w="full"
             bg="green.500"
             color="white"

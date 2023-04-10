@@ -25,10 +25,12 @@ import { HiShoppingCart } from "react-icons/hi2";
 import useRemoteUserProfile from "../../hooks/remote/useRemoteUserProfile";
 import { useRouter } from "next/router";
 import formatCurrency from "../../../utils/formatCurrently";
+import useMutationAddToCart from "../../hooks/mutation/useMutationAddToCart";
 
 const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
   const router = useRouter();
   const { data } = useRemoteUserProfile();
+  const { mutate: mutateAddToCart } = useMutationAddToCart();
 
   const minKuantitas = parseInt(pengujian.min_quantity);
   const [value, setValue] = useState(minKuantitas);
@@ -58,6 +60,12 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
 
   const onMoveToCart = async () => {
     if (data) {
+      mutateAddToCart({
+        user_id: "33ef6651-0075-4675-88e0-0d488111a5cd",
+        pengujian_id: pengujian.id,
+        quantity: value,
+      });
+      router.push("/cart");
     } else {
       router.push("/login");
     }

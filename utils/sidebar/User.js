@@ -19,8 +19,8 @@ function generateSidebaritemUser() {
       icon: HiShoppingCart,
     },
     // {
-    //   name: "Transaksi",
-    //   path: "/transaction",
+    //   name: "Testing",
+    //   path: "/testing",
     //   icon: HiCreditCard,
     // },
     {

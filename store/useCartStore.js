@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 const useCartStore = create((set) => ({
-  totalPrice: "",
+  totalPrice: 0,
   updateTotalPrice: (totalPrice) => set(() => ({ totalPrice: totalPrice })),
 }));
 
