@@ -4,6 +4,7 @@ import {
   Button,
   ButtonGroup,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Modal,
@@ -18,17 +19,29 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import useMutationCreatePengujian from "../../../hooks/mutation/useMutationCreatePengujian";
 import Select from "../../../core/select";
 import useRemoteCategoriesOptions from "../../../hooks/remote/useRemoteCategoriesOptions";
+import { PengujianSchema } from "../../../../utils/schema/PengujianSchema";
 
 const AddPengujianModal = ({ isOpen, onClose }) => {
-  const { register, handleSubmit, reset, control } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(PengujianSchema),
+  });
 
   const { data: categoryDataOption } = useRemoteCategoriesOptions();
 
   const { mutate: mutateCreatePengujian, isLoading } =
     useMutationCreatePengujian();
+
+  console.log("error", errors);
 
   const onModalClose = () => {
     onClose();
@@ -39,7 +52,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
     const formData = new FormData();
     formData.append("jenis_pengujian", data.jenis_pengujian);
     formData.append("code", data.code);
-    formData.append("category", data.category.value);
+    formData.append("category", data.category?.value);
     formData.append("description", data.description);
     formData.append("min_quantity", data.min_quantity);
     formData.append("sampler", data.sampler);
@@ -73,23 +86,32 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
         <ModalCloseButton />
         <ModalBody>
           <Stack spacing={4} w="full" maxW="xl" fontSize="sm" method="POST">
-            <FormControl id="jenis_pengujian">
+            <FormControl
+              id="jenis_pengujian"
+              isInvalid={!!errors.jenis_pengujian}
+            >
               <FormLabel>Jenis Pengujian</FormLabel>
               <Input
                 type="text"
                 placeholder="Jenis Pengujian"
                 {...register("jenis_pengujian")}
               />
+              <FormErrorMessage>
+                {errors.jenis_pengujian && errors.jenis_pengujian.message}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl id="jenis">
+            <FormControl id="code" isInvalid={!!errors.code}>
               <FormLabel>Code</FormLabel>
               <Input
                 type="text"
                 placeholder="SNI XX-XXXX-XXXX"
                 {...register("code")}
               />
+              <FormErrorMessage>
+                {errors.code && errors.code.message}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl id="category">
+            <FormControl id="category" isInvalid={!!errors.category}>
               <FormLabel>Kategori Pengujian</FormLabel>
               <Controller
                 name="category"
@@ -102,40 +124,61 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
                   />
                 )}
               />
+              <FormErrorMessage>
+                {errors.category && errors.category.value.message}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl id="description">
+            <FormControl id="description" isInvalid={!!errors.description}>
               <FormLabel>Deskripsi</FormLabel>
               <Textarea
                 placeholder="Deskripsi..."
                 {...register("description")}
               />
+              <FormErrorMessage>
+                {errors.description && errors.description.message}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl id="min_quantity">
+            <FormControl id="min_quantity" isInvalid={!!errors.min_quantity}>
               <FormLabel>Min Kuantitas</FormLabel>
               <Input
                 type="number"
                 placeholder="Minimal Kuantitas dalam pengujian "
                 {...register("min_quantity")}
               />
+              <FormErrorMessage>
+                {errors.min_quantity && errors.min_quantity.message}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl id="sampler">
+            <FormControl id="sampler" isInvalid={!!errors.sampler}>
               <FormLabel>Sampler</FormLabel>
               <Input
                 type="text"
                 placeholder="Contoh: Per Titik / Paket / dll."
                 {...register("sampler")}
               />
+              <FormErrorMessage>
+                {errors.sampler && errors.sampler.message}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl id="catatan_khusus">
+            <FormControl
+              id="catatan_khusus"
+              isInvalid={!!errors.catatan_khusus}
+            >
               <FormLabel>catatan khusus</FormLabel>
               <Textarea
                 placeholder="Catatan Khusus Pengujian untuk Costumer"
                 {...register("catatan_khusus")}
               />
+              <FormErrorMessage>
+                {errors.catatan_khusus && errors.catatan_khusus.message}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl id="price">
+            <FormControl id="price" isInvalid={!!errors.price}>
               <FormLabel>Harga Rp.</FormLabel>
               <Input type="number" placeholder="Harga" {...register("price")} />
+              <FormErrorMessage>
+                {errors.price && errors.price.message}
+              </FormErrorMessage>
             </FormControl>
             <FormControl id="upload_image">
               <FormLabel>Upload Image</FormLabel>
