@@ -45,6 +45,13 @@ const HomeDashboard = () => {
     category: dataCat,
   });
 
+  const oddDataMapper =
+  dataPengujianClient?.status === 200
+      ? dataPengujianClient?.data.filter((_, index) => {
+          return index % 2 !== 1;
+        })
+      : '';
+
   return (
     <VStack align="stretch">
       <Head>
@@ -116,7 +123,7 @@ const HomeDashboard = () => {
                     </GridItem>
                   </Flex>
                   {dataPengujianClient?.data.map((pengujian, index) => (
-                    <TableFirstMainPage key={index} pengujian={pengujian} />
+                    <TableFirstMainPage key={index} pengujian={pengujian} odds={oddDataMapper} />
                   ))}
                   {isLoadingPengujianClient && (
                     <Center my="6">

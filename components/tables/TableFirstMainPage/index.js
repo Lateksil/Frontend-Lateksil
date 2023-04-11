@@ -11,15 +11,27 @@ import {
 import ModalDetailPengujian from "../../modals/ModalDetailPengujian";
 import formatCurrency from "../../../utils/formatCurrently";
 
-const TableFirstMainPage = ({ pengujian }) => {
+const TableFirstMainPage = ({ pengujian, odds }) => {
   const {
     isOpen: isOpenDetailPengujian,
     onOpen: onOpenDetailPengujian,
     onClose: onCloseDetailPengujian,
   } = useDisclosure();
 
+  const oddsColor = odds
+    ?.filter((data) => data?.id === pengujian?.id)
+    .map(() => "#FBFBFB");
+
   return (
-    <Flex borderWidth={2} _hover={{ shadow: "xl" }} w="full" rounded="lg" p="2">
+    <Flex
+      borderWidth={2}
+      _hover={{ shadow: "xl" }}
+      transitionDuration="300ms"
+      w="full"
+      bg={oddsColor?.[0] ? oddsColor?.[0] : "#F0F7FF"}
+      rounded="lg"
+      p="2"
+    >
       <Flex w="full" cursor="pointer" onClick={onOpenDetailPengujian}>
         <GridItem textAlign="center" alignSelf="center" w="55%">
           <Flex h="full" justifyContent="space-between">
