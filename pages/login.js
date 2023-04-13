@@ -1,3 +1,6 @@
+import { useState } from "react";
+import NextImage from "../components/core/nextimage";
+import LateksilImage from ".././assets/images/civil-engginering.jpg";
 import {
   Button,
   Flex,
@@ -7,7 +10,6 @@ import {
   Input,
   Link,
   Stack,
-  Image,
   Spacer,
   useBoolean,
   FormErrorMessage,
@@ -17,6 +19,8 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
+  Box,
+  Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -25,7 +29,6 @@ import { useForm } from "react-hook-form";
 import { getServerSidePropsWithNoAuth } from "../utils/getServerSidePropsWithNoAuth";
 import { loginSchema } from "../utils/schema/AuthenticationSchema";
 import useAxios from "../components/hooks/useAxios";
-import { useState } from "react";
 import useAuthUserStore from "../store/useAuthUserStore";
 import useNoAuth from "../components/hooks/useNoAuth";
 
@@ -64,7 +67,34 @@ export default function LoginPage() {
   };
 
   return (
-    <Stack minH="100vh" direction={{ base: "column", md: "row" }}>
+    <Stack minH="100vh" direction={{ base: "column-reverse", md: "row" }}>
+      <Flex
+        flex={1}
+        align="center"
+        shadow="xl"
+        p="5"
+        direction="column"
+        justifyContent="center"
+      >
+        <Heading size={{ base: "md", md: "xl" }} color="blue.700">
+          LABORATORIUM TEKNIK SIPIL
+        </Heading>
+        <Text fontWeight="semibold">
+          Laboratorium Pengujian Teknik Sipil UBL
+        </Text>
+        <Box h="max">
+          <Link href="/">
+            <NextImage
+              src={LateksilImage}
+              alt="Civil Engginering Illustration"
+              width="326"
+              height="345"
+              layout="responsive"
+              placeholder="blur"
+            />
+          </Link>
+        </Box>
+      </Flex>
       <Flex
         as="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -136,16 +166,13 @@ export default function LoginPage() {
           >
             Masuk
           </Button>
+          <Text textAlign="center" mt="8">
+            Belum memiliki akun?{" "}
+            <Link href="/register" color="blue.700" fontWeight="bold">
+              Daftar
+            </Link>
+          </Text>
         </Stack>
-      </Flex>
-      <Flex flex={1}>
-        <Image
-          alt={"Login Image"}
-          objectFit={"cover"}
-          src={
-            "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80"
-          }
-        />
       </Flex>
     </Stack>
   );

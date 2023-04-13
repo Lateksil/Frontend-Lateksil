@@ -50,7 +50,7 @@ const DashboardSidebarItem = ({ item, pathname }) => {
                   p="2"
                   bg={isActive ? 'grey.100' : undefined}
                   color={subItem.path === pathname ? 'white' : 'grey'}
-                  bgColor={subItem.path === pathname && 'blue.400'}
+                  bgColor={subItem.path === pathname && 'blue.800'}
                   pl="14"
                   transitionProperty="common"
                   transitionDuration="normal"
@@ -76,7 +76,7 @@ const DashboardSidebarItem = ({ item, pathname }) => {
         borderLeftColor={isActive ? 'blue.700' : 'transparent'}
         borderLeftWidth={4}
         p="3"
-        bg={isActive ? 'blue.500' : undefined}
+        bg={isActive ? 'blue.600' : undefined}
         color={isActive ? 'white' : 'grey'}
         transitionProperty="common"
         transitionDuration="normal"

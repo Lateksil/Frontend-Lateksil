@@ -87,7 +87,7 @@ const HomeDashboard = () => {
             <React.Fragment key={index}>
               <TabPanel px="0">
                 <VStack>
-                  <InputGroup as="form">
+                  <InputGroup>
                     <InputLeftElement pointerEvents="none">
                       <FiSearch />
                     </InputLeftElement>

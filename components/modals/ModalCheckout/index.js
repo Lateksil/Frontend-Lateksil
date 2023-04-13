@@ -93,7 +93,7 @@ const ModalCheckout = ({ isOpen, onClose }) => {
                 color="white"
                 rounded="md"
               >
-                Lanjut
+                Selesai
               </Button>
             </ButtonGroup>
           </ModalFooter>

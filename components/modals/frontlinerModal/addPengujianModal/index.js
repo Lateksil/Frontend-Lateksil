@@ -41,14 +41,12 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
   const { mutate: mutateCreatePengujian, isLoading } =
     useMutationCreatePengujian();
 
-  console.log("error", errors);
-
   const onModalClose = () => {
     onClose();
     reset();
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     const formData = new FormData();
     formData.append("jenis_pengujian", data.jenis_pengujian);
     formData.append("code", data.code);
@@ -79,6 +77,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
         overflowY="auto"
         as="form"
         onSubmit={handleSubmit(onSubmit)}
+        noValidate
       >
         <ModalHeader>
           <Text>Tambah Pengujian</Text>
@@ -89,6 +88,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
             <FormControl
               id="jenis_pengujian"
               isInvalid={!!errors.jenis_pengujian}
+              isRequired
             >
               <FormLabel>Jenis Pengujian</FormLabel>
               <Input
@@ -100,7 +100,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
                 {errors.jenis_pengujian && errors.jenis_pengujian.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl id="code" isInvalid={!!errors.code}>
+            <FormControl id="code" isInvalid={!!errors.code} isRequired>
               <FormLabel>Code</FormLabel>
               <Input
                 type="text"
@@ -111,7 +111,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
                 {errors.code && errors.code.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl id="category" isInvalid={!!errors.category}>
+            <FormControl id="category" isInvalid={!!errors.category} isRequired>
               <FormLabel>Kategori Pengujian</FormLabel>
               <Controller
                 name="category"
@@ -128,7 +128,11 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
                 {errors.category && errors.category.value.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl id="description" isInvalid={!!errors.description}>
+            <FormControl
+              id="description"
+              isInvalid={!!errors.description}
+              isRequired
+            >
               <FormLabel>Deskripsi</FormLabel>
               <Textarea
                 placeholder="Deskripsi..."
@@ -138,7 +142,11 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
                 {errors.description && errors.description.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl id="min_quantity" isInvalid={!!errors.min_quantity}>
+            <FormControl
+              id="min_quantity"
+              isInvalid={!!errors.min_quantity}
+              isRequired
+            >
               <FormLabel>Min Kuantitas</FormLabel>
               <Input
                 type="number"
@@ -149,7 +157,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
                 {errors.min_quantity && errors.min_quantity.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl id="sampler" isInvalid={!!errors.sampler}>
+            <FormControl id="sampler" isInvalid={!!errors.sampler} isRequired>
               <FormLabel>Sampler</FormLabel>
               <Input
                 type="text"
@@ -163,6 +171,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
             <FormControl
               id="catatan_khusus"
               isInvalid={!!errors.catatan_khusus}
+              isRequired
             >
               <FormLabel>catatan khusus</FormLabel>
               <Textarea
@@ -173,7 +182,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
                 {errors.catatan_khusus && errors.catatan_khusus.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl id="price" isInvalid={!!errors.price}>
+            <FormControl id="price" isInvalid={!!errors.price} isRequired>
               <FormLabel>Harga Rp.</FormLabel>
               <Input type="number" placeholder="Harga" {...register("price")} />
               <FormErrorMessage>

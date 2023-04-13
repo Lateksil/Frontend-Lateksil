@@ -48,7 +48,7 @@ const TableTahapPermintaan = () => {
                 textAlign="center"
                 textDecoration="underline"
                 cursor="pointer"
-                _hover={{ color: 'blue'}}
+                _hover={{ color: "blue" }}
               >
                 Detail
               </Td>
