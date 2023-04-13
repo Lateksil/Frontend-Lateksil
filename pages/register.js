@@ -1,39 +1,43 @@
 import React, { useState } from "react";
-import NextImage from ".././components/core/nextimage";
-import LateksilImage from ".././assets/images/civil-engginering.jpg";
+import { ChevronLeftIcon } from "@chakra-ui/icons";
+import NextLink from "next/link";
 import {
   Alert,
   AlertIcon,
   Box,
   Button,
-  Flex,
+  Center,
+  Circle,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Heading,
   IconButton,
-  Image,
   Input,
   InputGroup,
   InputRightElement,
   Link,
-  Spacer,
-  Stack,
   Text,
   useBoolean,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+import {
+  BsFillEyeFill,
+  BsFillEyeSlashFill,
+  BsPersonFill,
+} from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../utils/schema/AuthenticationSchema";
 import useAxios from "../components/hooks/useAxios";
 import { useRouter } from "next/router";
+import AuthenticationLayout from "../components/main/AuthenticationLayout";
 
 const RegisterPage = () => {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState();
+  const [isRegisterSuccess, setIsRegisterSuccess] = useBoolean();
   const [isLoading, setIsloading] = useBoolean();
   const { isOpen: isPasswordOpen, onToggle: onPasswordToggle } =
     useDisclosure();
@@ -56,52 +60,18 @@ const RegisterPage = () => {
     setIsloading.on();
     makeRegister({ data })
       .then(() => {
-        router.push("/login");
+        setIsRegisterSuccess.on();
       })
       .catch((error) => {
         setIsloading.off();
         setErrorMessage(error.response?.data.message);
       });
   };
-  return (
-    <Stack minH="100vh" direction={{ base: "column-reverse", md: "row" }}>
-      <Flex
-        flex={1}
-        align="center"
-        shadow="xl"
-        p="5"
-        direction="column"
-        justifyContent="center"
-      >
-        <Heading size={{ base: "md", md: "xl" }} color="blue.700">
-          LABORATORIUM TEKNIK SIPIL
-        </Heading>
-        <Text fontWeight="semibold">
-          Laboratorium Pengujian Teknik Sipil UBL
-        </Text>
-        <Box h="max">
-          <Link href="/">
-            <NextImage
-              src={LateksilImage}
-              alt="Civil Engginering Illustration"
-              width="326"
-              height="345"
-              layout="responsive"
-              placeholder="blur"
-            />
-          </Link>
-        </Box>
-      </Flex>
-      <Flex
-        as="form"
-        onSubmit={handleSubmit(onSubmit)}
-        p={8}
-        flex={1}
-        align="center"
-        justify="center"
-        flexDir="column"
-      >
-        <VStack mb="3" w="full" maxW="md">
+
+  if (!isRegisterSuccess)
+    return (
+      <Box as="form" w="full" maxW="md" onSubmit={handleSubmit(onSubmit)}>
+        <VStack mb="3" w="full">
           <Heading fontSize="2xl" w="full">
             Daftar Sekarang
           </Heading>
@@ -207,9 +177,55 @@ const RegisterPage = () => {
         >
           Daftar
         </Button>
-      </Flex>
-    </Stack>
+      </Box>
+    );
+  return (
+    <Box w="full" maxW="md" shadow="xl" p="5" rounded="md">
+      <IconButton
+        aria-label="back to register"
+        variant="ghost"
+        onClick={() => router.reload()}
+        icon={<ChevronLeftIcon w={6} h={6} />}
+      />
+      <Center>
+        <Circle size="50px" bg="blue.600" color="white">
+          <BsPersonFill size={30} />
+        </Circle>
+      </Center>
+      <Text
+        m={5}
+        align="center"
+        fontSize="xl"
+        fontWeight="semibold"
+        fontFamily="heading"
+      >
+        Akun Telah Terdaftar
+      </Text>
+      <Center>
+        <Text
+          mb={5}
+          w="80%"
+          align="center"
+          fontWeight="medium"
+          fontFamily="body"
+        >
+          Akun telah terdaftar, masuk untuk melanjutkan Pengujian Teknik Sipil
+          UBL
+        </Text>
+      </Center>
+      <Center>
+        <NextLink href="/login">
+          <Button w="100%" colorScheme="blue" type="submit">
+            Masuk
+          </Button>
+        </NextLink>
+      </Center>
+    </Box>
   );
 };
+
+RegisterPage.getLayout = (page) => (
+  <AuthenticationLayout>{page}</AuthenticationLayout>
+);
 
 export default RegisterPage;
