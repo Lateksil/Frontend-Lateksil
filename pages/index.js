@@ -9,6 +9,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
   Spinner,
   Tab,
   TabList,
@@ -17,9 +18,11 @@ import {
   Tabs,
   Text,
   VStack,
+  Icon,
 } from "@chakra-ui/react";
 import DashboardLayout from "../components/dashboard/DashboardLayout";
 import { FiSearch } from "react-icons/fi";
+import { AiOutlineClose } from "react-icons/ai";
 import DashboardPagination from "../components/dashboard/DashboardPagination";
 import TableFirstMainPage from "../components/tables/TableFirstMainPage";
 import { getServerSidePropsCostumer } from "../utils/getServerSidePropsCostumer";
@@ -31,6 +34,8 @@ import { generateEntryOptions } from "../components/core/select/helper/entryOpti
 import MessageNotFoundData from "../utils/MessageNotFoundData";
 
 const HomeDashboard = () => {
+  const [searchText, setSearchText] = useState("");
+
   const [dataCat, setDataCat] = useState("Pengujian Aspal");
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
   const { data: dataCategoryClient } = useRemoteCategoriesClient();
@@ -42,15 +47,16 @@ const HomeDashboard = () => {
   } = useRemotePengujianClient({
     page: 1,
     limit: 10,
+    search: searchText,
     category: dataCat,
   });
 
   const oddDataMapper =
-  dataPengujianClient?.status === 200
+    dataPengujianClient?.status === 200
       ? dataPengujianClient?.data.filter((_, index) => {
           return index % 2 !== 1;
         })
-      : '';
+      : "";
 
   return (
     <VStack align="stretch">
@@ -85,11 +91,23 @@ const HomeDashboard = () => {
                     <InputLeftElement pointerEvents="none">
                       <FiSearch />
                     </InputLeftElement>
+                    {searchText !== "" && (
+                      <InputRightElement>
+                        <Icon
+                          cursor="pointer"
+                          as={AiOutlineClose}
+                          onClick={() => setSearchText("")}
+                        />
+                      </InputRightElement>
+                    )}
                     <Input
                       type="text"
                       placeholder={`Cari Jenis ${catergory.name_category}`}
                       variant="outline"
                       shadow="none"
+                      _placeholder={{ color: "#45414180" }}
+                      value={searchText}
+                      onChange={(e) => setSearchText(e.target.value)}
                     />
                   </InputGroup>
                   <Flex bg="gray.300" w="full" rounded="lg" p="2">
@@ -123,7 +141,11 @@ const HomeDashboard = () => {
                     </GridItem>
                   </Flex>
                   {dataPengujianClient?.data.map((pengujian, index) => (
-                    <TableFirstMainPage key={index} pengujian={pengujian} odds={oddDataMapper} />
+                    <TableFirstMainPage
+                      key={index}
+                      pengujian={pengujian}
+                      odds={oddDataMapper}
+                    />
                   ))}
                   {isLoadingPengujianClient && (
                     <Center my="6">

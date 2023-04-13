@@ -30,7 +30,7 @@ import useMutationAddToCart from "../../hooks/mutation/useMutationAddToCart";
 const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
   const router = useRouter();
   const { data } = useRemoteUserProfile();
-  const { mutate: mutateAddToCart } = useMutationAddToCart();
+  const { mutate: mutateAddToCart,isLoading: isLoadingAddCart } = useMutationAddToCart();
 
   const minKuantitas = parseInt(pengujian.min_quantity);
   const [value, setValue] = useState(minKuantitas);
@@ -180,6 +180,7 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
               color="white"
               rounded="md"
               onClick={onMoveToCart}
+              isLoading={isLoadingAddCart}
               leftIcon={<Icon as={HiShoppingCart} fontSize="xl" />}
             >
               Tambah Keranjang

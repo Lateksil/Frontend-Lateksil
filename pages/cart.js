@@ -9,6 +9,7 @@ import {
   Spacer,
   Text,
   Tooltip,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import Head from "next/head";
@@ -19,10 +20,17 @@ import useRemoteCart from "../components/hooks/remote/useRemoteCart";
 import formatCurrency from "../utils/formatCurrently";
 import { getServerSidePropsCostumer } from "../utils/getServerSidePropsCostumer";
 import useMutationDeleteCart from "../components/hooks/mutation/delete/useMutationDeleteCart";
+import ModalCheckout from "../components/modals/ModalCheckout";
 
 const CartPage = () => {
   const { data: dataCartUserId } = useRemoteCart();
   const { mutate: mutateDeleteCart } = useMutationDeleteCart();
+
+  const {
+    isOpen: isOpenCheckout,
+    onOpen: onOpenCheckout,
+    onClose: onCloseCheckout,
+  } = useDisclosure();
 
   let total = 0;
   dataCartUserId?.data.forEach((product) => {
@@ -131,12 +139,17 @@ const CartPage = () => {
             w="full"
             bg="green.500"
             color="white"
+            onClick={onOpenCheckout}
             _hover={{ bg: "green.600" }}
           >
             Checkout
           </Button>
         </Box>
       </Flex>
+      <ModalCheckout
+        isOpen={isOpenCheckout}
+        onClose={onCloseCheckout}
+      />
     </VStack>
   );
 };
