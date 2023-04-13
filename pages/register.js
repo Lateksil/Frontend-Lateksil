@@ -111,11 +111,11 @@ const RegisterPage = () => {
               {errors.company_name && errors.company_name.message}
             </FormErrorMessage>
           </FormControl>
-          <FormControl id="address" isInvalid={!!errors.no_whatsapp}>
+          <FormControl id="address" isInvalid={!!errors.address}>
             <FormLabel>Alamat</FormLabel>
             <Input type="text" placeholder="Alamat" {...register("address")} />
             <FormErrorMessage>
-              {errors.no_whatsapp && errors.no_whatsapp.message}
+              {errors.address && errors.address.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl id="no_whatsapp" isInvalid={!!errors.no_whatsapp}>

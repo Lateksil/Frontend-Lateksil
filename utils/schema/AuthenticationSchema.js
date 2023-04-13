@@ -4,7 +4,7 @@ export const registerSchema = Yup.object().shape({
   full_name: Yup.string().required("Nama Lengkap harus di isi"),
   company_name: Yup.string().required("Nama Perusahaan harus di isi"),
   address: Yup.string().required("Alamat harus di isi"),
-  no_whatsapp: Yup.string().required("Nama Perusahaan harus di isi"),
+  no_whatsapp: Yup.string().required("No WhatsApp harus di isi"),
   email: Yup.string()
     .email("Format Email tidak sesuai")
     .required("Email harus diisi"),
