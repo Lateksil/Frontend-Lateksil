@@ -27,7 +27,7 @@ const useAuthUserStore = create(
         });
       },
       removeUser: () => {
-        destroyCookie(null, "_i", { path: "/" });
+        destroyCookie(null, "_id", { path: "/" });
         destroyCookie(null, "_e", { path: "/" });
         destroyCookie(null, "_t", { path: "/" });
         set({

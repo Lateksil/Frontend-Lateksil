@@ -1,4 +1,5 @@
 import React from "react";
+import NextLink from "next/link";
 import {
   Box,
   Button,
@@ -21,6 +22,8 @@ import formatCurrency from "../utils/formatCurrently";
 import { getServerSidePropsCostumer } from "../utils/getServerSidePropsCostumer";
 import useMutationDeleteCart from "../components/hooks/mutation/delete/useMutationDeleteCart";
 import ModalCheckout from "../components/modals/ModalCheckout";
+import NextImage from "../components/core/nextimage";
+import LateksilImage from ".././assets/images/testing-ilustrator.jpg";
 
 const CartPage = () => {
   const { data: dataCartUserId } = useRemoteCart();
@@ -33,8 +36,8 @@ const CartPage = () => {
   } = useDisclosure();
 
   let total = 0;
-  dataCartUserId?.data.forEach((product) => {
-    console.log((total += product.quantity * product.Pengujian.price));
+  dataCartUserId?.data?.forEach((product) => {
+    total += product.quantity * product.Pengujian.price;
   });
 
   const handleDeleteCart = (id) => {
@@ -115,17 +118,48 @@ const CartPage = () => {
             </Box>
           ))}
           {dataCartUserId ? (
-            dataCartUserId?.data.length == 0 && <Box>Keranjang Anda Kosong</Box>
+            dataCartUserId?.data.length == 0 && (
+              <Flex maxW="sm" flexDir="column">
+                <NextImage
+                  src={LateksilImage}
+                  alt="Civil Engginering Illustration"
+                  width="326"
+                  height="345"
+                  layout="responsive"
+                  placeholder="blur"
+                />
+                <Text textAlign="center" fontWeight="semibold">
+                  Keranjang Kosong? Silahkan Cari Pengujian
+                </Text>
+                <NextLink href="/">
+                  <Button w="full" mt="2">
+                    Cari Pengujian
+                  </Button>
+                </NextLink>
+              </Flex>
+            )
           ) : (
-            <Box>Silahkan Login Terlebih Dahulu</Box>
+            <Flex maxW="sm" flexDir="column">
+              <NextImage
+                src={LateksilImage}
+                alt="Civil Engginering Illustration"
+                width="326"
+                height="345"
+                layout="responsive"
+                placeholder="blur"
+              />
+              <Text textAlign="center" fontWeight="semibold">
+                Belum Ada Pengujian? Silahkan Masuk Terlebih Dahulu
+              </Text>
+            </Flex>
           )}
         </VStack>
         <Box borderWidth={2} flex={0.6} p={5} h="max-content">
-          <Text fontWeight="semibold">Ringkasan Belanja</Text>
+          <Text fontWeight="semibold">Ringkasan Pengujian</Text>
           <Flex justifyContent="space-between" borderBottomWidth={1} py={3}>
             <Text>{`Total Harga (${
               dataCartUserId ? dataCartUserId?.data.length : 0
-            } Barang)`}</Text>
+            } Pengujian)`}</Text>
             <Text>Rp{formatCurrency(total)}</Text>
           </Flex>
           <Flex justifyContent="space-between" py={3}>
@@ -146,10 +180,7 @@ const CartPage = () => {
           </Button>
         </Box>
       </Flex>
-      <ModalCheckout
-        isOpen={isOpenCheckout}
-        onClose={onCloseCheckout}
-      />
+      <ModalCheckout isOpen={isOpenCheckout} onClose={onCloseCheckout} />
     </VStack>
   );
 };

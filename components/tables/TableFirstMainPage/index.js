@@ -37,7 +37,11 @@ const TableFirstMainPage = ({ pengujian, odds }) => {
           <Flex h="full" justifyContent="space-between">
             <Image
               boxSize="90px"
-              src={`http://localhost:3030/uploads/${pengujian.image}`}
+              src={
+                pengujian.image
+                  ? `http://localhost:3030/uploads/${pengujian.image}`
+                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s"
+              }
               alt=""
               objectFit="cover"
               rounded="md"

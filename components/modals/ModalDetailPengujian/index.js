@@ -26,11 +26,13 @@ import useRemoteUserProfile from "../../hooks/remote/useRemoteUserProfile";
 import { useRouter } from "next/router";
 import formatCurrency from "../../../utils/formatCurrently";
 import useMutationAddToCart from "../../hooks/mutation/useMutationAddToCart";
+import useAuthUserStore from "../../../store/useAuthUserStore";
 
 const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
   const router = useRouter();
   const { data } = useRemoteUserProfile();
-  const { mutate: mutateAddToCart,isLoading: isLoadingAddCart } = useMutationAddToCart();
+  const { mutate: mutateAddToCart, isLoading: isLoadingAddCart } =
+    useMutationAddToCart();
 
   const minKuantitas = parseInt(pengujian.min_quantity);
   const [value, setValue] = useState(minKuantitas);
@@ -44,6 +46,8 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
       setValue(1);
     }
   }
+
+  const userId = useAuthUserStore((state) => state.id);
 
   useEffect(() => {
     if (minKuantitas === value) {
@@ -61,7 +65,7 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
   const onMoveToCart = async () => {
     if (data) {
       mutateAddToCart({
-        user_id: "33ef6651-0075-4675-88e0-0d488111a5cd",
+        user_id: userId,
         pengujian_id: pengujian.id,
         quantity: value,
       });
@@ -93,7 +97,11 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
               <Box flex={0.8}>
                 <AspectRatio w="full" ratio={1}>
                   <Image
-                    src={`http://localhost:3030/uploads/${pengujian.image}`}
+                    src={
+                      pengujian.image
+                        ? `http://localhost:3030/uploads/${pengujian.image}`
+                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s"
+                    }
                     alt=""
                     objectFit="cover"
                     rounded="md"

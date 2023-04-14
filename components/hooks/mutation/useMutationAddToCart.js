@@ -16,7 +16,7 @@ const useMutationAddToCart = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("cart").then(() => {
-          showToast("Produk Telah Ditambahkan ke Keanjang", "success");
+          showToast("Produk Telah Ditambahkan ke Keranjang", "success");
         });
       },
     }
