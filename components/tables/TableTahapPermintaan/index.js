@@ -15,6 +15,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useMemo } from "react";
 import { FiSearch } from "react-icons/fi";
@@ -22,8 +23,14 @@ import formatCurrency from "../../../utils/formatCurrently";
 import Select from "../../core/select";
 import { generateEntryOptions } from "../../core/select/helper/entryOptions";
 import DashboardPagination from "../../dashboard/DashboardPagination";
+import ModalTahapPermintaan from "../../modals/userModal/ModalTahapPermintaan";
 
 const TableTahapPermintaan = () => {
+  const {
+    isOpen: isOpenDetailHistory,
+    onOpen: onOpenDetailHistory,
+    onClose: onCloseDetailHistory,
+  } = useDisclosure();
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
   const dataHistoryTransactions = [
@@ -128,11 +135,12 @@ const TableTahapPermintaan = () => {
                   textDecoration="underline"
                   cursor="pointer"
                   _hover={{ color: "blue" }}
+                  onClick={onOpenDetailHistory}
                 >
                   Detail
                 </Td>
                 <Td textAlign="center">
-                  <Badge colorScheme={statusOrder(order.status_order)} p={1}>
+                  <Badge colorScheme={statusOrder(order.status_order)} rounded="md" px={3} py={1}>
                     {order.status_order}
                   </Badge>
                 </Td>
@@ -162,6 +170,7 @@ const TableTahapPermintaan = () => {
         </Box>
         <DashboardPagination current={1} total={1} onPageClick={() => {}} />
       </Flex>
+      <ModalTahapPermintaan isOpen={isOpenDetailHistory} onClose={onCloseDetailHistory} />
     </TabPanel>
   );
 };
