@@ -14,6 +14,8 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Radio,
+  RadioGroup,
   Stack,
   Text,
   Textarea,
@@ -54,6 +56,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
     formData.append("description", data.description);
     formData.append("min_quantity", data.min_quantity);
     formData.append("sampler", data.sampler);
+    formData.append("tempat_pengujian", data.tempat_pengujian);
     formData.append("price", data.price);
     formData.append("catatan_khusus", data.catatan_khusus);
     formData.append("image", data.image[0]);
@@ -181,6 +184,19 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
               <FormErrorMessage>
                 {errors.catatan_khusus && errors.catatan_khusus.message}
               </FormErrorMessage>
+            </FormControl>
+            <FormControl id="company_name" isRequired>
+              <FormLabel>Pengujian Lakukan di</FormLabel>
+              <RadioGroup defaultValue="Laboratorium">
+                <Stack spacing={10} direction="row">
+                  <Radio value="Laboratorium" {...register("tempat_pengujian")}>
+                    Laboratorium
+                  </Radio>
+                  <Radio value="Lapangan" {...register("tempat_pengujian")}>
+                    Lapangan
+                  </Radio>
+                </Stack>
+              </RadioGroup>
             </FormControl>
             <FormControl id="price" isInvalid={!!errors.price} isRequired>
               <FormLabel>Harga Rp.</FormLabel>

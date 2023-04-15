@@ -68,15 +68,6 @@ const ModalCheckout = ({ isOpen, onClose }) => {
                 <FormLabel>No. Hp/WA</FormLabel>
                 <Input type="text" placeholder="Masukan nomor Whatsapp anda" />
               </FormControl>
-              <FormControl id="company_name" isRequired>
-                <FormLabel>Pengujian Lakukan di</FormLabel>
-                <RadioGroup defaultValue="2">
-                  <Stack spacing={5} direction="row">
-                    <Radio value="1">Laboratorium</Radio>
-                    <Radio value="2">Lapangan</Radio>
-                  </Stack>
-                </RadioGroup>
-              </FormControl>
             </Stack>
           </ModalBody>
 
@@ -89,7 +80,7 @@ const ModalCheckout = ({ isOpen, onClose }) => {
                 type="submit"
                 variant="solid"
                 bg="blue.700"
-                _hover={{ bg: "blue.800"}}
+                _hover={{ bg: "blue.800" }}
                 color="white"
                 rounded="md"
               >
