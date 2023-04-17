@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Head from "next/head";
+import React, { useState } from 'react';
+import Head from 'next/head';
 import {
   Box,
   Center,
@@ -19,26 +19,41 @@ import {
   Text,
   VStack,
   Icon,
-} from "@chakra-ui/react";
-import DashboardLayout from "../components/dashboard/DashboardLayout";
-import { FiSearch } from "react-icons/fi";
-import { AiOutlineClose } from "react-icons/ai";
-import DashboardPagination from "../components/dashboard/DashboardPagination";
-import TableFirstMainPage from "../components/tables/TableFirstMainPage";
-import { getServerSidePropsCostumer } from "../utils/getServerSidePropsCostumer";
-import useRemoteCategoriesClient from "../components/hooks/remote/useRemoteCategoriesClient";
-import useRemotePengujianClient from "../components/hooks/remote/useRemotePengujianClient";
-import Select from "../components/core/select";
-import { useMemo } from "react";
-import { generateEntryOptions } from "../components/core/select/helper/entryOptions";
-import MessageNotFoundData from "../utils/MessageNotFoundData";
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuOptionGroup,
+  MenuItemOption,
+  MenuItem,
+  Skeleton,
+  SkeletonCircle,
+} from '@chakra-ui/react';
+import DashboardLayout from '../components/dashboard/DashboardLayout';
+import { FiSearch } from 'react-icons/fi';
+import Slider from 'react-slick';
+import { AiOutlineClose } from 'react-icons/ai';
+import DashboardPagination from '../components/dashboard/DashboardPagination';
+import TableFirstMainPage from '../components/tables/TableFirstMainPage';
+import { getServerSidePropsCostumer } from '../utils/getServerSidePropsCostumer';
+import useRemoteCategoriesClient from '../components/hooks/remote/useRemoteCategoriesClient';
+import useRemotePengujianClient from '../components/hooks/remote/useRemotePengujianClient';
+import Select from '../components/core/select';
+import { useMemo } from 'react';
+import { generateEntryOptions } from '../components/core/select/helper/entryOptions';
+import MessageNotFoundData from '../utils/MessageNotFoundData';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import MainPenugujianCardGrid from '../components/main/mainPengujianCardGrid';
+import MainCardPengujian from '../components/main/mainCardPengujian';
 
 const HomeDashboard = () => {
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
+  const [filterTempatPengujian, setFilterTempatPengujian] = useState('');
 
-  const [dataCat, setDataCat] = useState("Pengujian Aspal");
+  const [dataCat, setDataCat] = useState('Pengujian Aspal');
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
-  const { data: dataCategoryClient } = useRemoteCategoriesClient();
+  const { data: dataCategoryClient, isLoading: isLoadingCategoryClient } =
+    useRemoteCategoriesClient();
 
   const {
     data: dataPengujianClient,
@@ -56,134 +71,146 @@ const HomeDashboard = () => {
       ? dataPengujianClient?.data.filter((_, index) => {
           return index % 2 !== 1;
         })
-      : "";
+      : '';
+
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
 
   return (
     <VStack align="stretch">
       <Head>
         <title>Halaman Utama | Lateksil</title>
       </Head>
-      <HStack borderBottomWidth="1px" pb="4">
-        <Text color="blue.700" fontWeight="bold" fontSize="xl">
-          Halaman Utama
-        </Text>
-      </HStack>
-      <Tabs variant="line">
-        <TabList color="gray.500">
-          {dataCategoryClient?.data.map((catergory, index) => (
-            <React.Fragment key={index}>
-              <Tab
-                onClick={() => setDataCat(catergory.name_category)}
-                _hover={{ bg: "gray.100" }}
-                _selected={{ color: "white", bg: "blue.700" }}
+      <Flex
+        justifyContent="center"
+        flexDir="row"
+        overflowX="auto"
+        py={{ md: '5' }}
+      >
+        {dataCategoryClient ? (
+          dataCategoryClient?.data.map((category, i) => (
+            <React.Fragment key={i}>
+              <Box
+                cursor="pointer"
+                bg={dataCat === category.name_category ? 'blue.700' : '#f5f5f5'}
+                color={dataCat === category.name_category ? 'white' : 'black'}
+                rounded="md"
+                p="4"
+                fontSize={{ base: '10px', md: 'md' }}
+                onClick={() => setDataCat(category.name_category)}
+                fontWeight={
+                  dataCat === category.name_category ? 'semibold' : 'normal'
+                }
+                mx="3"
               >
-                {catergory.name_category}
-              </Tab>
+                <Text w="max-content">{category.name_category}</Text>
+              </Box>
             </React.Fragment>
-          ))}
-        </TabList>
-        <TabPanels>
-          {dataCategoryClient?.data.map((catergory, index) => (
-            <React.Fragment key={index}>
-              <TabPanel px="0">
-                <VStack>
-                  <InputGroup>
-                    <InputLeftElement pointerEvents="none">
-                      <FiSearch />
-                    </InputLeftElement>
-                    {searchText !== "" && (
-                      <InputRightElement>
-                        <Icon
-                          cursor="pointer"
-                          as={AiOutlineClose}
-                          onClick={() => setSearchText("")}
-                        />
-                      </InputRightElement>
-                    )}
-                    <Input
-                      type="text"
-                      placeholder={`Cari Jenis ${catergory.name_category}`}
-                      variant="outline"
-                      shadow="none"
-                      _placeholder={{ color: "#45414180" }}
-                      value={searchText}
-                      onChange={(e) => setSearchText(e.target.value)}
-                    />
-                  </InputGroup>
-                  <Flex bg="gray.300" w="full" rounded="lg" p="2">
-                    <GridItem textAlign="center" alignSelf="center" w="55%">
-                      <Flex h="full" direction="column" justifyContent="center">
-                        <Text fontWeight="semibold" fontSize="small">
-                          JENIS PENGUJIAN
-                        </Text>
-                      </Flex>
-                    </GridItem>
-                    <GridItem textAlign="center" alignSelf="center" w="25%">
-                      <Flex h="full" direction="column" justifyContent="center">
-                        <Text fontWeight="semibold" fontSize="small">
-                          KUANTITAS
-                        </Text>
-                      </Flex>
-                    </GridItem>
-                    <GridItem textAlign="center" alignSelf="center" w="25%">
-                      <Flex h="full" direction="column" justifyContent="center">
-                        <Text fontWeight="semibold" fontSize="small">
-                          KETERANGAN
-                        </Text>
-                      </Flex>
-                    </GridItem>
-                    <GridItem textAlign="center" alignSelf="center" w="25%">
-                      <Flex h="full" direction="column" justifyContent="center">
-                        <Text fontWeight="semibold" fontSize="small">
-                          HARGA
-                        </Text>
-                      </Flex>
-                    </GridItem>
-                  </Flex>
-                  {dataPengujianClient?.data.map((pengujian, index) => (
-                    <TableFirstMainPage
-                      key={index}
-                      pengujian={pengujian}
-                      odds={oddDataMapper}
-                    />
-                  ))}
-                  {isLoadingPengujianClient && (
-                    <Center my="6">
-                      <Spinner />
-                    </Center>
-                  )}
-                  {isError && <MessageNotFoundData />}
-                </VStack>
-              </TabPanel>
-            </React.Fragment>
-          ))}
-          <Flex
-            flexDir={{ base: "column", md: "row", xl: "row" }}
-            justifyContent="space-between"
-            borderTopWidth="1px"
-            alignItems="center"
-            py="2"
-          >
-            <Box display="flex" fontSize="sm" alignItems="center">
-              <HStack>
-                <Text>Show</Text>
-                <Select
-                  isSearchable={false}
-                  options={showEntryOptions}
-                  defaultValue={showEntryOptions[0]}
-                  onChange={() => {}}
+          ))
+        ) : (
+          <>
+            <HStack>
+              <Skeleton height="50px" w="180px" />
+              <Skeleton height="50px" w="180px" />
+              <Skeleton height="50px" w="180px" />
+              <Skeleton height="50px" w="180px" />
+              <Skeleton height="50px" w="180px" />
+            </HStack>
+          </>
+        )}
+      </Flex>
+      <Flex justify="center" pb="6">
+        <Flex w="full" maxW="3xl">
+          <InputGroup>
+            <InputLeftElement pointerEvents="none">
+              <FiSearch />
+            </InputLeftElement>
+            {searchText !== '' && (
+              <InputRightElement>
+                <Icon
+                  cursor="pointer"
+                  as={AiOutlineClose}
+                  onClick={() => setSearchText('')}
                 />
-                <Text>Entries</Text>
-              </HStack>
-            </Box>
-            <DashboardPagination
-              current={1}
-              total={dataPengujianClient ? dataPengujianClient?.totalPages : 0}
-              onPageClick={() => {}}
+              </InputRightElement>
+            )}
+            <Input
+              type="text"
+              placeholder={`Cari ${dataCat}`}
+              variant="outline"
+              bg="#f5f5f5"
+              _placeholder={{ color: '#45414180' }}
+              onChange={(state) => setSearchText(state.target.value)}
+              value={searchText}
             />
-          </Flex>
-        </TabPanels>
-      </Tabs>
+          </InputGroup>
+          <Box ml="3">
+            <Menu>
+              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                {filterTempatPengujian === '' ? 'Semua' : filterTempatPengujian}
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => setFilterTempatPengujian('')}>
+                  Semua
+                </MenuItem>
+                <MenuItem
+                  onClick={() => setFilterTempatPengujian('Laboratorium')}
+                >
+                  Laboratorium
+                </MenuItem>
+                <MenuItem onClick={() => setFilterTempatPengujian('Lapangan')}>
+                  Lapangan
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Box>
+        </Flex>
+      </Flex>
+      <VStack align="stretch" mx="auto" spacing="4">
+        <Text fontSize="xl" fontWeight="semibold">
+          {dataCat}
+        </Text>
+        <MainPenugujianCardGrid>
+          {dataPengujianClient?.data.map((pengujian, index) => (
+            <MainCardPengujian
+              key={index}
+              pengujian={pengujian}
+              isLoading={isLoadingCategoryClient}
+            />
+          ))}
+        </MainPenugujianCardGrid>
+      </VStack>
+      {isError && <MessageNotFoundData />}
+      <Flex
+        flexDir={{ base: 'column', md: 'row', xl: 'row' }}
+        justifyContent="space-between"
+        borderTopWidth="1px"
+        alignItems="center"
+        py="2"
+      >
+        <Box display="flex" fontSize="sm" alignItems="center">
+          <HStack>
+            <Text>Show</Text>
+            <Select
+              isSearchable={false}
+              options={showEntryOptions}
+              defaultValue={showEntryOptions[0]}
+              onChange={() => {}}
+            />
+            <Text>Entries</Text>
+          </HStack>
+        </Box>
+        <DashboardPagination
+          current={1}
+          total={dataPengujianClient ? dataPengujianClient?.totalPages : 0}
+          onPageClick={() => {}}
+        />
+      </Flex>
     </VStack>
   );
 };

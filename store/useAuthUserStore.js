@@ -31,6 +31,7 @@ const useAuthUserStore = create(
         destroyCookie(null, "_e", { path: "/" });
         destroyCookie(null, "_t", { path: "/" });
         set({
+          id: undefined,
           email: undefined,
           accessToken: undefined,
         });
