@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   AspectRatio,
   Box,
@@ -20,13 +20,13 @@ import {
   InputLeftElement,
   Input,
   InputRightElement,
-} from "@chakra-ui/react";
-import { HiShoppingCart } from "react-icons/hi2";
-import useRemoteUserProfile from "../../hooks/remote/useRemoteUserProfile";
-import { useRouter } from "next/router";
-import formatCurrency from "../../../utils/formatCurrently";
-import useMutationAddToCart from "../../hooks/mutation/useMutationAddToCart";
-import useAuthUserStore from "../../../store/useAuthUserStore";
+} from '@chakra-ui/react';
+import { HiShoppingCart } from 'react-icons/hi2';
+import useRemoteUserProfile from '../../hooks/remote/useRemoteUserProfile';
+import { useRouter } from 'next/router';
+import formatCurrency from '../../../utils/formatCurrently';
+import useMutationAddToCart from '../../hooks/mutation/useMutationAddToCart';
+import useAuthUserStore from '../../../store/useAuthUserStore';
 
 const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
   const router = useRouter();
@@ -69,21 +69,21 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
         pengujian_id: pengujian.id,
         quantity: value,
       });
-      router.push("/cart");
+      router.push('/cart');
     } else {
-      router.push("/login");
+      router.push('/login');
     }
   };
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      size="xl"
+      size={{ base: 'full', md: 'xl' }}
       scrollBehavior="inside"
       isCentered
     >
       <ModalOverlay />
-      <ModalContent mx="4" overflow="hidden">
+      <ModalContent overflow="hidden">
         <ModalHeader>Detail Pengujian</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -93,14 +93,14 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
                 {pengujian.jenis_pengujian}
               </Text>
             </Flex>
-            <Flex w="full">
+            <Flex w="full" direction={{ base: 'column', md: 'row' }}>
               <Box flex={0.8}>
                 <AspectRatio w="full" ratio={1}>
                   <Image
                     src={
                       pengujian.image
                         ? `http://localhost:3030/uploads/${pengujian.image}`
-                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s"
+                        : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s'
                     }
                     alt=""
                     objectFit="cover"
@@ -108,11 +108,15 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
                   />
                 </AspectRatio>
               </Box>
-              <VStack flex={1.2} px="4">
-                <Text w="full" fontWeight="semibold">
+              <VStack
+                flex={1.2}
+                ml={{ base: 0, md: 3 }}
+                py={{ base: 2, md: 0 }}
+              >
+                <Text w="full" fontSize="md" fontWeight="semibold">
                   Deskripsi
                 </Text>
-                <Text>{pengujian.description}</Text>
+                <Text w="full">{pengujian.description}</Text>
               </VStack>
             </Flex>
             <Flex w="full" direction="column">

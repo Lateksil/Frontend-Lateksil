@@ -48,38 +48,27 @@ import MainCardPengujian from '../components/main/mainCardPengujian';
 
 const HomeDashboard = () => {
   const [searchText, setSearchText] = useState('');
+  const [page, setPage] = useState(1);
   const [filterTempatPengujian, setFilterTempatPengujian] = useState('');
 
   const [dataCat, setDataCat] = useState('Pengujian Aspal');
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
-  const { data: dataCategoryClient, isLoading: isLoadingCategoryClient } =
-    useRemoteCategoriesClient();
+  const { data: dataCategoryClient } = useRemoteCategoriesClient();
 
   const {
     data: dataPengujianClient,
     isLoading: isLoadingPengujianClient,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isError,
   } = useRemotePengujianClient({
-    page: 1,
+    page: page,
     limit: 10,
     search: searchText,
     category: dataCat,
   });
-
-  const oddDataMapper =
-    dataPengujianClient?.status === 200
-      ? dataPengujianClient?.data.filter((_, index) => {
-          return index % 2 !== 1;
-        })
-      : '';
-
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  console.log('hasNextPage', hasNextPage);
 
   return (
     <VStack align="stretch">
@@ -176,40 +165,31 @@ const HomeDashboard = () => {
           {dataCat}
         </Text>
         <MainPenugujianCardGrid>
-          {dataPengujianClient?.data.map((pengujian, index) => (
-            <MainCardPengujian
-              key={index}
-              pengujian={pengujian}
-              isLoading={isLoadingCategoryClient}
-            />
-          ))}
+          {dataPengujianClient?.pages.map((page) =>
+            page.data.map((pengujian, index) => (
+              <MainCardPengujian
+                key={index}
+                pengujian={pengujian}
+                isLoading={false}
+              />
+            ))
+          )}
         </MainPenugujianCardGrid>
       </VStack>
       {isError && <MessageNotFoundData />}
-      <Flex
-        flexDir={{ base: 'column', md: 'row', xl: 'row' }}
-        justifyContent="space-between"
-        borderTopWidth="1px"
-        alignItems="center"
-        py="2"
-      >
-        <Box display="flex" fontSize="sm" alignItems="center">
-          <HStack>
-            <Text>Show</Text>
-            <Select
-              isSearchable={false}
-              options={showEntryOptions}
-              defaultValue={showEntryOptions[0]}
-              onChange={() => {}}
-            />
-            <Text>Entries</Text>
-          </HStack>
-        </Box>
-        <DashboardPagination
-          current={1}
-          total={dataPengujianClient ? dataPengujianClient?.totalPages : 0}
-          onPageClick={() => {}}
-        />
+      <Flex justify="center" py="2">
+        {hasNextPage && (
+          <Button
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetchingNextPage}
+          >
+            {isFetchingNextPage
+              ? 'Loading...'
+              : hasNextPage
+              ? 'Load more'
+              : 'Nothing more to load'}
+          </Button>
+        )}
       </Flex>
     </VStack>
   );

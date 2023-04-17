@@ -1,20 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
-import { postFetcher } from "../../../libs/axios";
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { postFetcher } from '../../../libs/axios';
 
 const useRemotePengujianClient = ({ page, limit, search, category }) => {
   const uri = `/pengujian/client`;
 
-  const { data, ...others } = useQuery(
-    ["pengujian", page, limit, category, search],
-    () =>
+  const { data, ...others } = useInfiniteQuery(
+    ['pengujian', page, limit, category, search],
+    ({ pageParam = 1 }) =>
       postFetcher(uri, {
-        page,
+        page: pageParam,
         limit,
         search,
         filter: {
           category: category,
         },
-      })
+      }),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        const nextPage = allPages.length + 1;
+        if (allPages.length < lastPage.totalPages) {
+          return lastPage.data?.length !== 0 ? nextPage : undefined;
+        }
+      },
+    }
   );
 
   return { data, ...others };

@@ -87,7 +87,7 @@ const MainCardPengujianBase = ({ pengujian, isLoading, ...props }) => {
               <Text fontWeight="bold" color="blue.700" textAlign="left">
                 Rp {formatCurrency(pengujian.price)}
               </Text>
-              <Text>Per {pengujian.sampler}</Text>
+              <Text>Per {pengujian.min_quantity} {pengujian.sampler}</Text>
             </Flex>
           </VStack>
         </Flex>

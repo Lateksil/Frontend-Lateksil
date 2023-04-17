@@ -1,16 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
-import { postFetcher } from "../../../libs/axios";
+import { useQuery } from '@tanstack/react-query';
+import { postFetcher } from '../../../libs/axios';
 
 const useRemoteCategoriesClient = () => {
   const uri = `/categories/client`;
 
-  const { data, ...others } = useQuery(["categories", 1, 10], () =>
+  const { data, ...others } = useQuery(['categories'], () =>
     postFetcher(uri, {
       page: 1,
-      limit: 10,
-      search: "",
+      limit: 30,
+      search: '',
       filter: {
-        name_category: "",
+        name_category: '',
       },
     })
   );
