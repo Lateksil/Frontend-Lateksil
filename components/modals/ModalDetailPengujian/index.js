@@ -102,7 +102,7 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
                         ? `http://localhost:3030/uploads/${pengujian.image}`
                         : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s'
                     }
-                    alt=""
+                    alt="Image"
                     objectFit="cover"
                     rounded="md"
                   />

@@ -1,18 +1,25 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { postFetcher } from '../../../libs/axios';
 
-const useRemotePengujianClient = ({ page, limit, search, category }) => {
+const useRemotePengujianClient = ({
+  page,
+  limit,
+  category,
+  tempat_pengujian,
+  search,
+}) => {
   const uri = `/pengujian/client`;
 
   const { data, ...others } = useInfiniteQuery(
-    ['pengujian', page, limit, category, search],
+    ['pengujian', page, limit, category, tempat_pengujian, search],
     ({ pageParam = 1 }) =>
       postFetcher(uri, {
         page: pageParam,
         limit,
         search,
         filter: {
-          category: category,
+          category,
+          tempat_pengujian,
         },
       }),
     {

@@ -15,28 +15,28 @@ import {
   Thead,
   Tr,
   VStack,
-} from "@chakra-ui/react";
-import Head from "next/head";
-import React, { useEffect, useRef, useState } from "react";
-import { useMemo } from "react";
-import { FiSearch } from "react-icons/fi";
-import Select from "../../components/core/select";
-import { generateEntryOptions } from "../../components/core/select/helper/entryOptions";
-import CreateNewInputPengujian from "../../components/create/frontlinerCreate/CreateNewPengujian";
-import DashboardLayout from "../../components/dashboard/DashboardLayout";
-import DashboardPagination from "../../components/dashboard/DashboardPagination";
-import useRemotePengujian from "../../components/hooks/remote/useRemotePengujian";
-import PengujianTableFrontliner from "../../components/tables/frontlinerTable/pengujianTable";
-import { getServerSidePropsFrontliner } from "../../utils/getServerSidePropsFrontliner";
-import MessageNotFoundData from "../../utils/MessageNotFoundData";
+} from '@chakra-ui/react';
+import Head from 'next/head';
+import React, { useEffect, useRef, useState } from 'react';
+import { useMemo } from 'react';
+import { FiSearch } from 'react-icons/fi';
+import Select from '../../components/core/select';
+import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
+import CreateNewInputPengujian from '../../components/create/frontlinerCreate/CreateNewPengujian';
+import DashboardLayout from '../../components/dashboard/DashboardLayout';
+import DashboardPagination from '../../components/dashboard/DashboardPagination';
+import useRemotePengujian from '../../components/hooks/remote/useRemotePengujian';
+import PengujianTableFrontliner from '../../components/tables/frontlinerTable/pengujianTable';
+import { getServerSidePropsFrontliner } from '../../utils/getServerSidePropsFrontliner';
+import MessageNotFoundData from '../../utils/MessageNotFoundData';
 
 const InputPengujian = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
   const [pageIndex, setPageIndex] = useState(1);
   const [dataLimit, setDataLimit] = useState(10);
 
-  const [searchInput, setSearchInput] = useState("");
-  const [filter, setFilter] = useState("");
+  const [searchInput, setSearchInput] = useState('');
+  const [filter, setFilter] = useState('');
 
   console.log(searchInput);
   const {
@@ -46,7 +46,7 @@ const InputPengujian = () => {
   } = useRemotePengujian({
     page: pageIndex,
     limit: dataLimit,
-    search: filter ? filter.found : "",
+    search: filter ? filter.found : '',
   });
 
   const pengujianListRef = useRef(null);
@@ -56,19 +56,19 @@ const InputPengujian = () => {
   }, [dataLimit]);
 
   useEffect(() => {
-    if (error && pageIndex > 1) setPageIndex(pageIndex - 1);
-  }, [error, pageIndex]);
+    if (error == null && pageIndex > 1) setPageIndex(pageIndex - 1);
+  }, [error]);
 
   const handlePageClick = (page) => {
     setPageIndex(page);
 
     if (pengujianListRef && pengujianListRef.current) {
-      pengujianListRef.current.scrollIntoView({ behavior: "smooth" });
+      pengujianListRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const handleSearchKeypress = (e) => {
-    if (e.key === "Enter" && searchInput !== "") {
+    if (e.key === 'Enter' && searchInput !== '') {
       setFilter((prev) => ({
         ...prev,
         found: searchInput,
@@ -77,8 +77,8 @@ const InputPengujian = () => {
   };
 
   useEffect(() => {
-    if (searchInput === "") {
-      setFilter("");
+    if (searchInput === '') {
+      setFilter('');
     }
   }, [searchInput]);
 
@@ -131,7 +131,7 @@ const InputPengujian = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {dataPengujian?.data.map((pengujian, i) => (
+            {dataPengujian?.data?.map((pengujian, i) => (
               <PengujianTableFrontliner key={i} pengujian={pengujian} />
             ))}
           </Tbody>
@@ -144,7 +144,7 @@ const InputPengujian = () => {
         {!dataPengujian && error && <MessageNotFoundData />}
       </Box>
       <Flex
-        flexDir={{ base: "column", md: "row", xl: "row" }}
+        flexDir={{ base: 'column', md: 'row', xl: 'row' }}
         justifyContent="end"
         borderTopWidth="1px"
         alignItems="center"

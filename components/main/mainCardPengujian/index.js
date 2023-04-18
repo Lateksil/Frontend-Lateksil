@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Card } from '@chakra-ui/react';
+import { Box, Card, Text } from '@chakra-ui/react';
 import MainCardPengujianBase from '../mainCardPengujiaBase';
 
 const MainCardPengujian = ({ pengujian, isLoading, ...props }) => {

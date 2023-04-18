@@ -51,7 +51,7 @@ const MainCardPengujianBase = ({ pengujian, isLoading, ...props }) => {
               <React.Fragment>
                 <Image
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTirUtBKwU5eyV3AEKpHRtlzwF2zJm2sarGSg&usqp=CAU"
-                  alt=""
+                  alt="Pengujian"
                   objectFit="cover"
                 />
                 <Box
@@ -81,13 +81,21 @@ const MainCardPengujianBase = ({ pengujian, isLoading, ...props }) => {
               <Text fontWeight="semibold">{pengujian.jenis_pengujian}</Text>
             </VStack>
             <Box>
-              <Badge colorScheme="green">Laboratorium</Badge>
+              <Badge
+                colorScheme={
+                  pengujian.tempat_pengujian === 'Lapangan' ? 'blue' : 'green'
+                }
+              >
+                {pengujian.tempat_pengujian}
+              </Badge>
             </Box>
             <Flex justify="space-between">
               <Text fontWeight="bold" color="blue.700" textAlign="left">
                 Rp {formatCurrency(pengujian.price)}
               </Text>
-              <Text>Per {pengujian.min_quantity} {pengujian.sampler}</Text>
+              <Text>
+                Per {pengujian.min_quantity} {pengujian.sampler}
+              </Text>
             </Flex>
           </VStack>
         </Flex>
