@@ -14,6 +14,8 @@ import {
 import { useRouter } from "next/router";
 import { useDashboard } from "../../../context/dashboard/DashboardProvider";
 import DashboardSidebarItem from "../DashboardSidebarItem";
+import Link from "next/link";
+import LogoSidebar from "../../core/logo";
 
 const DashboardSidebarMobile = ({ items }) => {
   const { pathname } = useRouter();
@@ -33,9 +35,11 @@ const DashboardSidebarMobile = ({ items }) => {
         <DrawerOverlay />
         <DrawerContent>
           <Box py="6" h="100vh" overflow="auto" bg="white">
-            <Center>
-              <Text>Logo</Text>
-            </Center>
+          <Center>
+          <Link href="/">
+            <LogoSidebar />
+          </Link>
+        </Center>
             <Flex as="nav" flexDirection="column" align="stretch" mt="12">
               {items.map((item, index) => (
                 <DashboardSidebarItem

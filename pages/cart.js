@@ -1,5 +1,5 @@
-import React from "react";
-import NextLink from "next/link";
+import React from 'react';
+import NextLink from 'next/link';
 import {
   Box,
   Button,
@@ -12,18 +12,18 @@ import {
   Tooltip,
   useDisclosure,
   VStack,
-} from "@chakra-ui/react";
-import Head from "next/head";
-import { FiTrash } from "react-icons/fi";
-import InputQuantitas from "../components/core/InputQuantitas";
-import DashboardLayout from "../components/dashboard/DashboardLayout";
-import useRemoteCart from "../components/hooks/remote/useRemoteCart";
-import formatCurrency from "../utils/formatCurrently";
-import { getServerSidePropsCostumer } from "../utils/getServerSidePropsCostumer";
-import useMutationDeleteCart from "../components/hooks/mutation/delete/useMutationDeleteCart";
-import ModalCheckout from "../components/modals/ModalCheckout";
-import NextImage from "../components/core/nextimage";
-import LateksilImage from ".././assets/images/testing-ilustrator.jpg";
+} from '@chakra-ui/react';
+import Head from 'next/head';
+import { FiTrash } from 'react-icons/fi';
+import InputQuantitas from '../components/core/InputQuantitas';
+import DashboardLayout from '../components/dashboard/DashboardLayout';
+import useRemoteCart from '../components/hooks/remote/useRemoteCart';
+import formatCurrency from '../utils/formatCurrently';
+import { getServerSidePropsCostumer } from '../utils/getServerSidePropsCostumer';
+import useMutationDeleteCart from '../components/hooks/mutation/delete/useMutationDeleteCart';
+import ModalCheckout from '../components/modals/ModalCheckout';
+import NextImage from '../components/core/nextimage';
+import LateksilImage from '.././assets/images/testing-ilustrator.jpg';
 
 const CartPage = () => {
   const { data: dataCartUserId } = useRemoteCart();
@@ -45,7 +45,7 @@ const CartPage = () => {
   };
 
   return (
-    <VStack align="stretch">
+    <VStack align="stretch" h="85vh" overflow="auto">
       <Head>
         <title>Keranjang | Lateksil</title>
       </Head>
@@ -154,7 +154,15 @@ const CartPage = () => {
             </Flex>
           )}
         </VStack>
-        <Box borderWidth={2} flex={0.6} p={5} h="max-content">
+        <Box
+          borderWidth={2}
+          flex={0.6}
+          p={5}
+          h="max-content"
+          position="sticky"
+          top="0"
+          display={{ base: 'none', md: 'block' }}
+        >
           <Text fontWeight="semibold">Ringkasan Pengujian</Text>
           <Flex justifyContent="space-between" borderBottomWidth={1} py={3}>
             <Text>{`Total Harga (${
@@ -174,7 +182,7 @@ const CartPage = () => {
             bg="green.500"
             color="white"
             onClick={onOpenCheckout}
-            _hover={{ bg: "green.600" }}
+            _hover={{ bg: 'green.600' }}
           >
             Checkout
           </Button>

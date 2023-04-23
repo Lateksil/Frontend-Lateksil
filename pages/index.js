@@ -20,6 +20,7 @@ import {
 } from '@chakra-ui/react';
 import DashboardLayout from '../components/dashboard/DashboardLayout';
 import { FiSearch } from 'react-icons/fi';
+import { BsChevronRight, BsChevronLeft } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
 import { getServerSidePropsCostumer } from '../utils/getServerSidePropsCostumer';
 import useRemoteCategoriesClient from '../components/hooks/remote/useRemoteCategoriesClient';
@@ -28,6 +29,7 @@ import MessageNotFoundData from '../utils/MessageNotFoundData';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import MainPenugujianCardGrid from '../components/main/mainPengujianCardGrid';
 import MainCardPengujian from '../components/main/mainCardPengujian';
+import Slider from 'react-slick';
 
 const HomeDashboard = () => {
   const [searchText, setSearchText] = useState('');
@@ -52,53 +54,136 @@ const HomeDashboard = () => {
     tempat_pengujian: filterTempatPengujian,
   });
 
+  function NextArrow(props) {
+    const { onClick } = props;
+    return (
+      <Box
+        cursor="pointer"
+        position="absolute"
+        bgColor="rgba(78, 74, 81, 0.689)"
+        color="white"
+        top="25%"
+        right={0}
+        p="2"
+        rounded="full"
+        onClick={onClick}
+      >
+        <BsChevronRight />
+      </Box>
+    );
+  }
+  function PrevArrow(props) {
+    const { onClick } = props;
+    return (
+      <Box
+        cursor="pointer"
+        position="absolute"
+        bgColor="rgba(78, 74, 81, 0.689)"
+        color="white"
+        top="25%"
+        zIndex={3}
+        left={0}
+        p="2"
+        rounded="full"
+        onClick={onClick}
+      >
+        <BsChevronLeft />
+      </Box>
+    );
+  }
+
+  var settings = {
+    infinite: false,
+    speed: 500,
+    slidesToShow: 6.1,
+    slidesToScroll: 4,
+    initialSlide: 0,
+    nextArrow: <NextArrow onClick />,
+    prevArrow: <PrevArrow onClick />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3.5,
+          arrows: false,
+          slidesToScroll: 3,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 3.5,
+          arrows: false,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          infinite: false,
+          speed: 220,
+          slidesToShow: 2.5,
+          arrows: false,
+          slidesToScroll: 2,
+        },
+      },
+    ],
+  };
+
   return (
     <VStack align="stretch">
       <Head>
         <title>Halaman Utama | Lateksil</title>
       </Head>
       <Box borderBottomWidth={2}>
-        <Flex
-          justifyContent="center"
-          flexDir="row"
-          overflowX="auto"
-          py={{ md: '5' }}
-        >
-          {dataCategoryClient ? (
-            dataCategoryClient?.data.map((category, i) => (
-              <React.Fragment key={i}>
-                <Box
-                  cursor="pointer"
-                  bg={
-                    dataCat === category.name_category ? 'blue.700' : '#f5f5f5'
-                  }
-                  color={dataCat === category.name_category ? 'white' : 'black'}
-                  rounded="md"
-                  p="4"
-                  fontSize={{ base: '10px', md: 'md' }}
-                  onClick={() => setDataCat(category.name_category)}
-                  fontWeight={
-                    dataCat === category.name_category ? 'semibold' : 'normal'
-                  }
-                  mx="3"
-                >
-                  <Text w="max-content">{category.name_category}</Text>
-                </Box>
-              </React.Fragment>
-            ))
-          ) : (
-            <>
-              <HStack>
-                <Skeleton height="50px" w="180px" />
-                <Skeleton height="50px" w="180px" />
-                <Skeleton height="50px" w="180px" />
-                <Skeleton height="50px" w="180px" />
-                <Skeleton height="50px" w="180px" />
-              </HStack>
-            </>
-          )}
+        <Flex justifyContent="center" flexDir="row" py={{ md: '5' }}>
+          <Box w="full">
+            <Slider {...settings}>
+              {dataCategoryClient ? (
+                dataCategoryClient?.data.map((category, i) => (
+                  <React.Fragment key={i}>
+                    <Box
+                      w="max-content"
+                      cursor="pointer"
+                      bg={
+                        dataCat === category.name_category
+                          ? 'blue.700'
+                          : '#f5f5f5'
+                      }
+                      color={
+                        dataCat === category.name_category ? 'white' : 'black'
+                      }
+                      rounded="md"
+                      p="4"
+                      fontSize={{ base: '10px', md: 'md' }}
+                      onClick={() => setDataCat(category.name_category)}
+                      fontWeight={
+                        dataCat === category.name_category
+                          ? 'semibold'
+                          : 'normal'
+                      }
+                      mx="3"
+                    >
+                      <Text textAlign="center">{category.name_category}</Text>
+                    </Box>
+                  </React.Fragment>
+                ))
+              ) : (
+                <>
+                  <HStack>
+                    <Skeleton height="50px" w="180px" />
+                    <Skeleton height="50px" w="180px" />
+                    <Skeleton height="50px" w="180px" />
+                    <Skeleton height="50px" w="180px" />
+                    <Skeleton height="50px" w="180px" />
+                  </HStack>
+                </>
+              )}
+            </Slider>
+          </Box>
         </Flex>
-        <Flex justify="center" pb="6">
+        <Flex justify="center" pb="6" mt="4">
           <Flex w="full" maxW="3xl">
             <InputGroup>
               <InputLeftElement pointerEvents="none">
