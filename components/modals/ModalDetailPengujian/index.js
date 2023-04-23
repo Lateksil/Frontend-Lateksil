@@ -187,10 +187,8 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
               Batal
             </Button>
             <Button
-              variant="solid"
-              bg="blue.700"
-              color="white"
-              rounded="md"
+              variant="lateksil-solid"
+            
               onClick={onMoveToCart}
               isLoading={isLoadingAddCart}
               leftIcon={<Icon as={HiShoppingCart} fontSize="xl" />}

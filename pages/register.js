@@ -171,8 +171,7 @@ const RegisterPage = () => {
           w="full"
           maxW="md"
           type="submit"
-          colorScheme="blue"
-          variant="solid"
+          variant="lateksil-solid"
           isLoading={isLoading}
         >
           Daftar

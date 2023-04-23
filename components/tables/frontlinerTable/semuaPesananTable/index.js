@@ -21,10 +21,10 @@ import {
 } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
 import DashboardPagination from '../../../dashboard/DashboardPagination';
-import ModalTahapPermintaan from '../../../modals/userModal/ModalTahapPermintaan';
 import { generateEntryOptions } from '../../../core/select/helper/entryOptions';
 import formatCurrency from '../../../../utils/formatCurrently';
 import Select from '../../../core/select';
+import DetailPengajuanPesanan from '../../../modals/frontlinerModal/detailPengajuanPesananModal';
 
 const SemuaPemesananTable = () => {
   const {
@@ -193,7 +193,7 @@ const SemuaPemesananTable = () => {
         </Box>
         <DashboardPagination current={1} total={1} onPageClick={() => {}} />
       </Flex>
-      <ModalTahapPermintaan
+      <DetailPengajuanPesanan
         isOpen={isOpenDetailHistory}
         onClose={onCloseDetailHistory}
       />

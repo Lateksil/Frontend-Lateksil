@@ -43,11 +43,14 @@ const InputPengujian = () => {
     data: dataPengujian,
     isLoading: isLoadingDataPengujian,
     error,
+    isError
   } = useRemotePengujian({
     page: pageIndex,
     limit: dataLimit,
     search: filter ? filter.found : '',
   });
+
+  console.log('error', isError)
 
   const pengujianListRef = useRef(null);
 

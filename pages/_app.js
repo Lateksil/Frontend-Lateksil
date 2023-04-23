@@ -9,6 +9,7 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import theme from "../themes";
 
 function MyApp({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page);
@@ -17,7 +18,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <React.Fragment>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <NextNProgress
           height={5}
           color="#3182ce"

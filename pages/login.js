@@ -161,8 +161,7 @@ export default function LoginPage() {
           <Button
             type="submit"
             isLoading={isLoading}
-            colorScheme="blue"
-            variant="solid"
+            variant="lateksil-solid"
           >
             Masuk
           </Button>
