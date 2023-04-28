@@ -1,12 +1,16 @@
 import React from 'react';
 import NextLink from 'next/link';
 import {
+  AspectRatio,
+  Badge,
   Box,
   Button,
+  Center,
   Flex,
   GridItem,
   HStack,
   IconButton,
+  Image,
   Spacer,
   Text,
   Tooltip,
@@ -55,79 +59,76 @@ const CartPage = () => {
         </Text>
         <Spacer />
       </HStack>
-      <Flex direction="row">
-        <VStack flex={1.3} mr={3}>
-          <Box w="full" mb={2} borderWidth={2}>
-            <Flex py={3}>
-              <GridItem w="25%">
-                <Text textAlign="center" fontWeight="semibold">
-                  Produk
-                </Text>
-              </GridItem>
-              <GridItem w="20%">
-                <Text textAlign="center" fontWeight="semibold">
-                  Harga Satuan
-                </Text>
-              </GridItem>
-              <GridItem w="25%">
-                <Text textAlign="center" fontWeight="semibold">
-                  Kuantitas
-                </Text>
-              </GridItem>
-              <GridItem w="20%">
-                <Text textAlign="center" fontWeight="semibold">
-                  Harga Total
-                </Text>
-              </GridItem>
-              <GridItem w="10%">
-                <Text textAlign="center" fontWeight="semibold">
-                  Aksi
-                </Text>
-              </GridItem>
-            </Flex>
-          </Box>
-
+      <Flex direction={{ base: 'column', md: 'row' }}>
+        <VStack flex={1.3} mr={{ base: 0, md: 3 }}>
           {dataCartUserId?.data.map((cart) => (
             <Box w="full" borderWidth={2} key={cart.id}>
-              <Flex py={3} borderBottomWidth={1}>
-                <Box w="25%">
-                  <Text textAlign="center" fontWeight="medium">
-                    {cart.Pengujian.jenis_pengujian}
-                  </Text>
-                  <Text textAlign="center" fontSize="sm">
-                    {cart.Pengujian.code}
-                  </Text>
-                </Box>
-                <Flex w="20%" align="center" justifyContent="center">
-                  <Text fontWeight="semibold">
-                    Rp{formatCurrency(cart.Pengujian.price)}
-                  </Text>
-                </Flex>
-                <InputQuantitas cart={cart} total={total} />
-                <Flex w="10%" align="center" justifyContent="center">
-                  <Tooltip label="Delete" hasArrow>
-                    <IconButton
-                      onClick={() => handleDeleteCart(cart.id)}
-                      variant="none"
-                      color="red"
-                      icon={<FiTrash />}
-                    />
-                  </Tooltip>
-                </Flex>
+              <Flex borderBottomWidth={1} p="3">
+                <VStack w="full">
+                  <Flex w="full">
+                    <Box flex={{ base: 0.8, md: 0.3 }}>
+                      <Image
+                        src={
+                          cart.Pengujian.image
+                            ? `http://localhost:3030/uploads/${cart.Pengujian.image}`
+                            : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s'
+                        }
+                        boxSize="full"
+                        alt="Pengujian"
+                        objectFit="cover"
+                        rounded="md"
+                      />
+                    </Box>
+                    <VStack
+                      flex={{ base: 1.2, md: 1 }}
+                      w="full"
+                      align="start"
+                      p="2"
+                    >
+                      <Text fontWeight="semibold" fontSize="sm">
+                        {cart.Pengujian.jenis_pengujian}
+                      </Text>
+                      <Badge size="sm" colorScheme="green">
+                        {cart.Pengujian.tempat_pengujian}
+                      </Badge>
+                      <Flex>
+                        <Text fontSize="sm"> Jumlah : {cart.quantity}</Text>
+                        <Text ml="2" fontSize="sm">
+                          {cart.Pengujian.sampler}
+                        </Text>
+                      </Flex>
+                    </VStack>
+                  </Flex>
+                  <Flex w="full" justify="space-between">
+                    <Flex align="center" textAlign="center">
+                      <InputQuantitas cart={cart} total={total} />
+                    </Flex>
+                    <Flex align="center" justifyContent="center">
+                      <Tooltip label="Delete" hasArrow>
+                        <IconButton
+                          onClick={() => handleDeleteCart(cart.id)}
+                          variant="none"
+                          color="red"
+                          icon={<FiTrash />}
+                        />
+                      </Tooltip>
+                    </Flex>
+                  </Flex>
+                </VStack>
               </Flex>
             </Box>
           ))}
           {dataCartUserId ? (
             dataCartUserId?.data.length == 0 && (
-              <Flex maxW="sm" flexDir="column">
-                <NextImage
-                  src={LateksilImage}
-                  alt="Civil Engginering Illustration"
-                  width="326"
-                  height="345"
-                  layout="responsive"
-                  placeholder="blur"
-                />
+              <Flex maxW="sm" flexDir="column" align="center" my="10">
+                <Box width={200} height={200}>
+                  <NextImage
+                    src={LateksilImage}
+                    alt="Civil Engginering Illustration"
+                    layout="responsive"
+                    placeholder="blur"
+                  />
+                </Box>
                 <Text textAlign="center" fontWeight="semibold">
                   Keranjang Kosong? Silahkan Cari Pengujian
                 </Text>
@@ -139,15 +140,15 @@ const CartPage = () => {
               </Flex>
             )
           ) : (
-            <Flex maxW="sm" flexDir="column">
-              <NextImage
-                src={LateksilImage}
-                alt="Civil Engginering Illustration"
-                width="326"
-                height="345"
-                layout="responsive"
-                placeholder="blur"
-              />
+            <Flex maxW="sm" flexDir="column" align="center">
+              <Box width={200} height={200}>
+                <NextImage
+                  src={LateksilImage}
+                  alt="Civil Engginering Illustration"
+                  layout="responsive"
+                  placeholder="blur"
+                />
+              </Box>
               <Text textAlign="center" fontWeight="semibold">
                 Belum Ada Pengujian? Silahkan Masuk Terlebih Dahulu
               </Text>
@@ -158,10 +159,12 @@ const CartPage = () => {
           borderWidth={2}
           flex={0.6}
           p={5}
+          mt={{ base: '5', md: 0 }}
+          w="full"
+          bg="white"
+          top={0}
           h="max-content"
           position="sticky"
-          top="0"
-          display={{ base: 'none', md: 'block' }}
         >
           <Text fontWeight="semibold">Ringkasan Pengujian</Text>
           <Flex justifyContent="space-between" borderBottomWidth={1} py={3}>
@@ -187,6 +190,41 @@ const CartPage = () => {
             Checkout
           </Button>
         </Box>
+        {/* <Box
+          borderWidth={2}
+          flex={0.6}
+          p={5}
+          w="full"
+          left={0}
+          bg="white"
+          position="absolute"
+          bottom={0}
+          display={{ base: 'block', md: 'none' }}
+        >
+          <Text fontWeight="semibold">Ringkasan Pengujian</Text>
+          <Flex justifyContent="space-between" borderBottomWidth={1} py={3}>
+            <Text>{`Total Harga (${
+              dataCartUserId ? dataCartUserId?.data.length : 0
+            } Pengujian)`}</Text>
+            <Text>Rp{formatCurrency(total)}</Text>
+          </Flex>
+          <Flex justifyContent="space-between" py={3}>
+            <Text fontWeight="semibold">Total Harga</Text>
+            <Text fontWeight="semibold">Rp{formatCurrency(total)}</Text>
+          </Flex>
+          <Button
+            isDisabled={
+              dataCartUserId ? dataCartUserId?.data.length == 0 && true : true
+            }
+            w="full"
+            bg="green.500"
+            color="white"
+            onClick={onOpenCheckout}
+            _hover={{ bg: 'green.600' }}
+          >
+            Checkout
+          </Button>
+        </Box> */}
       </Flex>
       <ModalCheckout isOpen={isOpenCheckout} onClose={onCloseCheckout} />
     </VStack>
