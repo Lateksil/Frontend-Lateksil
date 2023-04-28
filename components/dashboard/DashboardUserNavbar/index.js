@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Avatar,
   Box,
@@ -12,12 +12,12 @@ import {
   Text,
   VStack,
   Icon,
-} from "@chakra-ui/react";
-import NextLink from "next/link";
-import { FiLogOut, FiUsers } from "react-icons/fi";
-import useAuthUserStore from "../../../store/useAuthUserStore";
-import { useRouter } from "next/router";
-import { FaBuilding } from "react-icons/fa";
+} from '@chakra-ui/react';
+import NextLink from 'next/link';
+import { FiLogOut, FiUsers } from 'react-icons/fi';
+import useAuthUserStore from '../../../store/useAuthUserStore';
+import { useRouter } from 'next/router';
+import { FaBuilding } from 'react-icons/fa';
 
 const DashboardUserNavbar = ({ userProfileData }) => {
   const router = useRouter();
@@ -25,9 +25,7 @@ const DashboardUserNavbar = ({ userProfileData }) => {
 
   const onLogout = async () => {
     await removeUserStore();
-    await router.replace("/login").then(() => {
-      router.reload("/login");
-    });
+    router.reload('/login');
   };
   return (
     <>
@@ -39,7 +37,7 @@ const DashboardUserNavbar = ({ userProfileData }) => {
               variant="outline"
               src=""
               name={userProfileData?.full_name}
-              size={{ base: "sm", md: "md" }}
+              size={{ base: 'sm', md: 'md' }}
             />
           </Box>
         </MenuButton>
@@ -73,7 +71,7 @@ const DashboardUserNavbar = ({ userProfileData }) => {
             <MenuItem
               onClick={onLogout}
               icon={<FiLogOut color="ims-red" />}
-              _hover={{ bg: "red.100", fontWeight: "semibold" }}
+              _hover={{ bg: 'red.100', fontWeight: 'semibold' }}
             >
               Keluar
             </MenuItem>
