@@ -50,7 +50,11 @@ const MainCardPengujianBase = ({ pengujian, isLoading, ...props }) => {
             <AspectRatio ratio={16 / 9}>
               <React.Fragment>
                 <Image
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTirUtBKwU5eyV3AEKpHRtlzwF2zJm2sarGSg&usqp=CAU"
+                  src={
+                    pengujian.image
+                      ? `http://localhost:3030/uploads/${pengujian.image}`
+                      : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s'
+                  }
                   alt="Pengujian"
                   objectFit="cover"
                 />
