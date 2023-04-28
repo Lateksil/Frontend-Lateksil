@@ -185,7 +185,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
                 {errors.catatan_khusus && errors.catatan_khusus.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl id="company_name" isRequired>
+            <FormControl id="tempat_pengujian" isRequired>
               <FormLabel>Pengujian Lakukan di</FormLabel>
               <RadioGroup defaultValue="Laboratorium">
                 <Stack spacing={10} direction="row">

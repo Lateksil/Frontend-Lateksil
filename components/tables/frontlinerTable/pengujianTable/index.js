@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
+  Badge,
   Box,
   Button,
   ButtonGroup,
@@ -21,28 +22,29 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Radio,
+  RadioGroup,
   Stack,
   Td,
   Text,
   Textarea,
-  Tooltip,
   Tr,
   useDisclosure,
-} from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { FiEdit, FiTrash } from "react-icons/fi";
-import formatCurrency from "../../../../utils/formatCurrently";
-import Select from "../../../core/select";
-import useMutationDeletePengujian from "../../../hooks/mutation/delete/useMutationDeletePengujian";
-import useMutationUpdatePengujian from "../../../hooks/mutation/put/useMutationUpdatePengujian";
-import useRemoteCategoriesOptions from "../../../hooks/remote/useRemoteCategoriesOptions";
-import ModalWarning from "../../../modals/ModalWarning";
+} from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { FiEdit, FiTrash } from 'react-icons/fi';
+import formatCurrency from '../../../../utils/formatCurrently';
+import Select from '../../../core/select';
+import useMutationDeletePengujian from '../../../hooks/mutation/delete/useMutationDeletePengujian';
+import useMutationUpdatePengujian from '../../../hooks/mutation/put/useMutationUpdatePengujian';
+import useRemoteCategoriesOptions from '../../../hooks/remote/useRemoteCategoriesOptions';
+import ModalWarning from '../../../modals/ModalWarning';
 
 const PengujianTableFrontliner = ({ pengujian }) => {
   const [getIdPengujian, setGetIdPengujian] = useState(null);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState('');
 
   const { data: categoryDataOption } = useRemoteCategoriesOptions();
   const { mutate: mutateDeletePengujian } = useMutationDeletePengujian();
@@ -75,6 +77,7 @@ const PengujianTableFrontliner = ({ pengujian }) => {
       jenis_pengujian: data.jenis_pengujian,
       code: data.code,
       category: data.category.value,
+      tempat_pengujian: data.tempat_pengujian,
       description: data.description,
       min_quantity: data.min_quantity,
       sampler: data.sampler,
@@ -108,14 +111,15 @@ const PengujianTableFrontliner = ({ pengujian }) => {
 
   useEffect(() => {
     if (isOpenUpdate && pengujian) {
-      setValue("jenis_pengujian", pengujian.jenis_pengujian);
-      setValue("code", pengujian.code);
-      setValue("category", category);
-      setValue("description", pengujian.description);
-      setValue("min_quantity", pengujian.min_quantity);
-      setValue("sampler", pengujian.sampler);
-      setValue("catatan_khusus", pengujian.catatan_khusus);
-      setValue("price", pengujian.price);
+      setValue('jenis_pengujian', pengujian.jenis_pengujian);
+      setValue('code', pengujian.code);
+      setValue('category', category);
+      setValue('description', pengujian.description);
+      setValue('min_quantity', pengujian.min_quantity);
+      setValue('tempat_pengujian', pengujian.tempat_pengujian);
+      setValue('sampler', pengujian.sampler);
+      setValue('catatan_khusus', pengujian.catatan_khusus);
+      setValue('price', pengujian.price);
     }
   }, [isOpenUpdate]);
 
@@ -130,7 +134,7 @@ const PengujianTableFrontliner = ({ pengujian }) => {
               src={
                 pengujian.image
                   ? `http://localhost:3030/uploads/${pengujian.image}`
-                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s"
+                  : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s'
               }
               alt="Dan Abramov"
             />
@@ -139,6 +143,9 @@ const PengujianTableFrontliner = ({ pengujian }) => {
               <Text fontSize="sm" color="orange.600">
                 {pengujian.code}
               </Text>
+              <Badge fontSize="xs" colorScheme="blue">
+                {pengujian.tempat_pengujian}
+              </Badge>
             </Box>
           </HStack>
         </Td>
@@ -156,7 +163,7 @@ const PengujianTableFrontliner = ({ pengujian }) => {
               textAlign="start"
               color="blue.400"
             >
-              Tampilkan lebih {isOpenFullTextDescription ? "Sedikit" : "Banyak"}{" "}
+              Tampilkan lebih {isOpenFullTextDescription ? 'Sedikit' : 'Banyak'}{' '}
             </Text>
           )}
         </Td>
@@ -175,8 +182,8 @@ const PengujianTableFrontliner = ({ pengujian }) => {
               textAlign="start"
               color="blue.400"
             >
-              Tampilkan lebih{" "}
-              {isOpenFullTextCatatanKhusus ? "Sedikit" : "Banyak"}{" "}
+              Tampilkan lebih{' '}
+              {isOpenFullTextCatatanKhusus ? 'Sedikit' : 'Banyak'}{' '}
             </Text>
           )}
         </Td>
@@ -231,7 +238,7 @@ const PengujianTableFrontliner = ({ pengujian }) => {
                 <Input
                   type="text"
                   placeholder="Jenis Pengujian"
-                  {...register("jenis_pengujian")}
+                  {...register('jenis_pengujian')}
                 />
               </FormControl>
               <FormControl id="jenis">
@@ -239,7 +246,7 @@ const PengujianTableFrontliner = ({ pengujian }) => {
                 <Input
                   type="text"
                   placeholder="SNI XX-XXXX-XXXX"
-                  {...register("code")}
+                  {...register('code')}
                 />
               </FormControl>
               <FormControl id="category">
@@ -260,7 +267,7 @@ const PengujianTableFrontliner = ({ pengujian }) => {
                 <FormLabel>Deskripsi</FormLabel>
                 <Textarea
                   placeholder="Deskripsi..."
-                  {...register("description")}
+                  {...register('description')}
                 />
               </FormControl>
               <FormControl id="min_quantity">
@@ -268,7 +275,7 @@ const PengujianTableFrontliner = ({ pengujian }) => {
                 <Input
                   type="number"
                   placeholder="Minimal Kuantitas dalam pengujian "
-                  {...register("min_quantity")}
+                  {...register('min_quantity')}
                 />
               </FormControl>
               <FormControl id="sampler">
@@ -276,22 +283,38 @@ const PengujianTableFrontliner = ({ pengujian }) => {
                 <Input
                   type="text"
                   placeholder="Contoh: Per Titik / Paket / dll."
-                  {...register("sampler")}
+                  {...register('sampler')}
                 />
               </FormControl>
               <FormControl id="catatan_khusus">
                 <FormLabel>catatan khusus</FormLabel>
                 <Textarea
                   placeholder="Catatan Khusus Pengujian untuk Costumer"
-                  {...register("catatan_khusus")}
+                  {...register('catatan_khusus')}
                 />
+              </FormControl>
+              <FormControl id="tempat_pengujian" isRequired>
+                <FormLabel>Pengujian Lakukan di</FormLabel>
+                <RadioGroup defaultValue={pengujian.tempat_pengujian}>
+                  <Stack spacing={10} direction="row">
+                    <Radio
+                      value="Laboratorium"
+                      {...register('tempat_pengujian')}
+                    >
+                      Laboratorium
+                    </Radio>
+                    <Radio value="Lapangan" {...register('tempat_pengujian')}>
+                      Lapangan
+                    </Radio>
+                  </Stack>
+                </RadioGroup>
               </FormControl>
               <FormControl id="price">
                 <FormLabel>Harga Rp.</FormLabel>
                 <Input
                   type="number"
                   placeholder="Harga"
-                  {...register("price")}
+                  {...register('price')}
                 />
               </FormControl>
               <FormControl id="upload_image">

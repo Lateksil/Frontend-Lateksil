@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useRouter } from "next/router";
-import { destroyCookie, parseCookies } from "nookies";
+import { parseCookies } from "nookies";
 import useAuthUserStore from "../store/useAuthUserStore";
 
 const axiosInstance = axios.create({
