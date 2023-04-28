@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
-import NextLink from "next/link";
+import React, { useState } from 'react';
+import { ChevronLeftIcon } from '@chakra-ui/icons';
+import NextLink from 'next/link';
 import {
   Alert,
   AlertIcon,
@@ -12,35 +12,49 @@ import {
   FormErrorMessage,
   FormLabel,
   Heading,
+  HStack,
   IconButton,
   Input,
   InputGroup,
   InputRightElement,
   Link,
+  PinInput,
+  PinInputField,
   Text,
   useBoolean,
   useDisclosure,
   VStack,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 import {
   BsFillEyeFill,
   BsFillEyeSlashFill,
   BsPersonFill,
-} from "react-icons/bs";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { registerSchema } from "../utils/schema/AuthenticationSchema";
-import useAxios from "../components/hooks/useAxios";
-import { useRouter } from "next/router";
-import AuthenticationLayout from "../components/main/AuthenticationLayout";
+} from 'react-icons/bs';
+import { MdEmail } from 'react-icons/md';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { registerSchema } from '../utils/schema/AuthenticationSchema';
+import useAxios from '../components/hooks/useAxios';
+import { useRouter } from 'next/router';
+import AuthenticationLayout from '../components/main/AuthenticationLayout';
+import useToastNotification from '../components/hooks/useToastNotification';
+import useVerifyCodeStore from '../store/useVerifyCodeStore';
 
 const RegisterPage = () => {
   const router = useRouter();
+  const showToast = useToastNotification();
   const [errorMessage, setErrorMessage] = useState();
+  const [pinCode, setPinCode] = useState(['', '', '', '']);
   const [isRegisterSuccess, setIsRegisterSuccess] = useBoolean();
+  const [isVerifiedSuccess, setIsVerifiedSuccess] = useBoolean();
   const [isLoading, setIsloading] = useBoolean();
   const { isOpen: isPasswordOpen, onToggle: onPasswordToggle } =
     useDisclosure();
+
+  const [email, setEmailStorage] = useVerifyCodeStore((state) => [
+    state.email,
+    state.setEmailStorage,
+  ]);
 
   const {
     register,
@@ -50,9 +64,13 @@ const RegisterPage = () => {
     resolver: yupResolver(registerSchema),
   });
 
-  console.log(errorMessage);
   const [, makeRegister] = useAxios(
-    { url: "/auth/register", method: "POST" },
+    { url: '/auth/register', method: 'POST' },
+    { manual: true }
+  );
+
+  const [, makeVerify] = useAxios(
+    { url: '/auth/verify', method: 'POST' },
     { manual: true }
   );
 
@@ -60,11 +78,44 @@ const RegisterPage = () => {
     setIsloading.on();
     makeRegister({ data })
       .then(() => {
+        setEmailStorage(data.email);
         setIsRegisterSuccess.on();
       })
       .catch((error) => {
         setIsloading.off();
         setErrorMessage(error.response?.data.message);
+      });
+  };
+
+  const handleInputCodeChange = (event, index) => {
+    const value = event.target.value;
+    if (value.length > 1) {
+      return;
+    }
+    const newPinCode = [...pinCode];
+    newPinCode[index] = value;
+    setPinCode(newPinCode);
+    if (value === '' && index > 0) {
+      const prevInput = document.getElementsByName(`pinCode-${index - 1}`)[0];
+      prevInput.focus();
+    } else if (index < 3) {
+      const nextInput = document.getElementsByName(`pinCode-${index + 1}`)[0];
+      nextInput.focus();
+    }
+  };
+
+  const onSubmitVerify = async () => {
+    await makeVerify({
+      data: {
+        email: email,
+        code: pinCode.join(''),
+      },
+    })
+      .then(() => {
+        setIsVerifiedSuccess.on();
+      })
+      .catch((error) => {
+        showToast(error.response?.data.message, 'error');
       });
   };
 
@@ -76,7 +127,7 @@ const RegisterPage = () => {
             Daftar Sekarang
           </Heading>
           <Text mb="8" w="full">
-            Sudah memiliki akun?{" "}
+            Sudah memiliki akun?{' '}
             <Link href="/login" color="blue.700" fontWeight="bold">
               Masuk
             </Link>
@@ -94,7 +145,7 @@ const RegisterPage = () => {
             <Input
               type="text"
               placeholder="Nama Lengkap"
-              {...register("full_name")}
+              {...register('full_name')}
             />
             <FormErrorMessage>
               {errors.full_name && errors.full_name.message}
@@ -105,7 +156,7 @@ const RegisterPage = () => {
             <Input
               type="text"
               placeholder="Nama Perusahaan"
-              {...register("company_name")}
+              {...register('company_name')}
             />
             <FormErrorMessage>
               {errors.company_name && errors.company_name.message}
@@ -113,7 +164,7 @@ const RegisterPage = () => {
           </FormControl>
           <FormControl id="address" isInvalid={!!errors.address}>
             <FormLabel>Alamat</FormLabel>
-            <Input type="text" placeholder="Alamat" {...register("address")} />
+            <Input type="text" placeholder="Alamat" {...register('address')} />
             <FormErrorMessage>
               {errors.address && errors.address.message}
             </FormErrorMessage>
@@ -123,7 +174,7 @@ const RegisterPage = () => {
             <Input
               type="text"
               placeholder="No WhatsApp"
-              {...register("no_whatsapp")}
+              {...register('no_whatsapp')}
             />
             <FormErrorMessage>
               {errors.no_whatsapp && errors.no_whatsapp.message}
@@ -131,7 +182,7 @@ const RegisterPage = () => {
           </FormControl>
           <FormControl id="email" isInvalid={!!errors.email}>
             <FormLabel>Email</FormLabel>
-            <Input type="email" placeholder="Email" {...register("email")} />
+            <Input type="email" placeholder="Email" {...register('email')} />
             <FormErrorMessage>
               {errors.email && errors.email.message}
             </FormErrorMessage>
@@ -141,18 +192,18 @@ const RegisterPage = () => {
             <InputGroup>
               <Input
                 placeholder="Password"
-                type={isPasswordOpen ? "text" : "password"}
-                {...register("password")}
+                type={isPasswordOpen ? 'text' : 'password'}
+                {...register('password')}
               />
 
               <InputRightElement>
                 <IconButton
                   bg="transparent"
-                  _hover={{ bg: "transparent" }}
+                  _hover={{ bg: 'transparent' }}
                   variant="ghost"
                   color="ims-linebox"
                   aria-label={
-                    isPasswordOpen ? "Mask password" : "Reveal password"
+                    isPasswordOpen ? 'Mask password' : 'Reveal password'
                   }
                   icon={
                     isPasswordOpen ? <BsFillEyeFill /> : <BsFillEyeSlashFill />
@@ -178,49 +229,109 @@ const RegisterPage = () => {
         </Button>
       </Box>
     );
-  return (
-    <Box w="full" maxW="md" shadow="xl" p="5" rounded="md">
-      <IconButton
-        aria-label="back to register"
-        variant="ghost"
-        onClick={() => router.reload()}
-        icon={<ChevronLeftIcon w={6} h={6} />}
-      />
-      <Center>
-        <Circle size="50px" bg="blue.600" color="white">
-          <BsPersonFill size={30} />
-        </Circle>
-      </Center>
-      <Text
-        m={5}
-        align="center"
-        fontSize="xl"
-        fontWeight="semibold"
-        fontFamily="heading"
-      >
-        Akun Telah Terdaftar
-      </Text>
-      <Center>
+
+  if (isRegisterSuccess && !isVerifiedSuccess)
+    return (
+      <Box w="full" maxW="md" shadow="xl" p="5" rounded="md">
+        <Center>
+          <Circle size="50px" bg="blue.600" color="white">
+            <MdEmail size={30} />
+          </Circle>
+        </Center>
         <Text
-          mb={5}
-          w="80%"
+          m={5}
           align="center"
-          fontWeight="medium"
-          fontFamily="body"
+          fontSize="xl"
+          fontWeight="semibold"
+          fontFamily="heading"
         >
-          Akun telah terdaftar, masuk untuk melanjutkan Pengujian Teknik Sipil
-          UBL
+          Please Check your Email
         </Text>
-      </Center>
-      <Center>
-        <NextLink href="/login">
-          <Button w="100%" colorScheme="blue" type="submit">
-            Masuk
+        <Center>
+          <VStack>
+            <Text
+              mb={5}
+              w="80%"
+              align="center"
+              fontWeight="medium"
+              fontFamily="body"
+            >
+              Masukan Code yang telah terkirim di Email
+            </Text>
+            <HStack>
+              <PinInput otp type="number">
+                <PinInputField
+                  onChange={(e) => handleInputCodeChange(e, 0)}
+                  name="pinCode-0"
+                />
+                <PinInputField
+                  onChange={(e) => handleInputCodeChange(e, 1)}
+                  name="pinCode-1"
+                />
+                <PinInputField
+                  onChange={(e) => handleInputCodeChange(e, 2)}
+                  name="pinCode-2"
+                />
+                <PinInputField
+                  onChange={(e) => handleInputCodeChange(e, 3)}
+                  name="pinCode-3"
+                />
+              </PinInput>
+            </HStack>
+          </VStack>
+        </Center>
+        <Center mt="5">
+          <Button w="100%" colorScheme="blue" onClick={onSubmitVerify}>
+            Verify
           </Button>
-        </NextLink>
-      </Center>
-    </Box>
-  );
+        </Center>
+      </Box>
+    );
+
+  if (isVerifiedSuccess)
+    return (
+      <Box w="full" maxW="md" shadow="xl" p="5" rounded="md">
+        <IconButton
+          aria-label="back to register"
+          variant="ghost"
+          onClick={() => router.reload()}
+          icon={<ChevronLeftIcon w={6} h={6} />}
+        />
+        <Center>
+          <Circle size="50px" bg="blue.600" color="white">
+            <BsPersonFill size={30} />
+          </Circle>
+        </Center>
+        <Text
+          m={5}
+          align="center"
+          fontSize="xl"
+          fontWeight="semibold"
+          fontFamily="heading"
+        >
+          Akun Telah Terdaftar
+        </Text>
+        <Center>
+          <Text
+            mb={5}
+            w="80%"
+            align="center"
+            fontWeight="medium"
+            fontFamily="body"
+          >
+            Akun telah terdaftar, masuk untuk melanjutkan Pengujian Teknik Sipil
+            UBL
+          </Text>
+        </Center>
+        <Center>
+          <NextLink href="/login">
+            <Button w="100%" colorScheme="blue" type="submit">
+              Masuk
+            </Button>
+          </NextLink>
+        </Center>
+      </Box>
+    );
 };
 
 RegisterPage.getLayout = (page) => (
