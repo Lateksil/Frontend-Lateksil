@@ -97,6 +97,9 @@ const CartPage = () => {
                           {cart.Pengujian.sampler}
                         </Text>
                       </Flex>
+                      <Text fontWeight="semibold" fontSize="sm">
+                      Harga Satuan : Rp{formatCurrency(cart.Pengujian.price)}
+                      </Text>
                     </VStack>
                   </Flex>
                   <Flex w="full" justify="space-between">
