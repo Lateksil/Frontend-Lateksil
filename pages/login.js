@@ -20,6 +20,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import NextLink from 'next/link';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import { useForm } from 'react-hook-form';
@@ -129,9 +130,9 @@ const LoginPage = () => {
       </Button>
       <Text textAlign="center" mt="8">
         Belum memiliki akun?{' '}
-        <Link href="/register" color="blue.700" fontWeight="bold">
+        <NextLink href="/register">
           Daftar
-        </Link>
+        </NextLink>
       </Text>
     </Stack>
   );

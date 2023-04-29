@@ -66,14 +66,14 @@ const CartPage = () => {
               <Flex borderBottomWidth={1} p="3">
                 <VStack w="full">
                   <Flex w="full">
-                    <Box flex={{ base: 0.8, md: 0.3 }}>
+                    <Box>
                       <Image
                         src={
                           cart.Pengujian.image
                             ? `http://localhost:3030/uploads/${cart.Pengujian.image}`
                             : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s'
                         }
-                        boxSize="full"
+                        boxSize="120px"
                         alt="Pengujian"
                         objectFit="cover"
                         rounded="md"
@@ -193,41 +193,6 @@ const CartPage = () => {
             Checkout
           </Button>
         </Box>
-        {/* <Box
-          borderWidth={2}
-          flex={0.6}
-          p={5}
-          w="full"
-          left={0}
-          bg="white"
-          position="absolute"
-          bottom={0}
-          display={{ base: 'block', md: 'none' }}
-        >
-          <Text fontWeight="semibold">Ringkasan Pengujian</Text>
-          <Flex justifyContent="space-between" borderBottomWidth={1} py={3}>
-            <Text>{`Total Harga (${
-              dataCartUserId ? dataCartUserId?.data.length : 0
-            } Pengujian)`}</Text>
-            <Text>Rp{formatCurrency(total)}</Text>
-          </Flex>
-          <Flex justifyContent="space-between" py={3}>
-            <Text fontWeight="semibold">Total Harga</Text>
-            <Text fontWeight="semibold">Rp{formatCurrency(total)}</Text>
-          </Flex>
-          <Button
-            isDisabled={
-              dataCartUserId ? dataCartUserId?.data.length == 0 && true : true
-            }
-            w="full"
-            bg="green.500"
-            color="white"
-            onClick={onOpenCheckout}
-            _hover={{ bg: 'green.600' }}
-          >
-            Checkout
-          </Button>
-        </Box> */}
       </Flex>
       <ModalCheckout isOpen={isOpenCheckout} onClose={onCloseCheckout} />
     </VStack>
