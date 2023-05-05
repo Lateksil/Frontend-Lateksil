@@ -134,7 +134,7 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                   <Table size="sm" variant="striped" colorScheme="facebook">
                     <Thead>
                       <Tr>
-                        <Th>Jenis Pengujian</Th>
+                        <Th >Jenis Pengujian</Th>
                         <Th isNumeric>Harga Satuan</Th>
                         <Th textAlign="center">Pengujian</Th>
                         <Th textAlign="center">jumlah</Th>
@@ -145,8 +145,8 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                       {isSuccess &&
                         detailOrder.itemOrders.map((item, i) => (
                           <Tr key={i}>
-                            <Td>
-                              <Flex direction="column">
+                            <Td >
+                              <Flex direction="column" border="1px solid black">
                                 <Text fontWeight="semibold">
                                   {item.Pengujian.jenis_pengujian}
                                 </Text>
@@ -163,7 +163,7 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                               {item.OrderPengujian.quantity}{' '}
                               {item.Pengujian.sampler}
                             </Td>
-                            <Td isNumeric>
+                            <Td isNumeric fontWeight="semibold">
                               Rp
                               {formatCurrency(
                                 parseInt(item.OrderPengujian.quantity) *
@@ -175,8 +175,8 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                     </Tbody>
                   </Table>
                   <Flex justify="end" py="3">
-                    <Text fontSize="xl" fontWeight="semibold">
-                      Total : Rp{formatCurrency(detailOrder.total_price)}
+                    <Text fontSize="xl" fontWeight="bold">
+                      Total Harga: Rp{formatCurrency(detailOrder.total_price)}
                     </Text>
                   </Flex>
                 </TableContainer>

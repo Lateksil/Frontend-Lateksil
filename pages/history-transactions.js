@@ -38,7 +38,7 @@ import DashboardPagination from '../components/dashboard/DashboardPagination';
 const HistroyTransactions = () => {
   const {
     data: dataOrdering,
-    isSuccess,
+    isError,
     isLoading: isLoadingOrdering,
   } = useRemoteOrder();
 
@@ -54,8 +54,8 @@ const HistroyTransactions = () => {
           Riwayat Transaksi
         </Text>
       </HStack>
-      <Tabs variant="line">
-        <TabList color="gray.500">
+      <Tabs variant="line" isFitted>
+        <TabList color="gray.500" flexWrap="wrap" justifyContent="center">
           <Tab
             _hover={{ bg: 'gray.100' }}
             _selected={{ color: 'white', bg: 'blue.700' }}
@@ -119,7 +119,7 @@ const HistroyTransactions = () => {
                 </Tbody>
               </Table>
             </TableContainer>
-            {isLoadingOrdering && (
+            {isLoadingOrdering && !isError && (
               <Center my="10">
                 <Spinner />
               </Center>
