@@ -28,6 +28,7 @@ import useMutationDeleteCart from '../components/hooks/mutation/delete/useMutati
 import ModalCheckout from '../components/modals/ModalCheckout';
 import NextImage from '../components/core/nextimage';
 import LateksilImage from '.././assets/images/testing-ilustrator.jpg';
+import { useForm } from 'react-hook-form';
 
 const CartPage = () => {
   const { data: dataCartUserId } = useRemoteCart();
@@ -98,7 +99,7 @@ const CartPage = () => {
                         </Text>
                       </Flex>
                       <Text fontWeight="semibold" fontSize="sm">
-                      Harga Satuan : Rp{formatCurrency(cart.Pengujian.price)}
+                        Harga Satuan : Rp{formatCurrency(cart.Pengujian.price)}
                       </Text>
                     </VStack>
                   </Flex>
@@ -194,7 +195,11 @@ const CartPage = () => {
           </Button>
         </Box>
       </Flex>
-      <ModalCheckout isOpen={isOpenCheckout} onClose={onCloseCheckout} />
+      <ModalCheckout
+        isOpen={isOpenCheckout}
+        onClose={onCloseCheckout}
+        total_price={total}
+      />
     </VStack>
   );
 };

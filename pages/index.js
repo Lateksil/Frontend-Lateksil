@@ -140,7 +140,7 @@ const HomeDashboard = () => {
         <Flex justifyContent="center" flexDir="row" py={{ md: '5' }}>
           <Box w="full">
             <Slider {...settings}>
-              {dataCategoryClient ? (
+              {dataCategoryClient &&
                 dataCategoryClient?.data.map((category, i) => (
                   <React.Fragment key={i}>
                     <Box
@@ -168,18 +168,7 @@ const HomeDashboard = () => {
                       <Text textAlign="center">{category.name_category}</Text>
                     </Box>
                   </React.Fragment>
-                ))
-              ) : (
-                <>
-                  <HStack>
-                    <Skeleton height="50px" w="180px" />
-                    <Skeleton height="50px" w="180px" />
-                    <Skeleton height="50px" w="180px" />
-                    <Skeleton height="50px" w="180px" />
-                    <Skeleton height="50px" w="180px" />
-                  </HStack>
-                </>
-              )}
+                ))}
             </Slider>
           </Box>
         </Flex>

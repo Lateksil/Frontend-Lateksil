@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Flex,
@@ -11,13 +11,13 @@ import {
   Tabs,
   Text,
   VStack,
-} from "@chakra-ui/react";
-import Head from "next/head";
-import DashboardLayout from "../components/dashboard/DashboardLayout";
-import TableTahapPembayaran from "../components/tables/TableTahapPembayaran";
-import TableTahapPengerjaan from "../components/tables/TableTahapPengerjaan";
-import TableTahapPenyelesaian from "../components/tables/TableTahapPenyelesaian";
-import TableTahapPermintaan from "../components/tables/TableTahapPermintaan";
+} from '@chakra-ui/react';
+import Head from 'next/head';
+import DashboardLayout from '../components/dashboard/DashboardLayout';
+import TableTahapPembayaran from '../components/tables/TableTahapPembayaran';
+import TableTahapPengerjaan from '../components/tables/TableTahapPengerjaan';
+import TableTahapPenyelesaian from '../components/tables/TableTahapPenyelesaian';
+import TableTahapPermintaan from '../components/tables/TableTahapPermintaan';
 
 const HistroyTransactions = () => {
   return (
@@ -33,26 +33,26 @@ const HistroyTransactions = () => {
       <Tabs variant="line">
         <TabList color="gray.500">
           <Tab
-            _hover={{ bg: "gray.100" }}
-            _selected={{ color: "white", bg: "blue.700" }}
+            _hover={{ bg: 'gray.100' }}
+            _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Tahap Permintaan
           </Tab>
           <Tab
-            _hover={{ bg: "gray.100" }}
-            _selected={{ color: "white", bg: "blue.700" }}
+            _hover={{ bg: 'gray.100' }}
+            _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Tahap Pembayaran
           </Tab>
           <Tab
-            _hover={{ bg: "gray.100" }}
-            _selected={{ color: "white", bg: "blue.700" }}
+            _hover={{ bg: 'gray.100' }}
+            _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Tahap Pengerjaan
           </Tab>
           <Tab
-            _hover={{ bg: "gray.100" }}
-            _selected={{ color: "white", bg: "blue.700" }}
+            _hover={{ bg: 'gray.100' }}
+            _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Selesai
           </Tab>
