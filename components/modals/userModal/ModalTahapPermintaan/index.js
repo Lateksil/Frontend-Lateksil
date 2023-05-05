@@ -4,11 +4,9 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   Flex,
-  FormControl,
-  FormLabel,
   HStack,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -17,21 +15,42 @@ import {
   ModalHeader,
   ModalOverlay,
   Spacer,
+  Spinner,
   Stack,
   Table,
   TableContainer,
   Tbody,
   Td,
   Text,
-  Tfoot,
   Th,
   Thead,
   Tr,
   VStack,
 } from '@chakra-ui/react';
 import formatCurrency from '../../../../utils/formatCurrently';
+import useRemoteOrderById from '../../../hooks/remote/useRemoteOrderById';
+import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 
-const ModalTahapPermintaan = ({ isOpen, onClose }) => {
+const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
+  const {
+    data: dataDetailOrder,
+    isSuccess,
+    isLoading: isLoadingDetailOrder,
+  } = useRemoteOrderById({ id: order.id });
+
+  const detailOrder = dataDetailOrder?.data;
+
+  const statusOrder = (status) => {
+    if (status === TransactionTypes.WAITING) {
+      return 'orange';
+    }
+    if (status === TransactionTypes.CANCELED) {
+      return 'red';
+    }
+  };
+
+  console.log('DETAIL ORDER', dataDetailOrder);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -48,177 +67,121 @@ const ModalTahapPermintaan = ({ isOpen, onClose }) => {
         </ModalHeader>
         <ModalBody>
           <Stack pb="10">
-            <VStack>
-              <Flex
-                w="full"
-                borderBottomWidth={2}
-                py="2"
-              >
-                <Text fontWeight="semibold">Status Pemesanan</Text>
-                <Spacer/>
-                <Badge ml="3" colorScheme="orange" rounded="md" px={3} py={1}>
-                  Waiting
-                </Badge>
-              </Flex>
-              <Box w="full" py="2">
-                <Text fontWeight="semibold" color="yellow.600">
-                  Pada Tahap ini sedang Menunggu Persetujuan, Mohon ditunggu ya.
-                </Text>
-              </Box>
-              <Box w="full" borderBottomWidth={2} py="2">
-                <Text fontWeight="semibold">Detail Produk</Text>
-              </Box>
-              <HStack mt="1" w="full" align="flex-start">
-                <Box fontSize="sm" w="150px">
-                  <Flex justify="space-between">
-                    <Text>Nama Proyek</Text>
-                    <Text>:</Text>
-                  </Flex>
-                </Box>
-                <Box fontSize="sm" w="250px" wordBreak="break-word">
-                  <Text fontWeight="semibold">Pembuatan Kubus</Text>
-                </Box>
-              </HStack>
-              <HStack mt="1" w="full" align="flex-start">
-                <Box fontSize="sm" w="150px">
-                  <Flex justify="space-between">
-                    <Text>Tujuan Pengujian</Text>
-                    <Text>:</Text>
-                  </Flex>
-                </Box>
-                <Box fontSize="sm" w="250px" wordBreak="break-word">
-                  <Text fontWeight="semibold">Untuk Penelitian</Text>
-                </Box>
-              </HStack>
-              <TableContainer w="full">
-                <Table size="sm" variant="striped" colorScheme="facebook">
-                  <Thead>
-                    <Tr>
-                      <Th>Jenis Pengujian</Th>
-                      <Th isNumeric>Harga Satuan</Th>
-                      <Th textAlign="center">Pengujian</Th>
-                      <Th textAlign="center">jumlah</Th>
-                      <Th isNumeric>Total</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    <Tr>
-                      <Td>
-                        <Flex direction="column">
-                          <Text fontWeight="semibold">Core Drill Aspal</Text>
-                          <Text>(SNI 06-6890-2002)</Text>
-                        </Flex>
-                      </Td>
-                      <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                      <Td textAlign="center">Laboratorium</Td>
-                      <Td textAlign="center">7 titik</Td>
-                      <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>
-                        <Flex direction="column">
-                          <Text fontWeight="semibold">Core Drill Aspal</Text>
-                          <Text>(SNI 06-6890-2002)</Text>
-                        </Flex>
-                      </Td>
-                      <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                      <Td textAlign="center">Laboratorium</Td>
-                      <Td textAlign="center">7 titik</Td>
-                      <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>
-                        <Flex direction="column">
-                          <Text fontWeight="semibold">Core Drill Aspal</Text>
-                          <Text>(SNI 06-6890-2002)</Text>
-                        </Flex>
-                      </Td>
-                      <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                      <Td textAlign="center">Laboratorium</Td>
-                      <Td textAlign="center">7 titik</Td>
-                      <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>
-                        <Flex direction="column">
-                          <Text fontWeight="semibold">Core Drill Aspal</Text>
-                          <Text>(SNI 06-6890-2002)</Text>
-                        </Flex>
-                      </Td>
-                      <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                      <Td textAlign="center">Laboratorium</Td>
-                      <Td textAlign="center">7 titik</Td>
-                      <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>
-                        <Flex direction="column">
-                          <Text fontWeight="semibold">Core Drill Aspal</Text>
-                          <Text>(SNI 06-6890-2002)</Text>
-                        </Flex>
-                      </Td>
-                      <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                      <Td textAlign="center">Laboratorium</Td>
-                      <Td textAlign="center">7 titik</Td>
-                      <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>
-                        <Flex direction="column">
-                          <Text fontWeight="semibold">Core Drill Aspal</Text>
-                          <Text>(SNI 06-6890-2002)</Text>
-                        </Flex>
-                      </Td>
-                      <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                      <Td textAlign="center">Laboratorium</Td>
-                      <Td textAlign="center">7 titik</Td>
-                      <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>
-                        <Flex direction="column">
-                          <Text fontWeight="semibold">Core Drill Aspal</Text>
-                          <Text>(SNI 06-6890-2002)</Text>
-                        </Flex>
-                      </Td>
-                      <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                      <Td textAlign="center">Laboratorium</Td>
-                      <Td textAlign="center">7 titik</Td>
-                      <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>
-                        <Flex direction="column">
-                          <Text fontWeight="semibold">Core Drill Aspal</Text>
-                          <Text>(SNI 06-6890-2002)</Text>
-                        </Flex>
-                      </Td>
-                      <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                      <Td textAlign="center">Laboratorium</Td>
-                      <Td textAlign="center">7 titik</Td>
-                      <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>
-                        <Flex direction="column">
-                          <Text fontWeight="semibold">Core Drill Aspal</Text>
-                          <Text>(SNI 06-6890-2002)</Text>
-                        </Flex>
-                      </Td>
-                      <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                      <Td textAlign="center">Laboratorium</Td>
-                      <Td textAlign="center">7 titik</Td>
-                      <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                    </Tr>
-                  </Tbody>
-                </Table>
-                <Flex justify="end" py="3">
-                  <Text fontSize="xl" fontWeight="semibold">
-                    Total : Rp{formatCurrency(15000000)}
-                  </Text>
+            {isLoadingDetailOrder ? (
+              <Center my="1">
+                <Spinner />
+              </Center>
+            ) : (
+              <VStack>
+                <Flex w="full" borderBottomWidth={2} py="2">
+                  <Text fontWeight="semibold">Status Pemesanan</Text>
+                  <Spacer />
+                  <Badge
+                    ml="3"
+                    colorScheme={statusOrder(
+                      detailOrder.status.status_persetujuan
+                    )}
+                    rounded="md"
+                    px={3}
+                    py={1}
+                  >
+                    {detailOrder.status.status_persetujuan ===
+                    TransactionTypes.WAITING
+                      ? 'Waiting'
+                      : 'canceled'}
+                  </Badge>
                 </Flex>
-              </TableContainer>
-            </VStack>
+                <Box w="full" py="2">
+                  <Text
+                    fontWeight="semibold"
+                    color={
+                      detailOrder.status.status_persetujuan ===
+                      TransactionTypes.WAITING
+                        ? 'yellow.600'
+                        : 'red.600'
+                    }
+                  >
+                    Pada Tahap ini sedang Menunggu Persetujuan, Mohon ditunggu
+                    ya.
+                  </Text>
+                </Box>
+                <Box w="full" borderBottomWidth={2} py="2">
+                  <Text fontWeight="semibold">Detail Produk</Text>
+                </Box>
+                <HStack mt="1" w="full" align="flex-start">
+                  <Box fontSize="sm" w="150px">
+                    <Flex justify="space-between">
+                      <Text>Nama Proyek</Text>
+                      <Text>:</Text>
+                    </Flex>
+                  </Box>
+                  <Box fontSize="sm" w="250px" wordBreak="break-word">
+                    <Text fontWeight="semibold">Pembuatan Kubus</Text>
+                  </Box>
+                </HStack>
+                <HStack mt="1" w="full" align="flex-start">
+                  <Box fontSize="sm" w="150px">
+                    <Flex justify="space-between">
+                      <Text>Tujuan Pengujian</Text>
+                      <Text>:</Text>
+                    </Flex>
+                  </Box>
+                  <Box fontSize="sm" w="250px" wordBreak="break-word">
+                    <Text fontWeight="semibold">Untuk Penelitian</Text>
+                  </Box>
+                </HStack>
+                <TableContainer w="full">
+                  <Table size="sm" variant="striped" colorScheme="facebook">
+                    <Thead>
+                      <Tr>
+                        <Th>Jenis Pengujian</Th>
+                        <Th isNumeric>Harga Satuan</Th>
+                        <Th textAlign="center">Pengujian</Th>
+                        <Th textAlign="center">jumlah</Th>
+                        <Th isNumeric>Total</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {isSuccess &&
+                        detailOrder.itemOrders.map((item, i) => (
+                          <Tr key={i}>
+                            <Td>
+                              <Flex direction="column">
+                                <Text fontWeight="semibold">
+                                  {item.Pengujian.jenis_pengujian}
+                                </Text>
+                                <Text>{item.Pengujian.code}</Text>
+                              </Flex>
+                            </Td>
+                            <Td isNumeric>
+                              Rp{formatCurrency(item.Pengujian.price)}
+                            </Td>
+                            <Td textAlign="center">
+                              {item.Pengujian.tempat_pengujian}
+                            </Td>
+                            <Td textAlign="center">
+                              {item.OrderPengujian.quantity}{' '}
+                              {item.Pengujian.sampler}
+                            </Td>
+                            <Td isNumeric>
+                              Rp
+                              {formatCurrency(
+                                parseInt(item.OrderPengujian.quantity) *
+                                  parseInt(item.Pengujian.price)
+                              )}
+                            </Td>
+                          </Tr>
+                        ))}
+                    </Tbody>
+                  </Table>
+                  <Flex justify="end" py="3">
+                    <Text fontSize="xl" fontWeight="semibold">
+                      Total : Rp{formatCurrency(detailOrder.total_price)}
+                    </Text>
+                  </Flex>
+                </TableContainer>
+              </VStack>
+            )}
           </Stack>
         </ModalBody>
 

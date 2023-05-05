@@ -14,15 +14,14 @@ import {
   ModalOverlay,
   Stack,
   Text,
-  RadioGroup,
-  Radio,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import useMutationCreateOrder from '../../hooks/mutation/useMutationCreateOrder';
 import useAuthUserStore from '../../../store/useAuthUserStore';
+import { useRouter } from 'next/router';
 
 const ModalCheckout = ({ isOpen, onClose, total_price }) => {
+  const router = useRouter();
   const userId = useAuthUserStore((state) => state.id);
 
   const { mutate: mutateCreateOrdering } = useMutationCreateOrder();
@@ -41,7 +40,6 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
     const formData = {
       user_id: userId,
       nama_proyek: data.nama_proyek,
@@ -53,6 +51,8 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
     mutateCreateOrdering(formData);
     onClose();
     reset();
+
+    router.push('/history-transactions')
   };
 
   return (
