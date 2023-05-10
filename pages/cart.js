@@ -28,7 +28,7 @@ import useMutationDeleteCart from '../components/hooks/mutation/delete/useMutati
 import ModalCheckout from '../components/modals/ModalCheckout';
 import NextImage from '../components/core/nextimage';
 import LateksilImage from '.././assets/images/testing-ilustrator.jpg';
-import { useForm } from 'react-hook-form';
+import { baseUrl } from '../libs/axios';
 
 const CartPage = () => {
   const { data: dataCartUserId } = useRemoteCart();
@@ -68,10 +68,11 @@ const CartPage = () => {
                 <VStack w="full">
                   <Flex w="full">
                     <Box>
+                      {console.log('IMAGE', cart.Pengujian.image)}
                       <Image
                         src={
                           cart.Pengujian.image
-                            ? `http://localhost:3030/uploads/${cart.Pengujian.image}`
+                            ? `${baseUrl}uploads/${cart.Pengujian.image}`
                             : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s'
                         }
                         boxSize="120px"

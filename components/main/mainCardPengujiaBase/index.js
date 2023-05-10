@@ -13,6 +13,7 @@ import {
   SkeletonText,
 } from '@chakra-ui/react';
 import React from 'react';
+import { baseUrl } from '../../../libs/axios';
 import formatCurrency from '../../../utils/formatCurrently';
 import ModalDetailPengujian from '../../modals/ModalDetailPengujian';
 
@@ -52,7 +53,7 @@ const MainCardPengujianBase = ({ pengujian, isLoading, ...props }) => {
                 <Image
                   src={
                     pengujian.image
-                      ? `http://localhost:3030/uploads/${pengujian.image}`
+                      ? `${baseUrl}uploads/${pengujian.image}`
                       : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s'
                   }
                   alt="Pengujian"

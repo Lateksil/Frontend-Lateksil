@@ -49,8 +49,6 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
     }
   };
 
-  console.log('DETAIL ORDER', dataDetailOrder);
-
   return (
     <Modal
       isOpen={isOpen}
@@ -92,18 +90,33 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                   </Badge>
                 </Flex>
                 <Box w="full" py="2">
-                  <Text
-                    fontWeight="semibold"
-                    color={
-                      detailOrder.status.status_persetujuan ===
-                      TransactionTypes.WAITING
-                        ? 'yellow.600'
-                        : 'red.600'
-                    }
-                  >
-                    Pada Tahap ini sedang Menunggu Persetujuan, Mohon ditunggu
-                    ya.
-                  </Text>
+                  {detailOrder.status.status_persetujuan ===
+                  TransactionTypes.WAITING ? (
+                    <Text
+                      fontWeight="semibold"
+                      color={
+                        detailOrder.status.status_persetujuan ===
+                        TransactionTypes.WAITING
+                          ? 'yellow.600'
+                          : 'red.600'
+                      }
+                    >
+                      Pada Tahap ini sedang Menunggu Persetujuan, Mohon ditunggu
+                      ya.
+                    </Text>
+                  ) : (
+                    <Box>
+                      <Text>
+                        Mohon Maaf Atas Nama {detailOrder.User.full_name} dari
+                        Perusahaan {detailOrder.User.company_name}, Keterangan
+                      </Text>{' '}
+                      <Text as="span" fontWeight="semibold" color="red.600">
+                        Ditolak
+                      </Text>{' '}
+                      Karena
+                      <Text as="span" > "Tidak dapat di uji untuk saat ini"</Text>
+                    </Box>
+                  )}
                 </Box>
                 <Box w="full" borderBottomWidth={2} py="2">
                   <Text fontWeight="semibold">Detail Produk</Text>
@@ -134,7 +147,7 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                   <Table size="sm" variant="striped" colorScheme="facebook">
                     <Thead>
                       <Tr>
-                        <Th >Jenis Pengujian</Th>
+                        <Th>Jenis Pengujian</Th>
                         <Th isNumeric>Harga Satuan</Th>
                         <Th textAlign="center">Pengujian</Th>
                         <Th textAlign="center">jumlah</Th>
@@ -145,8 +158,8 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                       {isSuccess &&
                         detailOrder.itemOrders.map((item, i) => (
                           <Tr key={i}>
-                            <Td >
-                              <Flex direction="column" border="1px solid black">
+                            <Td>
+                              <Flex direction="column">
                                 <Text fontWeight="semibold">
                                   {item.Pengujian.jenis_pengujian}
                                 </Text>
@@ -174,12 +187,12 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                         ))}
                     </Tbody>
                   </Table>
-                  <Flex justify="end" py="3">
+                </TableContainer>
+                  <Flex w="full" justify="end" py="3">
                     <Text fontSize="xl" fontWeight="bold">
                       Total Harga: Rp{formatCurrency(detailOrder.total_price)}
                     </Text>
                   </Flex>
-                </TableContainer>
               </VStack>
             )}
           </Stack>

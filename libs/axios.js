@@ -1,15 +1,17 @@
-import axios from "axios";
-import { parseCookies } from "nookies";
-import useAuthUserStore from "../store/useAuthUserStore";
+import axios from 'axios';
+import { parseCookies } from 'nookies';
+import useAuthUserStore from '../store/useAuthUserStore';
+
+export const baseUrl = 'http://localhost:3030/';
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3030/",
+  baseURL: baseUrl,
 });
 
 axiosInstance.interceptors.request.use((config) => {
   let newConfig;
 
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     newConfig = config;
 
     newConfig.headers = {

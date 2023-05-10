@@ -34,13 +34,13 @@ import useRemoteOrder from '../components/hooks/remote/useRemoteOrder';
 import { generateEntryOptions } from '../components/core/select/helper/entryOptions';
 import Select from '../components/core/select';
 import DashboardPagination from '../components/dashboard/DashboardPagination';
+import useAuthUserStore from '../store/useAuthUserStore';
+import MessageNotUserId from '../utils/MessageNotUserId';
 
 const HistroyTransactions = () => {
-  const {
-    data: dataOrdering,
-    isError,
-    isLoading: isLoadingOrdering,
-  } = useRemoteOrder();
+  const { data: dataOrdering, isError, isLoading: isLoadingOrdering } = useRemoteOrder();
+
+  const id = useAuthUserStore((state) => state.id);
 
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
@@ -119,42 +119,39 @@ const HistroyTransactions = () => {
                 </Tbody>
               </Table>
             </TableContainer>
-            {isLoadingOrdering && !isError && (
-              <Center my="10">
-                <Spinner />
-              </Center>
-            )}
-            <Flex
-              flexDir={{ base: 'column', md: 'row', xl: 'row' }}
-              justifyContent="space-between"
-              borderTopWidth="1px"
-              alignItems="center"
-              py="2"
-            >
-              <Box display="flex" fontSize="sm" alignItems="center">
-                <HStack>
-                  <Text>Show</Text>
-                  <Select
-                    isSearchable={false}
-                    options={showEntryOptions}
-                    defaultValue={showEntryOptions[0]}
-                    onChange={() => {}}
-                  />
-                  <Text>Entries</Text>
-                </HStack>
-              </Box>
-              <DashboardPagination
-                current={1}
-                total={1}
-                onPageClick={() => {}}
-              />
-            </Flex>
           </TabPanel>
           <TableTahapPembayaran />
           <TableTahapPengerjaan />
           <TableTahapPenyelesaian />
         </TabPanels>
       </Tabs>
+      {isLoadingOrdering && !isError ? (
+            <Center my="10">
+            <Spinner />
+          </Center>
+      ) : (
+        <Flex
+          flexDir={{ base: 'column', md: 'row', xl: 'row' }}
+          justifyContent="space-between"
+          borderTopWidth="1px"
+          alignItems="center"
+          py="2"
+        >
+          <Box display="flex" fontSize="sm" alignItems="center">
+            <HStack>
+              <Text>Show</Text>
+              <Select
+                isSearchable={false}
+                options={showEntryOptions}
+                defaultValue={showEntryOptions[0]}
+                onChange={() => {}}
+              />
+              <Text>Entries</Text>
+            </HStack>
+          </Box>
+          <DashboardPagination current={1} total={1} onPageClick={() => {}} />
+        </Flex>
+      )}
     </VStack>
   );
 };

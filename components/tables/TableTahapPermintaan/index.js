@@ -16,6 +16,9 @@ import LateksilImage from '../../../assets/images/testing-ilustrator.jpg';
 import NextImage from '../../core/nextimage';
 import useAuthUserStore from '../../../store/useAuthUserStore';
 import { TransactionTypes } from '../../../utils/enum/TransactionTypes';
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
+dayjs.locale('id');
 
 const TableTahapPermintaan = ({ order, isLoading }) => {
   const id = useAuthUserStore((state) => state.id);
@@ -33,6 +36,7 @@ const TableTahapPermintaan = ({ order, isLoading }) => {
       return 'red';
     }
   };
+  dayjs.locale('id')
 
   if (!id) {
     return (
@@ -58,7 +62,9 @@ const TableTahapPermintaan = ({ order, isLoading }) => {
         <Td textAlign="center">{order.User.full_name}</Td>
         <Td textAlign="center">{order.User.company_name}</Td>
         <Td textAlign="center">{order.proyek.nama_proyek}</Td>
-        <Td textAlign="center">Belum ada</Td>
+        <Td textAlign="center">
+          {dayjs(order.createdAt).format('dddd, DD-MM-YYYY')}
+        </Td>
         <Td textAlign="center" fontWeight="semibold" color="blue.700">
           Rp{formatCurrency(order.total_price)}
         </Td>
