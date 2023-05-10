@@ -1,15 +1,27 @@
 import React from 'react';
-import { Badge, Td, Tr, useDisclosure } from '@chakra-ui/react';
+import {
+  Badge,
+  Box,
+  Flex,
+  Td,
+  Text,
+  Tr,
+  useDisclosure,
+} from '@chakra-ui/react';
 
 import formatCurrency from '../../../utils/formatCurrently';
 
 import ModalTahapPermintaan from '../../modals/userModal/ModalTahapPermintaan';
+import LateksilImage from '../../../assets/images/testing-ilustrator.jpg';
+import NextImage from '../../core/nextimage';
+import useAuthUserStore from '../../../store/useAuthUserStore';
 import { TransactionTypes } from '../../../utils/enum/TransactionTypes';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 dayjs.locale('id');
 
-const TableTahapPermintaan = ({ order, isLoading }) => {
+const TableTahapDibatalkan = ({ order }) => {
+  const id = useAuthUserStore((state) => state.id);
   const {
     isOpen: isOpenDetailHistory,
     onOpen: onOpenDetailHistory,
@@ -25,6 +37,24 @@ const TableTahapPermintaan = ({ order, isLoading }) => {
     }
   };
   dayjs.locale('id');
+
+  if (!id) {
+    return (
+      <Flex flexDir="column" align="center">
+        <Box width={200} height={200}>
+          <NextImage
+            src={LateksilImage}
+            alt="Civil Engginering Illustration"
+            layout="responsive"
+            placeholder="blur"
+          />
+        </Box>
+        <Text textAlign="center" fontWeight="semibold">
+          Belum Ada Order? Silahkan Masuk Terlebih Dahulu
+        </Text>
+      </Flex>
+    );
+  }
 
   return (
     <>
@@ -69,4 +99,4 @@ const TableTahapPermintaan = ({ order, isLoading }) => {
   );
 };
 
-export default TableTahapPermintaan;
+export default TableTahapDibatalkan;

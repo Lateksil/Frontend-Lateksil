@@ -4,7 +4,7 @@ import { RiFolderInfoFill } from 'react-icons/ri';
 
 const MessageNotFoundData = () => {
   return (
-    <Center my="6">
+    <Center py="12">
       <VStack>
         <Icon as={RiFolderInfoFill} fontSize="xl" />
         <Text fontWeight="semibold">Sorry, Data Not Found!</Text>

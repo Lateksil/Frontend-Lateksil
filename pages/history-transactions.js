@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Box,
   Center,
@@ -34,15 +34,21 @@ import useRemoteOrder from '../components/hooks/remote/useRemoteOrder';
 import { generateEntryOptions } from '../components/core/select/helper/entryOptions';
 import Select from '../components/core/select';
 import DashboardPagination from '../components/dashboard/DashboardPagination';
-import useAuthUserStore from '../store/useAuthUserStore';
-import MessageNotUserId from '../utils/MessageNotUserId';
+import { TransactionTypes } from '../utils/enum/TransactionTypes';
 
 const HistroyTransactions = () => {
-  const { data: dataOrdering, isError, isLoading: isLoadingOrdering } = useRemoteOrder();
-
-  const id = useAuthUserStore((state) => state.id);
-
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
+  const [statusPersetujuan, setStatusPesetujuan] = useState(
+    TransactionTypes.WAITING
+  );
+
+  const {
+    data: dataOrdering,
+    isError,
+    isLoading: isLoadingOrdering,
+  } = useRemoteOrder({
+    status_persetujuan: statusPersetujuan,
+  });
 
   return (
     <VStack align="stretch">
@@ -57,6 +63,7 @@ const HistroyTransactions = () => {
       <Tabs variant="line" isFitted>
         <TabList color="gray.500" flexWrap="wrap" justifyContent="center">
           <Tab
+            onClick={() => setStatusPesetujuan(TransactionTypes.WAITING)}
             _hover={{ bg: 'gray.100' }}
             _selected={{ color: 'white', bg: 'blue.700' }}
           >
@@ -79,6 +86,13 @@ const HistroyTransactions = () => {
             _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Selesai
+          </Tab>
+          <Tab
+            onClick={() => setStatusPesetujuan(TransactionTypes.CANCELED)}
+            _hover={{ bg: 'gray.100' }}
+            _selected={{ color: 'white', bg: 'blue.700' }}
+          >
+            Dibatalkan
           </Tab>
         </TabList>
         <TabPanels>
@@ -123,12 +137,50 @@ const HistroyTransactions = () => {
           <TableTahapPembayaran />
           <TableTahapPengerjaan />
           <TableTahapPenyelesaian />
+          <TabPanel px="0">
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <FiSearch />
+              </InputLeftElement>
+              <Input
+                type="text"
+                placeholder="Cari tahap permintaan"
+                variant="outline"
+                shadow="none"
+                _placeholder={{ color: '#45414180' }}
+              />
+            </InputGroup>
+            <TableContainer>
+              <Table size="md" variant="striped">
+                <Thead>
+                  <Tr>
+                    <Th textAlign="center">Nama Pelanggan</Th>
+                    <Th textAlign="center">Nama Perusahaan</Th>
+                    <Th textAlign="center">Nama Proyek</Th>
+                    <Th textAlign="center">Tanggal Pemesanan</Th>
+                    <Th textAlign="center">Total Harga</Th>
+                    <Th textAlign="center">Pesanan</Th>
+                    <Th textAlign="center">Status</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {dataOrdering &&
+                    dataOrdering.data?.map((order) => (
+                      <TableTahapPermintaan
+                        order={order}
+                        isLoading={isLoadingOrdering}
+                      />
+                    ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </TabPanel>
         </TabPanels>
       </Tabs>
       {isLoadingOrdering && !isError ? (
-            <Center my="10">
-            <Spinner />
-          </Center>
+        <Center my="10">
+          <Spinner />
+        </Center>
       ) : (
         <Flex
           flexDir={{ base: 'column', md: 'row', xl: 'row' }}
