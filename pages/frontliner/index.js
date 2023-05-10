@@ -9,8 +9,6 @@ import {
   Table,
   TableContainer,
   TabList,
-  TabPanel,
-  TabPanels,
   Tabs,
   Tbody,
   Text,
@@ -20,33 +18,31 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Head from 'next/head';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import Select from '../../components/core/select';
 import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import useRemoteOrders from '../../components/hooks/remote/useRemoteOrders';
-import TableSemuaPesanan from '../../components/tables/frontlinerTable/TableSemuaPesanan';
-import TableTahapPembayaran from '../../components/tables/TableTahapPembayaran';
-import TableTahapPengerjaan from '../../components/tables/TableTahapPengerjaan';
-import TableTahapPenyelesaian from '../../components/tables/TableTahapPenyelesaian';
 import { getServerSidePropsFrontliner } from '../../utils/getServerSidePropsFrontliner';
 import LoadingData from '../../utils/LoadingData';
 import MessageNotFoundData from '../../utils/MessageNotFoundData';
+import TablePengajuanPesanan from '../../components/tables/frontlinerTable/TablePengajuanPesanan';
+import { TransactionTypes } from '../../utils/enum/TransactionTypes';
 
 const HomeDashboardFrontliner = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
+  const [statusPersetujuan, setStatusPesetujuan] = useState('');
 
   const {
     data: dataOrders,
     isLoading: isLoadingOrders,
     isSuccess: isSuccessOrder,
   } = useRemoteOrders({
-    status_persetujuan: '',
+    status_persetujuan: statusPersetujuan,
   });
-
-  console.log('DAta', dataOrders);
+  
   return (
     <VStack align="stretch">
       <Head>
@@ -62,70 +58,67 @@ const HomeDashboardFrontliner = () => {
           <Tab
             _hover={{ bg: 'gray.100' }}
             _selected={{ color: 'white', bg: 'blue.700' }}
+            onClick={() => setStatusPesetujuan('')}
           >
             Semua Pemesanan
           </Tab>
           <Tab
             _hover={{ bg: 'gray.100' }}
             _selected={{ color: 'white', bg: 'blue.700' }}
+            onClick={() => setStatusPesetujuan(TransactionTypes.WAITING)}
           >
             Proses
           </Tab>
           <Tab
             _hover={{ bg: 'gray.100' }}
             _selected={{ color: 'white', bg: 'blue.700' }}
+            onClick={() => setStatusPesetujuan(TransactionTypes.ACCEPT)}
           >
             Diterima
           </Tab>
           <Tab
             _hover={{ bg: 'gray.100' }}
             _selected={{ color: 'white', bg: 'blue.700' }}
+            onClick={() => setStatusPesetujuan(TransactionTypes.CANCELED)}
           >
             Dibatalkan
           </Tab>
         </TabList>
-        <InputGroup mt="5">
+        <InputGroup my="5">
           <InputLeftElement pointerEvents="none">
             <FiSearch />
           </InputLeftElement>
           <Input
             type="text"
-            placeholder="Cari tahap permintaan"
+            placeholder="Cari Pengajuan Pemesanan"
             variant="outline"
             shadow="none"
             _placeholder={{ color: '#45414180' }}
           />
         </InputGroup>
-        <TabPanels>
-          <TabPanel px="0">
-            <TableContainer>
-              <Table size="md" variant="striped">
-                <Thead>
-                  <Tr>
-                    <Th textAlign="center">Nama Pelanggan</Th>
-                    <Th textAlign="center">Nama Proyek</Th>
-                    <Th textAlign="center">Tanggal Pendaftaran</Th>
-                    <Th textAlign="center" isNumeric>
-                      Total Harga
-                    </Th>
-                    <Th textAlign="center">Status Pembayaran</Th>
-                    <Th textAlign="center">Status Persetujuan</Th>
-                    <Th textAlign="center">Aksi</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {isSuccessOrder &&
-                    dataOrders?.data?.map((order) => (
-                      <TableSemuaPesanan key={order.id} order={order} />
-                    ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          </TabPanel>
-          <TableTahapPembayaran />
-          <TableTahapPengerjaan />
-          <TableTahapPenyelesaian />
-        </TabPanels>
+        <TableContainer>
+          <Table size="md" variant="striped">
+            <Thead>
+              <Tr>
+                <Th textAlign="center">Nama Pelanggan</Th>
+                <Th textAlign="center">Nama Proyek</Th>
+                <Th textAlign="center">Tanggal Pendaftaran</Th>
+                <Th textAlign="center" isNumeric>
+                  Total Harga
+                </Th>
+                <Th textAlign="center">Status Pembayaran</Th>
+                <Th textAlign="center">Status Persetujuan</Th>
+                <Th textAlign="center">Aksi</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {isSuccessOrder &&
+                dataOrders?.data?.map((order) => (
+                  <TablePengajuanPesanan key={order.id} order={order} />
+                ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
       </Tabs>
       {isLoadingOrders && <LoadingData />}
       {dataOrders?.totalData === 0 ? (

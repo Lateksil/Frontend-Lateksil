@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 dayjs.locale('id');
 
-const TableSemuaPesanan = ({ order }) => {
+const TablePengajuanPesanan = ({ order }) => {
   const {
     isOpen: isOpenDetailHistory,
     onOpen: onOpenDetailHistory,
@@ -99,6 +99,7 @@ const TableSemuaPesanan = ({ order }) => {
       </Tr>
 
       <DetailPengajuanPesanan
+        id={order.id}
         isOpen={isOpenDetailHistory}
         onClose={onCloseDetailHistory}
       />
@@ -106,4 +107,4 @@ const TableSemuaPesanan = ({ order }) => {
   );
 };
 
-export default TableSemuaPesanan;
+export default TablePengajuanPesanan;
