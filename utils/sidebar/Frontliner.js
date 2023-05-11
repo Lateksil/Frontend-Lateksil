@@ -14,7 +14,7 @@ function generateSidebaritemFrontliner() {
         },
         {
           name: "Proses Pengujian",
-          path: "/proses-pengujian",
+          path: "/frontliner/proses-pengujian",
         },
       ],
     },

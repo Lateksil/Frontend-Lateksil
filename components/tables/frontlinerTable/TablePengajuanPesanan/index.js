@@ -2,7 +2,19 @@ import React from 'react';
 import {
   Badge,
   Button,
+  ButtonGroup,
   Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
   Td,
   Text,
   Tr,
@@ -22,6 +34,12 @@ const TablePengajuanPesanan = ({ order }) => {
     onClose: onCloseDetailHistory,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenSendToManager,
+    onOpen: onOpenSendToManager,
+    onClose: onCLoseSendToManager,
+  } = useDisclosure();
+
   const statusOrder = (status) => {
     if (status === TransactionTypes.WAITING) {
       return 'orange';
@@ -33,6 +51,7 @@ const TablePengajuanPesanan = ({ order }) => {
       return 'green';
     }
   };
+
   return (
     <>
       <Tr>
@@ -81,7 +100,12 @@ const TablePengajuanPesanan = ({ order }) => {
         </Td>
         <Td>
           {order.status.status_persetujuan === TransactionTypes.WAITING && (
-            <Button w="full" colorScheme="blue" size="md">
+            <Button
+              w="full"
+              colorScheme="blue"
+              size="md"
+              onClick={onOpenSendToManager}
+            >
               Send Manager
             </Button>
           )}
@@ -97,6 +121,75 @@ const TablePengajuanPesanan = ({ order }) => {
           )}
         </Td>
       </Tr>
+
+      <Modal
+        isOpen={isOpenSendToManager}
+        onClose={onCLoseSendToManager}
+        scrollBehavior="inside"
+        size="2xl"
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent mx="4" overflow="hidden">
+          <ModalCloseButton />
+          <ModalHeader>
+            <Text>Input Pengajuan Pemesanan</Text>
+          </ModalHeader>
+          <ModalBody>
+            <Stack pb="10">
+              <FormControl id="company_name" isRequired> 
+                <FormLabel>No. Refrensi</FormLabel>
+                <Input
+                  value="123UBL2019"
+                  type="text"
+                  placeholder="Nama Perusahaan"
+                />
+              </FormControl>
+              <FormControl id="company_name" isRequired>
+                <FormLabel>No. Identifikasi</FormLabel>
+                <Input
+                  value="CE76843DE"
+                  type="text"
+                  placeholder="Nama Perusahaan"
+                />
+              </FormControl>
+              <FormControl id="company_name" isRequired>
+                <FormLabel>No. Surat</FormLabel>
+                <Input
+                  value="SK/12/23/V-III"
+                  type="text"
+                  placeholder="Nama Perusahaan"
+                />
+              </FormControl>
+              <FormControl id="company_name" isRequired>
+                <FormLabel>Tanggal Mulai</FormLabel>
+                <Input type="date" placeholder="Nama Perusahaan" />
+              </FormControl>
+              <FormControl id="company_name" isRequired>
+                <FormLabel>Tanggal Selesai</FormLabel>
+                <Input type="date" placeholder="Nama Perusahaan" />
+              </FormControl>
+            </Stack>
+          </ModalBody>
+          <ModalFooter bg="gray.100">
+          <ButtonGroup>
+            <Button border="1px" onClick={onCLoseSendToManager}>
+              Batal
+            </Button>
+            <Button
+              type="submit"
+              variant="solid"
+              bg="blue.700"
+              _hover={{ bg: 'blue.800' }}
+              color="white"
+              rounded="md"
+            >
+              Kirim
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       <DetailPengajuanPesanan
         id={order.id}

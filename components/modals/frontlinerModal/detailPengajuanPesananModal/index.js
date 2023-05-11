@@ -35,6 +35,9 @@ import {
 import formatCurrency from '../../../../utils/formatCurrently';
 import { MdCall, MdCorporateFare, MdEmail } from 'react-icons/md';
 import useRemoteOrderById from '../../../hooks/remote/useRemoteOrderById';
+import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
+import TableToName from '../../../core/tableToName';
+import ParseDate from '../../../core/parseDate';
 
 const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
   const {
@@ -45,7 +48,19 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
 
   const detailOrder = dataDetailOrder?.data;
 
-  console.log('DETAIL', detailOrder);
+  const statusOrder = (status) => {
+    if (status === TransactionTypes.WAITING) {
+      return 'orange';
+    }
+    if (status === TransactionTypes.CANCELED) {
+      return 'red';
+    }
+    if (status === TransactionTypes.ACCEPT) {
+      return 'green';
+    }
+  };
+
+  console.log('Detail ', detailOrder);
 
   return (
     <Modal
@@ -97,60 +112,79 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
                           <Icon w={5} h={5} as={MdCall} />
                           <Text>{detailOrder.proyek.no_whatsApp_proyek}</Text>
                         </HStack>
-                        <Text>
-                         {detailOrder?.User.address}
-                        </Text>
+                        <Text>{detailOrder?.User.address}</Text>
                       </VStack>
                     </Box>
                   </Flex>
                 </Box>
-                <Box w="full" borderBottomWidth={2} py="2">
+                <Flex w="full" borderBottomWidth={2} py="2">
                   <Text fontWeight="semibold">Detail Produk</Text>
-                </Box>
-                <HStack mt="1" w="full" align="flex-start">
-                  <Box fontSize="sm" w="150px">
-                    <Flex justify="space-between">
-                      <Text>Nama Proyek</Text>
-                      <Text>:</Text>
-                    </Flex>
+                  <Spacer />
+                  <HStack>
+                    <Badge colorScheme="gray" rounded="md" px={3} py={1}>
+                      Belum Lunas
+                    </Badge>
+                    <Badge
+                      colorScheme={statusOrder(
+                        detailOrder.status.status_persetujuan
+                      )}
+                      rounded="md"
+                      px={3}
+                      cursor="pointer"
+                      py={1}
+                    >
+                      {detailOrder.status.status_persetujuan ===
+                        TransactionTypes.WAITING && 'Waiting'}
+                      {detailOrder.status.status_persetujuan ===
+                        TransactionTypes.CANCELED && 'Canceled'}
+                      {detailOrder.status.status_persetujuan ===
+                        TransactionTypes.ACCEPT && 'Accept'}
+                    </Badge>
+                  </HStack>
+                </Flex>
+                <TableToName
+                  label="Nama Proyek"
+                  value={detailOrder.proyek.nama_proyek}
+                />
+                <TableToName
+                  label="Tujuan Pengujian"
+                  value={detailOrder.proyek.tujuan_proyek}
+                />
+
+                <TableToName
+                  label="No. Refrensi"
+                  value={detailOrder.proyek.keterangan_to_client}
+                />
+                <Flex mt="5">
+                  <Box flex={1}>
+                    <TableToName
+                      label="No. Refrensi"
+                      value={detailOrder.proyek.no_refrensi}
+                    />
+                    <TableToName
+                      label="No. Surat"
+                      value={detailOrder.proyek.no_surat}
+                    />
+                    <TableToName
+                      label="No. Identifikasi"
+                      value={detailOrder.proyek.no_identifikasi}
+                    />
                   </Box>
-                  <Box fontSize="sm" w="250px" wordBreak="break-word">
-                    <Text fontWeight="semibold">Pembuatan Kubus</Text>
+                  <Box flex={1}>
+                    <TableToName
+                      label="Tanggal Pendaftaran"
+                      value={ParseDate(detailOrder.createdAt)}
+                    />
+                    <TableToName
+                      label="Tanggal Mulai"
+                      value={ParseDate(detailOrder.proyek.tanggal_mulai)}
+                    />
+                    <TableToName
+                      label="Tanggal Selesai"
+                      value={ParseDate(detailOrder.proyek.tanggal_selesai)}
+                    />
                   </Box>
-                </HStack>
-                <HStack mt="1" w="full" align="flex-start">
-                  <Box fontSize="sm" w="150px">
-                    <Flex justify="space-between">
-                      <Text>Tujuan Pengujian</Text>
-                      <Text>:</Text>
-                    </Flex>
-                  </Box>
-                  <Box fontSize="sm" w="250px" wordBreak="break-word">
-                    <Text fontWeight="semibold">Untuk Penelitian</Text>
-                  </Box>
-                </HStack>
-                <HStack mt="1" w="full" align="flex-start">
-                  <Box fontSize="sm" w="150px">
-                    <Flex justify="space-between">
-                      <Text>No. Refrensi</Text>
-                      <Text>:</Text>
-                    </Flex>
-                  </Box>
-                  <Box fontSize="sm" w="250px" wordBreak="break-word">
-                    <Text fontWeight="semibold">-</Text>
-                  </Box>
-                </HStack>
-                <HStack mt="1" w="full" align="flex-start">
-                  <Box fontSize="sm" w="150px">
-                    <Flex justify="space-between">
-                      <Text>No. Surat</Text>
-                      <Text>:</Text>
-                    </Flex>
-                  </Box>
-                  <Box fontSize="sm" w="250px" wordBreak="break-word">
-                    <Text fontWeight="semibold">-</Text>
-                  </Box>
-                </HStack>
+                </Flex>
                 <TableContainer w="full" mt="25px">
                   <Table size="sm" variant="striped" colorScheme="facebook">
                     <Thead>
@@ -163,122 +197,44 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      <Tr>
-                        <Td>
-                          <Flex direction="column">
-                            <Text fontWeight="semibold">Core Drill Aspal</Text>
-                            <Text>(SNI 06-6890-2002)</Text>
-                          </Flex>
-                        </Td>
-                        <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                        <Td textAlign="center">Laboratorium</Td>
-                        <Td textAlign="center">7 titik</Td>
-                        <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <Flex direction="column">
-                            <Text fontWeight="semibold">Core Drill Aspal</Text>
-                            <Text>(SNI 06-6890-2002)</Text>
-                          </Flex>
-                        </Td>
-                        <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                        <Td textAlign="center">Laboratorium</Td>
-                        <Td textAlign="center">7 titik</Td>
-                        <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <Flex direction="column">
-                            <Text fontWeight="semibold">Core Drill Aspal</Text>
-                            <Text>(SNI 06-6890-2002)</Text>
-                          </Flex>
-                        </Td>
-                        <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                        <Td textAlign="center">Laboratorium</Td>
-                        <Td textAlign="center">7 titik</Td>
-                        <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <Flex direction="column">
-                            <Text fontWeight="semibold">Core Drill Aspal</Text>
-                            <Text>(SNI 06-6890-2002)</Text>
-                          </Flex>
-                        </Td>
-                        <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                        <Td textAlign="center">Laboratorium</Td>
-                        <Td textAlign="center">7 titik</Td>
-                        <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <Flex direction="column">
-                            <Text fontWeight="semibold">Core Drill Aspal</Text>
-                            <Text>(SNI 06-6890-2002)</Text>
-                          </Flex>
-                        </Td>
-                        <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                        <Td textAlign="center">Laboratorium</Td>
-                        <Td textAlign="center">7 titik</Td>
-                        <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <Flex direction="column">
-                            <Text fontWeight="semibold">Core Drill Aspal</Text>
-                            <Text>(SNI 06-6890-2002)</Text>
-                          </Flex>
-                        </Td>
-                        <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                        <Td textAlign="center">Laboratorium</Td>
-                        <Td textAlign="center">7 titik</Td>
-                        <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <Flex direction="column">
-                            <Text fontWeight="semibold">Core Drill Aspal</Text>
-                            <Text>(SNI 06-6890-2002)</Text>
-                          </Flex>
-                        </Td>
-                        <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                        <Td textAlign="center">Laboratorium</Td>
-                        <Td textAlign="center">7 titik</Td>
-                        <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <Flex direction="column">
-                            <Text fontWeight="semibold">Core Drill Aspal</Text>
-                            <Text>(SNI 06-6890-2002)</Text>
-                          </Flex>
-                        </Td>
-                        <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                        <Td textAlign="center">Laboratorium</Td>
-                        <Td textAlign="center">7 titik</Td>
-                        <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <Flex direction="column">
-                            <Text fontWeight="semibold">Core Drill Aspal</Text>
-                            <Text>(SNI 06-6890-2002)</Text>
-                          </Flex>
-                        </Td>
-                        <Td isNumeric>Rp{formatCurrency(15000)}</Td>
-                        <Td textAlign="center">Laboratorium</Td>
-                        <Td textAlign="center">7 titik</Td>
-                        <Td isNumeric>Rp{formatCurrency(1050000)}</Td>
-                      </Tr>
+                      {isSuccess &&
+                        detailOrder.itemOrders.map((item, i) => (
+                          <Tr key={i}>
+                            <Td>
+                              <Flex direction="column">
+                                <Text fontWeight="semibold">
+                                  {item.Pengujian.jenis_pengujian}
+                                </Text>
+                                <Text>{item.Pengujian.code}</Text>
+                              </Flex>
+                            </Td>
+                            <Td isNumeric>
+                              Rp{formatCurrency(item.Pengujian.price)}
+                            </Td>
+                            <Td textAlign="center">
+                              {item.Pengujian.tempat_pengujian}
+                            </Td>
+                            <Td textAlign="center">
+                              {item.OrderPengujian.quantity}{' '}
+                              {item.Pengujian.sampler}
+                            </Td>
+                            <Td isNumeric fontWeight="semibold">
+                              Rp
+                              {formatCurrency(
+                                parseInt(item.OrderPengujian.quantity) *
+                                  parseInt(item.Pengujian.price)
+                              )}
+                            </Td>
+                          </Tr>
+                        ))}
                     </Tbody>
                   </Table>
-                  <Flex justify="end" py="3">
-                    <Text fontSize="xl" fontWeight="semibold">
-                      Total : Rp{formatCurrency(15000000)}
-                    </Text>
-                  </Flex>
                 </TableContainer>
+                <Flex w="full" justify="end" py="3">
+                  <Text fontSize="xl" fontWeight="bold">
+                    Total Harga: Rp{formatCurrency(detailOrder.total_price)}
+                  </Text>
+                </Flex>
               </Flex>
             )}
           </Stack>

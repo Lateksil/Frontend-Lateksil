@@ -42,7 +42,7 @@ const HomeDashboardFrontliner = () => {
   } = useRemoteOrders({
     status_persetujuan: statusPersetujuan,
   });
-  
+
   return (
     <VStack align="stretch">
       <Head>
@@ -53,7 +53,7 @@ const HomeDashboardFrontliner = () => {
           Pengajuan Pemesanan
         </Text>
       </HStack>
-      <Tabs variant="line">
+      <Tabs variant="line" isFitted>
         <TabList color="gray.500">
           <Tab
             _hover={{ bg: 'gray.100' }}
