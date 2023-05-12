@@ -17,6 +17,8 @@ import {
   MenuList,
   MenuItem,
   Skeleton,
+  Card,
+  SkeletonText,
 } from '@chakra-ui/react';
 import DashboardLayout from '../components/dashboard/DashboardLayout';
 import { FiSearch } from 'react-icons/fi';
@@ -25,7 +27,6 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { getServerSidePropsCostumer } from '../utils/getServerSidePropsCostumer';
 import useRemoteCategoriesClient from '../components/hooks/remote/useRemoteCategoriesClient';
 import useRemotePengujianClient from '../components/hooks/remote/useRemotePengujianClient';
-import MessageNotFoundData from '../utils/MessageNotFoundData';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import MainPenugujianCardGrid from '../components/main/mainPengujianCardGrid';
 import MainCardPengujian from '../components/main/mainCardPengujian';
@@ -37,7 +38,8 @@ const HomeDashboard = () => {
   const [filterTempatPengujian, setFilterTempatPengujian] = useState('');
 
   const [dataCat, setDataCat] = useState('Pengujian Aspal');
-  const { data: dataCategoryClient } = useRemoteCategoriesClient();
+  const { data: dataCategoryClient, isLoading: isLoadingCategoryClient } =
+    useRemoteCategoriesClient();
 
   const {
     data: dataPengujianClient,
@@ -137,6 +139,7 @@ const HomeDashboard = () => {
         <title>Halaman Utama | Lateksil</title>
       </Head>
       <Box borderBottomWidth={2}>
+        <Flex justifyContent="center" flexDir="row" py={{ md: '5' }}></Flex>
         <Flex justifyContent="center" flexDir="row" py={{ md: '5' }}>
           <Box w="full">
             <Slider {...settings}>
@@ -170,6 +173,14 @@ const HomeDashboard = () => {
                   </React.Fragment>
                 ))}
             </Slider>
+            {isLoadingCategoryClient && (
+              <HStack spacing="6" overflow="hidden" justify="center">
+                <Skeleton w="200px" h="50px" />
+                <Skeleton w="200px" h="50px" />
+                <Skeleton w="200px" h="50px" />
+                <Skeleton w="200px" h="50px" />
+              </HStack>
+            )}
           </Box>
         </Flex>
         <Flex justify="center" pb="6" mt="4">
@@ -240,9 +251,52 @@ const HomeDashboard = () => {
               </>
             ))
           )}
+          {isLoadingPengujianClient && (
+            <>
+              <Card bg="white" shadow="md">
+                <Skeleton h="40" />
+                <VStack py="2" px="4" align="stretch">
+                  <SkeletonText />
+                  <Skeleton w="25%" h="2" />
+                  <Skeleton w="40%" h="2" />
+                </VStack>
+              </Card>
+              <Card bg="white" shadow="md">
+                <Skeleton h="40" />
+                <VStack py="2" px="4" align="stretch">
+                  <SkeletonText />
+                  <Skeleton w="25%" h="2" />
+                  <Skeleton w="40%" h="2" />
+                </VStack>
+              </Card>
+              <Card bg="white" shadow="md">
+                <Skeleton h="40" />
+                <VStack py="2" px="4" align="stretch">
+                  <SkeletonText />
+                  <Skeleton w="25%" h="2" />
+                  <Skeleton w="40%" h="2" />
+                </VStack>
+              </Card>
+              <Card bg="white" shadow="md">
+                <Skeleton h="40" />
+                <VStack py="2" px="4" align="stretch">
+                  <SkeletonText />
+                  <Skeleton w="25%" h="2" />
+                  <Skeleton w="40%" h="2" />
+                </VStack>
+              </Card>
+              <Card bg="white" shadow="md">
+                <Skeleton h="40" />
+                <VStack py="2" px="4" align="stretch">
+                  <SkeletonText />
+                  <Skeleton w="25%" h="2" />
+                  <Skeleton w="40%" h="2" />
+                </VStack>
+              </Card>
+            </>
+          )}
         </MainPenugujianCardGrid>
       </VStack>
-      {isError && <MessageNotFoundData />}
       <Flex justify="center" py="2">
         {hasNextPage && (
           <Button

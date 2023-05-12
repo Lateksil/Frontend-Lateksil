@@ -85,6 +85,8 @@ const InputPengujian = () => {
     }
   }, [searchInput]);
 
+  console.log('DATA INPUT', dataPengujian)
+
   return (
     <VStack align="stretch">
       <Head>
@@ -144,7 +146,7 @@ const InputPengujian = () => {
             <Spinner />
           </Center>
         )}
-        {!dataPengujian && error && <MessageNotFoundData />}
+        { dataPengujian?.data === null && <MessageNotFoundData />}
       </Box>
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}

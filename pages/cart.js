@@ -90,7 +90,7 @@ const CartPage = () => {
                       <Text fontWeight="semibold" fontSize="sm">
                         {cart.Pengujian.jenis_pengujian}
                       </Text>
-                      <Badge size="sm" colorScheme="green">
+                      <Badge size="sm" colorScheme={cart.Pengujian.tempat_pengujian === "Lapangan" ? 'blue': 'green'}>
                         {cart.Pengujian.tempat_pengujian}
                       </Badge>
                       <Flex>
