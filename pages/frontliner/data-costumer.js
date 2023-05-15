@@ -1,6 +1,6 @@
-import React from "react";
-import DashboardLayout from "../../components/dashboard/DashboardLayout";
-import { getServerSidePropsFrontliner } from "../../utils/getServerSidePropsFrontliner";
+import React from 'react';
+import DashboardLayout from '../../components/dashboard/DashboardLayout';
+import { getServerSidePropsFrontliner } from '../../utils/getServerSidePropsFrontliner';
 
 const DataCostumer = () => {
   return <div>DataCostumer</div>;

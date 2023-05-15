@@ -1,5 +1,5 @@
-import React from "react";
-import NextLink from "next/link";
+import React from 'react';
+import NextLink from 'next/link';
 import {
   Box,
   Button,
@@ -11,11 +11,11 @@ import {
   Stack,
   Text,
   useColorModeValue,
-} from "@chakra-ui/react";
-import { FiMenu } from "react-icons/fi";
-import { useDashboard } from "../../../context/dashboard/DashboardProvider";
-import DashboardUserNavbar from "../DashboardUserNavbar";
-import useRemoteUserProfile from "../../hooks/remote/useRemoteUserProfile";
+} from '@chakra-ui/react';
+import { FiMenu } from 'react-icons/fi';
+import { useDashboard } from '../../../context/dashboard/DashboardProvider';
+import DashboardUserNavbar from '../DashboardUserNavbar';
+import useRemoteUserProfile from '../../hooks/remote/useRemoteUserProfile';
 
 const DashboardNavbar = () => {
   const { isDesktopSidebarOpened, onSidebarToggle } = useDashboard();
@@ -33,14 +33,14 @@ const DashboardNavbar = () => {
         bg="white"
         borderBottomWidth="1px"
         alignItems={{
-          base: "stretch",
-          md: isDesktopSidebarOpened ? "stretch" : "center",
-          lg: "center",
+          base: 'stretch',
+          md: isDesktopSidebarOpened ? 'stretch' : 'center',
+          lg: 'center',
         }}
         direction={{
-          base: "column",
-          md: isDesktopSidebarOpened ? "column" : "row",
-          lg: "row",
+          base: 'column',
+          md: isDesktopSidebarOpened ? 'column' : 'row',
+          lg: 'row',
         }}
       >
         <HStack w="full">
@@ -76,14 +76,14 @@ const DashboardNavbar = () => {
       bg="white"
       borderBottomWidth="1px"
       alignItems={{
-        base: "stretch",
-        md: isDesktopSidebarOpened ? "stretch" : "center",
-        lg: "center",
+        base: 'stretch',
+        md: isDesktopSidebarOpened ? 'stretch' : 'center',
+        lg: 'center',
       }}
       direction={{
-        base: "column",
-        md: isDesktopSidebarOpened ? "column" : "row",
-        lg: "row",
+        base: 'column',
+        md: isDesktopSidebarOpened ? 'column' : 'row',
+        lg: 'row',
       }}
     >
       <HStack w="full">
@@ -100,7 +100,7 @@ const DashboardNavbar = () => {
           <HStack spacing={3}>
             <ButtonGroup>
               <NextLink href="/login" passHref>
-                <Button bg="blue.700" color="white" _hover={{ bg: "blue.800" }}>
+                <Button bg="blue.700" color="white" _hover={{ bg: 'blue.800' }}>
                   Masuk
                 </Button>
               </NextLink>

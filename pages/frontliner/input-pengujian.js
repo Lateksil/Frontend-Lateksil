@@ -67,7 +67,6 @@ const InputPengujian = () => {
     if (error == null && pageIndex > 1) setPageIndex(pageIndex - 1);
   }, [error]);
 
-
   const handlePageClick = (page) => {
     setPageIndex(page);
 
@@ -91,7 +90,7 @@ const InputPengujian = () => {
     }
   }, [searchInput]);
 
-  console.log('Depdep')
+  console.log('depdep');
 
   return (
     <VStack align="stretch">

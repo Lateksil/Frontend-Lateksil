@@ -137,7 +137,7 @@ const TablePengajuanPesanan = ({ order }) => {
           </ModalHeader>
           <ModalBody>
             <Stack pb="10">
-              <FormControl id="company_name" isRequired> 
+              <FormControl id="company_name" isRequired>
                 <FormLabel>No. Refrensi</FormLabel>
                 <Input
                   value="123UBL2019"
@@ -172,22 +172,22 @@ const TablePengajuanPesanan = ({ order }) => {
             </Stack>
           </ModalBody>
           <ModalFooter bg="gray.100">
-          <ButtonGroup>
-            <Button border="1px" onClick={onCLoseSendToManager}>
-              Batal
-            </Button>
-            <Button
-              type="submit"
-              variant="solid"
-              bg="blue.700"
-              _hover={{ bg: 'blue.800' }}
-              color="white"
-              rounded="md"
-            >
-              Kirim
-            </Button>
-          </ButtonGroup>
-        </ModalFooter>
+            <ButtonGroup>
+              <Button border="1px" onClick={onCLoseSendToManager}>
+                Batal
+              </Button>
+              <Button
+                type="submit"
+                variant="solid"
+                bg="blue.700"
+                _hover={{ bg: 'blue.800' }}
+                color="white"
+                rounded="md"
+              >
+                Kirim
+              </Button>
+            </ButtonGroup>
+          </ModalFooter>
         </ModalContent>
       </Modal>
 

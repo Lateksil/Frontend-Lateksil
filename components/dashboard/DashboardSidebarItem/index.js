@@ -70,22 +70,22 @@ const DashboardSidebarItem = ({ item, pathname }) => {
   return (
     <React.Fragment>
       <Link href={item.path} passHref>
-      <Flex
-        align="stretch"
-        alignItems="center"
-        borderLeftColor={isActive ? 'blue.700' : 'transparent'}
-        borderLeftWidth={4}
-        p="3"
-        bg={isActive ? 'blue.600' : undefined}
-        color={isActive ? 'white' : 'grey'}
-        transitionProperty="common"
-        transitionDuration="normal"
-      >
-        <Box ml="2" mr="4" color={isActive ? 'white' : 'grey'}>
-          <Icon as={item.icon} />
-        </Box>
-        <Text fontSize="md">{item.name}</Text>
-      </Flex>
+        <Flex
+          align="stretch"
+          alignItems="center"
+          borderLeftColor={isActive ? 'blue.700' : 'transparent'}
+          borderLeftWidth={4}
+          p="3"
+          bg={isActive ? 'blue.600' : undefined}
+          color={isActive ? 'white' : 'grey'}
+          transitionProperty="common"
+          transitionDuration="normal"
+        >
+          <Box ml="2" mr="4" color={isActive ? 'white' : 'grey'}>
+            <Icon as={item.icon} />
+          </Box>
+          <Text fontSize="md">{item.name}</Text>
+        </Flex>
       </Link>
     </React.Fragment>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   AspectRatio,
   Flex,
@@ -7,9 +7,9 @@ import {
   Text,
   useDisclosure,
   VStack,
-} from "@chakra-ui/react";
-import ModalDetailPengujian from "../../modals/ModalDetailPengujian";
-import formatCurrency from "../../../utils/formatCurrently";
+} from '@chakra-ui/react';
+import ModalDetailPengujian from '../../modals/ModalDetailPengujian';
+import formatCurrency from '../../../utils/formatCurrently';
 
 const TableFirstMainPage = ({ pengujian, odds }) => {
   const {
@@ -20,15 +20,15 @@ const TableFirstMainPage = ({ pengujian, odds }) => {
 
   const oddsColor = odds
     ?.filter((data) => data?.id === pengujian?.id)
-    .map(() => "#FBFBFB");
+    .map(() => '#FBFBFB');
 
   return (
     <Flex
       borderWidth={2}
-      _hover={{ shadow: "xl" }}
+      _hover={{ shadow: 'xl' }}
       transitionDuration="300ms"
       w="full"
-      bg={oddsColor?.[0] ? oddsColor?.[0] : "#F0F7FF"}
+      bg={oddsColor?.[0] ? oddsColor?.[0] : '#F0F7FF'}
       rounded="lg"
       p="2"
     >
@@ -40,7 +40,7 @@ const TableFirstMainPage = ({ pengujian, odds }) => {
               src={
                 pengujian.image
                   ? `http://localhost:3030/uploads/${pengujian.image}`
-                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s"
+                  : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s'
               }
               alt=""
               objectFit="cover"

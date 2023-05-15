@@ -129,10 +129,7 @@ const LoginPage = () => {
         Masuk
       </Button>
       <Text textAlign="center" mt="8">
-        Belum memiliki akun?{' '}
-        <NextLink href="/register">
-          Daftar
-        </NextLink>
+        Belum memiliki akun? <NextLink href="/register">Daftar</NextLink>
       </Text>
     </Stack>
   );

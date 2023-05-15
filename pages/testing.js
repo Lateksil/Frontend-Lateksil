@@ -173,8 +173,7 @@
 
 // export default InputQuantitas;
 
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Flex,
@@ -183,10 +182,10 @@ import {
   InputLeftElement,
   InputRightElement,
   Text,
-} from "@chakra-ui/react";
-import formatCurrency from "../../../utils/formatCurrently";
-import useCartStore from "../../../store/useCartStore";
-import useRemoteCart from "../../hooks/remote/useRemoteCart";
+} from '@chakra-ui/react';
+import formatCurrency from '../../../utils/formatCurrently';
+import useCartStore from '../../../store/useCartStore';
+import useRemoteCart from '../../hooks/remote/useRemoteCart';
 
 const InputQuantitas = ({ cart, total }) => {
   const [value, setValue] = useState(parseInt(cart.quantity));
@@ -236,11 +235,7 @@ const InputQuantitas = ({ cart, total }) => {
       <Flex w="25%" align="center" justifyContent="center">
         <InputGroup width="150px">
           <InputLeftElement>
-            <Button
-              size="sm"
-              isDisabled={true}
-              onClick={handleDecrement}
-            >
+            <Button size="sm" isDisabled={true} onClick={handleDecrement}>
               -
             </Button>
           </InputLeftElement>
@@ -280,5 +275,3 @@ const InputQuantitas = ({ cart, total }) => {
 };
 
 export default InputQuantitas;
-
-

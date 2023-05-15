@@ -7,7 +7,7 @@ const InputQuantitas = ({ cart }) => {
 
   return (
     <>
-      <Flex >
+      <Flex>
         <Text textAlign="center" color="blue.700" fontWeight="semibold">
           Total : Rp{formatCurrency(totalPricePengujian)}
         </Text>

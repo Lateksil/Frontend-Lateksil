@@ -1,12 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postFetcher } from "../../../libs/axios";
-import useToastNotification from "../useToastNotification";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { postFetcher } from '../../../libs/axios';
+import useToastNotification from '../useToastNotification';
 
 const useMutationCreateCategories = () => {
   const queryClient = useQueryClient();
   const showToast = useToastNotification();
 
-  const uri = "/category/create";
+  const uri = '/category/create';
 
   const { mutate, ...others } = useMutation(
     async (formData) => {
@@ -15,8 +15,8 @@ const useMutationCreateCategories = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("categories").then(() => {
-          showToast("create data successfully", "success");
+        queryClient.invalidateQueries('categories').then(() => {
+          showToast('create data successfully', 'success');
         });
       },
     }

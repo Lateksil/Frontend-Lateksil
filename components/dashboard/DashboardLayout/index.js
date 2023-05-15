@@ -1,18 +1,18 @@
-import { Flex } from "@chakra-ui/react";
-import DashboardProvider from "../../../context/dashboard/DashboardProvider";
-import generateSidebaritemFrontliner from "../../../utils/sidebar/Frontliner";
-import generateSidebaritemUser from "../../../utils/sidebar/User";
-import DashboardMain from "../DashboardMain";
-import DashboardSidebar from "../DashboardSidebar";
+import { Flex } from '@chakra-ui/react';
+import DashboardProvider from '../../../context/dashboard/DashboardProvider';
+import generateSidebaritemFrontliner from '../../../utils/sidebar/Frontliner';
+import generateSidebaritemUser from '../../../utils/sidebar/User';
+import DashboardMain from '../DashboardMain';
+import DashboardSidebar from '../DashboardSidebar';
 
 const DashboardLayout = ({ sidebarFor, children }) => {
   let sidebarItems = [];
 
   switch (sidebarFor) {
-    case "frontliner":
+    case 'frontliner':
       sidebarItems = generateSidebaritemFrontliner();
       break;
-    case "users":
+    case 'users':
       sidebarItems = generateSidebaritemUser();
       break;
     default:

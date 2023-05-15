@@ -1,4 +1,4 @@
-import { useToast } from "@chakra-ui/react";
+import { useToast } from '@chakra-ui/react';
 
 const useToastNotification = () => {
   const toast = useToast();
@@ -7,7 +7,7 @@ const useToastNotification = () => {
       title,
       status,
       isClosable: true,
-      position: "top",
+      position: 'top',
     });
   };
 

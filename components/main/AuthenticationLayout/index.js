@@ -1,11 +1,11 @@
-import React from "react";
-import NextImage from "../../core/nextimage";
-import LateksilImage from '../../../assets/images/civil-engginering.jpg'
-import { Box, Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
+import React from 'react';
+import NextImage from '../../core/nextimage';
+import LateksilImage from '../../../assets/images/civil-engginering.jpg';
+import { Box, Flex, Heading, Link, Stack, Text } from '@chakra-ui/react';
 
-const AuthenticationLayout = ({children}) => {
+const AuthenticationLayout = ({ children }) => {
   return (
-    <Stack minH="100vh" direction={{ base: "column-reverse", md: "row" }}>
+    <Stack minH="100vh" direction={{ base: 'column-reverse', md: 'row' }}>
       <Flex
         flex={1}
         align="center"
@@ -14,7 +14,7 @@ const AuthenticationLayout = ({children}) => {
         direction="column"
         justifyContent="center"
       >
-        <Heading size={{ base: "md", md: "xl" }} color="blue.700">
+        <Heading size={{ base: 'md', md: 'xl' }} color="blue.700">
           LABORATORIUM TEKNIK SIPIL
         </Heading>
         <Text fontWeight="semibold">

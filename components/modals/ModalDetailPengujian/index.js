@@ -188,7 +188,6 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
             </Button>
             <Button
               variant="lateksil-solid"
-            
               onClick={onMoveToCart}
               isLoading={isLoadingAddCart}
               leftIcon={<Icon as={HiShoppingCart} fontSize="xl" />}

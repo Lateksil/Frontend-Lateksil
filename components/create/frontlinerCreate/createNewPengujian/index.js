@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Button,
   HStack,
@@ -6,10 +6,10 @@ import {
   Text,
   Icon,
   useDisclosure,
-} from "@chakra-ui/react";
-import { IoAdd } from "react-icons/io5";
-import AddPengujianModal from "../../../modals/frontlinerModal/addPengujianModal";
-import AddCategoryModal from "../../../modals/frontlinerModal/addCategoryModal";
+} from '@chakra-ui/react';
+import { IoAdd } from 'react-icons/io5';
+import AddPengujianModal from '../../../modals/frontlinerModal/addPengujianModal';
+import AddCategoryModal from '../../../modals/frontlinerModal/addCategoryModal';
 
 const CreateNewInputPengujian = () => {
   const {

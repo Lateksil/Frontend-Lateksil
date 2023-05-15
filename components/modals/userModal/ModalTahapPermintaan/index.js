@@ -114,7 +114,10 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                         Ditolak
                       </Text>{' '}
                       Karena
-                      <Text as="span" > "Tidak dapat di uji untuk saat ini"</Text>
+                      <Text as="span">
+                        {' '}
+                        "Tidak dapat di uji untuk saat ini"
+                      </Text>
                     </Box>
                   )}
                 </Box>
@@ -188,11 +191,11 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                     </Tbody>
                   </Table>
                 </TableContainer>
-                  <Flex w="full" justify="end" py="3">
-                    <Text fontSize="xl" fontWeight="bold">
-                      Total Harga: Rp{formatCurrency(detailOrder.total_price)}
-                    </Text>
-                  </Flex>
+                <Flex w="full" justify="end" py="3">
+                  <Text fontSize="xl" fontWeight="bold">
+                    Total Harga: Rp{formatCurrency(detailOrder.total_price)}
+                  </Text>
+                </Flex>
               </VStack>
             )}
           </Stack>

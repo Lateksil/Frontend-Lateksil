@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Button,
@@ -19,13 +19,13 @@ import {
   Stack,
   Text,
   Textarea,
-} from "@chakra-ui/react";
-import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import useMutationCreatePengujian from "../../../hooks/mutation/useMutationCreatePengujian";
-import Select from "../../../core/select";
-import useRemoteCategoriesOptions from "../../../hooks/remote/useRemoteCategoriesOptions";
-import { PengujianSchema } from "../../../../utils/schema/PengujianSchema";
+} from '@chakra-ui/react';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import useMutationCreatePengujian from '../../../hooks/mutation/useMutationCreatePengujian';
+import Select from '../../../core/select';
+import useRemoteCategoriesOptions from '../../../hooks/remote/useRemoteCategoriesOptions';
+import { PengujianSchema } from '../../../../utils/schema/PengujianSchema';
 
 const AddPengujianModal = ({ isOpen, onClose }) => {
   const {
@@ -50,16 +50,16 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
 
   const onSubmit = (data) => {
     const formData = new FormData();
-    formData.append("jenis_pengujian", data.jenis_pengujian);
-    formData.append("code", data.code);
-    formData.append("category", data.category?.value);
-    formData.append("description", data.description);
-    formData.append("min_quantity", data.min_quantity);
-    formData.append("sampler", data.sampler);
-    formData.append("tempat_pengujian", data.tempat_pengujian);
-    formData.append("price", data.price);
-    formData.append("catatan_khusus", data.catatan_khusus);
-    formData.append("image", data.image[0]);
+    formData.append('jenis_pengujian', data.jenis_pengujian);
+    formData.append('code', data.code);
+    formData.append('category', data.category?.value);
+    formData.append('description', data.description);
+    formData.append('min_quantity', data.min_quantity);
+    formData.append('sampler', data.sampler);
+    formData.append('tempat_pengujian', data.tempat_pengujian);
+    formData.append('price', data.price);
+    formData.append('catatan_khusus', data.catatan_khusus);
+    formData.append('image', data.image[0]);
 
     mutateCreatePengujian(formData);
     onClose();
@@ -97,7 +97,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
               <Input
                 type="text"
                 placeholder="Jenis Pengujian"
-                {...register("jenis_pengujian")}
+                {...register('jenis_pengujian')}
               />
               <FormErrorMessage>
                 {errors.jenis_pengujian && errors.jenis_pengujian.message}
@@ -108,7 +108,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
               <Input
                 type="text"
                 placeholder="SNI XX-XXXX-XXXX"
-                {...register("code")}
+                {...register('code')}
               />
               <FormErrorMessage>
                 {errors.code && errors.code.message}
@@ -139,7 +139,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
               <FormLabel>Deskripsi</FormLabel>
               <Textarea
                 placeholder="Deskripsi..."
-                {...register("description")}
+                {...register('description')}
               />
               <FormErrorMessage>
                 {errors.description && errors.description.message}
@@ -154,7 +154,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
               <Input
                 type="number"
                 placeholder="Minimal Kuantitas dalam pengujian "
-                {...register("min_quantity")}
+                {...register('min_quantity')}
               />
               <FormErrorMessage>
                 {errors.min_quantity && errors.min_quantity.message}
@@ -165,7 +165,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
               <Input
                 type="text"
                 placeholder="Contoh: Per Titik / Paket / dll."
-                {...register("sampler")}
+                {...register('sampler')}
               />
               <FormErrorMessage>
                 {errors.sampler && errors.sampler.message}
@@ -179,7 +179,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
               <FormLabel>catatan khusus</FormLabel>
               <Textarea
                 placeholder="Catatan Khusus Pengujian untuk Costumer"
-                {...register("catatan_khusus")}
+                {...register('catatan_khusus')}
               />
               <FormErrorMessage>
                 {errors.catatan_khusus && errors.catatan_khusus.message}
@@ -189,10 +189,10 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
               <FormLabel>Pengujian Lakukan di</FormLabel>
               <RadioGroup defaultValue="Laboratorium">
                 <Stack spacing={10} direction="row">
-                  <Radio value="Laboratorium" {...register("tempat_pengujian")}>
+                  <Radio value="Laboratorium" {...register('tempat_pengujian')}>
                     Laboratorium
                   </Radio>
-                  <Radio value="Lapangan" {...register("tempat_pengujian")}>
+                  <Radio value="Lapangan" {...register('tempat_pengujian')}>
                     Lapangan
                   </Radio>
                 </Stack>
@@ -200,14 +200,14 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
             </FormControl>
             <FormControl id="price" isInvalid={!!errors.price} isRequired>
               <FormLabel>Harga Rp.</FormLabel>
-              <Input type="number" placeholder="Harga" {...register("price")} />
+              <Input type="number" placeholder="Harga" {...register('price')} />
               <FormErrorMessage>
                 {errors.price && errors.price.message}
               </FormErrorMessage>
             </FormControl>
             <FormControl id="upload_image">
               <FormLabel>Upload Image</FormLabel>
-              <Input type="file" p={0} {...register("image")} />
+              <Input type="file" p={0} {...register('image')} />
             </FormControl>
           </Stack>
         </ModalBody>

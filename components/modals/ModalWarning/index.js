@@ -10,8 +10,8 @@ import {
   ModalOverlay,
   VStack,
   Text,
-} from "@chakra-ui/react";
-import { IoWarningOutline } from "react-icons/io5";
+} from '@chakra-ui/react';
+import { IoWarningOutline } from 'react-icons/io5';
 
 const ModalWarning = ({
   isOpen,

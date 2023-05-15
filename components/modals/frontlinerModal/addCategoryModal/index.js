@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Button,
@@ -17,12 +17,12 @@ import {
   Stack,
   Text,
   Icon,
-} from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import { GrFormClose } from "react-icons/gr";
-import useMutationCreateCategories from "../../../hooks/mutation/useMutationCreateCategories";
-import useRemoteCategories from "../../../hooks/remote/useRemoteCategories";
-import useMutationDeleteCategories from "../../../hooks/mutation/delete/useMutationDeleteCategories";
+} from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import { GrFormClose } from 'react-icons/gr';
+import useMutationCreateCategories from '../../../hooks/mutation/useMutationCreateCategories';
+import useRemoteCategories from '../../../hooks/remote/useRemoteCategories';
+import useMutationDeleteCategories from '../../../hooks/mutation/delete/useMutationDeleteCategories';
 
 const AddCategoryModal = ({ isOpen, onClose }) => {
   const { data: dataCategories } = useRemoteCategories();
@@ -80,7 +80,7 @@ const AddCategoryModal = ({ isOpen, onClose }) => {
                 <Input
                   type="text"
                   placeholder="Tambah Kategori Pengujian"
-                  {...register("name_category")}
+                  {...register('name_category')}
                 />
               </FormControl>
             </Stack>

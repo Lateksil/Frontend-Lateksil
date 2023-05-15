@@ -127,10 +127,7 @@ const RegisterPage = () => {
             Daftar Sekarang
           </Heading>
           <Text mb="8" w="full">
-            Sudah memiliki akun?{' '}
-            <NextLink href="/login">
-              Masuk
-            </NextLink>
+            Sudah memiliki akun? <NextLink href="/login">Masuk</NextLink>
           </Text>
           {errorMessage && (
             <Alert mt="4" status="error" variant="left-accent">

@@ -19,7 +19,7 @@ const MainForgetPassword = () => {
     <Stack spacing={4} w="full" maxW="md" as="form">
       <Center>
         <VStack>
-        <Circle size="50px" bg="blue.700" color="white">
+          <Circle size="50px" bg="blue.700" color="white">
             <MdMailLock size={30} />
           </Circle>
           <Heading fontSize="2xl">Lupa Kata Sandi?</Heading>

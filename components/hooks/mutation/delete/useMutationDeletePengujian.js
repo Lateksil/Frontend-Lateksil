@@ -1,10 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteFetcher } from "../../../../libs/axios";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteFetcher } from '../../../../libs/axios';
 
 const useMutationDeletePengujian = () => {
   const queryClient = useQueryClient();
 
-  const uri = "/pengujian/";
+  const uri = '/pengujian/';
 
   const { mutate, ...others } = useMutation(
     async (id) => {
@@ -13,7 +13,7 @@ const useMutationDeletePengujian = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("categories");
+        queryClient.invalidateQueries('categories');
       },
     }
   );

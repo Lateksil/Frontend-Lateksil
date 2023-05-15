@@ -5,7 +5,12 @@ import ReactPaginate from 'react-paginate';
 
 const DashboardPagination = ({ current, total, onPageClick }) => {
   return (
-    <Flex justifyContent="center" fontFamily="monospace" alignItems="center" py="2">
+    <Flex
+      justifyContent="center"
+      fontFamily="monospace"
+      alignItems="center"
+      py="2"
+    >
       <Box
         sx={{
           '.pg-container': {

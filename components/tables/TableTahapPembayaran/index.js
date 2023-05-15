@@ -16,59 +16,59 @@ import {
   Th,
   Thead,
   Tr,
-} from "@chakra-ui/react";
-import React, { useMemo } from "react";
-import { FaWallet } from "react-icons/fa";
-import { FiSearch } from "react-icons/fi";
-import formatCurrency from "../../../utils/formatCurrently";
-import Select from "../../core/select";
-import { generateEntryOptions } from "../../core/select/helper/entryOptions";
-import DashboardPagination from "../../dashboard/DashboardPagination";
+} from '@chakra-ui/react';
+import React, { useMemo } from 'react';
+import { FaWallet } from 'react-icons/fa';
+import { FiSearch } from 'react-icons/fi';
+import formatCurrency from '../../../utils/formatCurrently';
+import Select from '../../core/select';
+import { generateEntryOptions } from '../../core/select/helper/entryOptions';
+import DashboardPagination from '../../dashboard/DashboardPagination';
 
 const TableTahapPembayaran = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
   const dataHistoryTransactions = [
     {
-      full_name: "Deva Aji Saputra",
-      company_name: "PT. Indonesia Sejahtera",
-      name_project: "Pembuatan Kubus",
-      tanggal_pemesanan: "08 Mei 2023",
-      total_price: "1050000",
-      status_order: "Accepted",
+      full_name: 'Deva Aji Saputra',
+      company_name: 'PT. Indonesia Sejahtera',
+      name_project: 'Pembuatan Kubus',
+      tanggal_pemesanan: '08 Mei 2023',
+      total_price: '1050000',
+      status_order: 'Accepted',
     },
     {
-      full_name: "Deva Aji Saputra",
-      company_name: "PT. Indonesia Sejahtera",
-      name_project: "Pembuatan Kubus",
-      tanggal_pemesanan: "08 Mei 2023",
-      total_price: "1500000",
-      status_order: "Accepted",
+      full_name: 'Deva Aji Saputra',
+      company_name: 'PT. Indonesia Sejahtera',
+      name_project: 'Pembuatan Kubus',
+      tanggal_pemesanan: '08 Mei 2023',
+      total_price: '1500000',
+      status_order: 'Accepted',
     },
     {
-      full_name: "Deva Aji Saputra",
-      company_name: "PT. Indonesia Sejahtera",
-      name_project: "Pembuatan Kubus",
-      tanggal_pemesanan: "08 Mei 2023",
-      total_price: "1500000",
-      status_order: "Accepted",
+      full_name: 'Deva Aji Saputra',
+      company_name: 'PT. Indonesia Sejahtera',
+      name_project: 'Pembuatan Kubus',
+      tanggal_pemesanan: '08 Mei 2023',
+      total_price: '1500000',
+      status_order: 'Accepted',
     },
     {
-      full_name: "Deva Aji Saputra",
-      company_name: "PT. Indonesia Sejahtera",
-      name_project: "Pembuatan Kubus",
-      tanggal_pemesanan: "08 Mei 2023",
-      total_price: "1500000",
-      status_order: "Accepted",
+      full_name: 'Deva Aji Saputra',
+      company_name: 'PT. Indonesia Sejahtera',
+      name_project: 'Pembuatan Kubus',
+      tanggal_pemesanan: '08 Mei 2023',
+      total_price: '1500000',
+      status_order: 'Accepted',
     },
   ];
 
   const statusOrder = (status) => {
-    if (status === "Waiting") {
-      return "orange";
+    if (status === 'Waiting') {
+      return 'orange';
     }
-    if (status === "Canceled") {
-      return "red";
+    if (status === 'Canceled') {
+      return 'red';
     }
   };
 
@@ -83,7 +83,7 @@ const TableTahapPembayaran = () => {
           placeholder="Cari tahap pembayaran"
           variant="outline"
           shadow="none"
-          _placeholder={{ color: "#45414180" }}
+          _placeholder={{ color: '#45414180' }}
         />
       </InputGroup>
       <TableContainer>
@@ -114,7 +114,7 @@ const TableTahapPembayaran = () => {
                   textAlign="center"
                   textDecoration="underline"
                   cursor="pointer"
-                  _hover={{ color: "blue" }}
+                  _hover={{ color: 'blue' }}
                 >
                   Detail
                 </Td>
@@ -129,7 +129,7 @@ const TableTahapPembayaran = () => {
                     size="sm"
                     bg="blue.700"
                     color="white"
-                    _hover={{ bg: "blue.800" }}
+                    _hover={{ bg: 'blue.800' }}
                   >
                     Bayar
                   </Button>
@@ -140,7 +140,7 @@ const TableTahapPembayaran = () => {
         </Table>
       </TableContainer>
       <Flex
-        flexDir={{ base: "column", md: "row", xl: "row" }}
+        flexDir={{ base: 'column', md: 'row', xl: 'row' }}
         justifyContent="space-between"
         borderTopWidth="1px"
         alignItems="center"

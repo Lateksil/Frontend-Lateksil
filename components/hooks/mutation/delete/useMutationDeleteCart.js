@@ -1,10 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteFetcher } from "../../../../libs/axios";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteFetcher } from '../../../../libs/axios';
 
 const useMutationDeleteCart = () => {
   const queryClient = useQueryClient();
 
-  const uri = "/cart/";
+  const uri = '/cart/';
 
   const { mutate, ...others } = useMutation(
     async (id) => {
@@ -13,7 +13,7 @@ const useMutationDeleteCart = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("cart");
+        queryClient.invalidateQueries('cart');
       },
     }
   );

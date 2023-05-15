@@ -1,5 +1,5 @@
-import NextImage from "../nextimage";
-import Logo from "../../../assets/images/logo.webp";
+import NextImage from '../nextimage';
+import Logo from '../../../assets/images/logo.webp';
 
 const LogoSidebar = ({ multiplySize = 1, responsive = false }) => {
   const baseWidth = 128 * multiplySize;
@@ -9,7 +9,7 @@ const LogoSidebar = ({ multiplySize = 1, responsive = false }) => {
       src={Logo}
       width={baseWidth}
       height={baseHeight}
-      layout={responsive ? "responsive" : undefined}
+      layout={responsive ? 'responsive' : undefined}
       priority
     />
   );

@@ -1,6 +1,6 @@
-import { HStack, useToken, useFormControlContext } from "@chakra-ui/react";
-import ReactSelect, { components } from "react-select";
-import controlFlow from "./helper/controlFlow";
+import { HStack, useToken, useFormControlContext } from '@chakra-ui/react';
+import ReactSelect, { components } from 'react-select';
+import controlFlow from './helper/controlFlow';
 
 const Select = ({
   styles: _styles,
@@ -17,18 +17,18 @@ const Select = ({
     controlContext && controlContext.isReadOnly
       ? controlContext.isReadOnly
       : undefined;
-  const fontSizeSm = useToken("fontSizes", "sm");
+  const fontSizeSm = useToken('fontSizes', 'sm');
 
   const customStyles = {
     indicatorSeparator: () => ({
-      display: "none",
+      display: 'none',
     }),
     clearIndicator: () => ({
-      display: "none",
+      display: 'none',
     }),
     dropdownIndicator: (provided) => ({
       ...provided,
-      color: "gray",
+      color: 'gray',
     }),
     container: (provided) => ({
       ...provided,
@@ -36,38 +36,38 @@ const Select = ({
     }),
     control: (provided) => ({
       ...provided,
-      backgroundColor: "white",
+      backgroundColor: 'white',
     }),
     input: (provided) => ({
       ...provided,
-      borderColor: "none",
-      color: "black",
+      borderColor: 'none',
+      color: 'black',
     }),
     menu: (provided, state) => ({
       ...provided,
-      backgroundColor: "white",
-      borderColor: "none",
+      backgroundColor: 'white',
+      borderColor: 'none',
     }),
     option: (provided, state) => ({
       ...provided,
       color: controlFlow({
-        if: [state.isFocused, "white"],
-        elseif: [state.isSelected, "white"],
-        else: "black",
+        if: [state.isFocused, 'white'],
+        elseif: [state.isSelected, 'white'],
+        else: 'black',
       }),
       backgroundColor: controlFlow({
-        if: [state.isFocused, "#197BBD"],
-        elseif: [state.isSelected, "#197BBD"],
-        else: "white",
+        if: [state.isFocused, '#197BBD'],
+        elseif: [state.isSelected, '#197BBD'],
+        else: 'white',
       }),
-      ":active": {
-        color: "white",
-        backgroundColor: "#2D3748",
+      ':active': {
+        color: 'white',
+        backgroundColor: '#2D3748',
       },
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: "black",
+      color: 'black',
     }),
   };
 
@@ -76,7 +76,7 @@ const Select = ({
       value={value}
       styles={customStyles}
       isClearable={isClearable ? isClearable : false}
-      menuPlacement={menuPlacement ? menuPlacement : "bottom"}
+      menuPlacement={menuPlacement ? menuPlacement : 'bottom'}
       onChange={onChange}
       isDisabled={isDisabled}
       components={{
