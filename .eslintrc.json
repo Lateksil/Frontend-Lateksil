@@ -1,6 +1,8 @@
 {
   "rules": {
-    "semi": ["error", "always"]
+    "no-console": 1,
+    "semi": ["error", "always"],
+    "no-unused-vars": ["error", { "vars": "all", "args": "none" }]
   },
   "extends": ["next/babel","next/core-web-vitals"],
   "settings": {

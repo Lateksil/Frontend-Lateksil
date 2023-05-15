@@ -68,7 +68,6 @@ const CartPage = () => {
                 <VStack w="full">
                   <Flex w="full">
                     <Box>
-                      {console.log('IMAGE', cart.Pengujian.image)}
                       <Image
                         src={
                           cart.Pengujian.image
@@ -90,7 +89,14 @@ const CartPage = () => {
                       <Text fontWeight="semibold" fontSize="sm">
                         {cart.Pengujian.jenis_pengujian}
                       </Text>
-                      <Badge size="sm" colorScheme={cart.Pengujian.tempat_pengujian === "Lapangan" ? 'blue': 'green'}>
+                      <Badge
+                        size="sm"
+                        colorScheme={
+                          cart.Pengujian.tempat_pengujian === 'Lapangan'
+                            ? 'blue'
+                            : 'green'
+                        }
+                      >
                         {cart.Pengujian.tempat_pengujian}
                       </Badge>
                       <Flex>

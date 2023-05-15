@@ -60,8 +60,6 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
     }
   };
 
-  console.log('Detail ', detailOrder);
-
   return (
     <Modal
       isOpen={isOpen}

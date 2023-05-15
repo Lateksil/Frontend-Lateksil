@@ -22,7 +22,6 @@ const MainCardPengujianBase = ({ pengujian, isLoading, ...props }) => {
     onClose: onCloseCardDetail,
   } = useDisclosure();
 
-
   if (pengujian)
     return (
       <>

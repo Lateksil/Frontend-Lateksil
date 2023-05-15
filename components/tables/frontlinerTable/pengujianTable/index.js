@@ -143,7 +143,12 @@ const PengujianTableFrontliner = ({ pengujian }) => {
               <Text fontSize="sm" color="orange.600">
                 {pengujian.code}
               </Text>
-              <Badge fontSize="xs" colorScheme="blue">
+              <Badge
+                fontSize="xs"
+                colorScheme={
+                  pengujian.tempat_pengujian === 'Lapangan' ? 'blue' : 'green'
+                }
+              >
                 {pengujian.tempat_pengujian}
               </Badge>
             </Box>

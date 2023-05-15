@@ -1,11 +1,17 @@
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Box,
+  Button,
   Center,
   Flex,
   HStack,
   Input,
   InputGroup,
   InputLeftElement,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Spacer,
   Spinner,
   Table,
@@ -35,22 +41,21 @@ const InputPengujian = () => {
   const [pageIndex, setPageIndex] = useState(1);
   const [dataLimit, setDataLimit] = useState(10);
 
+  const [filterTempatPengujian, setFilterTempatPengujian] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const [filter, setFilter] = useState('');
 
-  console.log(searchInput);
   const {
     data: dataPengujian,
     isLoading: isLoadingDataPengujian,
     error,
-    isError
+    isError,
   } = useRemotePengujian({
     page: pageIndex,
     limit: dataLimit,
     search: filter ? filter.found : '',
+    tempat_pengujian: filterTempatPengujian,
   });
-
-  console.log('error', isError)
 
   const pengujianListRef = useRef(null);
 
@@ -61,6 +66,7 @@ const InputPengujian = () => {
   useEffect(() => {
     if (error == null && pageIndex > 1) setPageIndex(pageIndex - 1);
   }, [error]);
+
 
   const handlePageClick = (page) => {
     setPageIndex(page);
@@ -85,7 +91,7 @@ const InputPengujian = () => {
     }
   }, [searchInput]);
 
-  console.log('DATA INPUT', dataPengujian)
+  console.log('Depdep')
 
   return (
     <VStack align="stretch">
@@ -103,6 +109,26 @@ const InputPengujian = () => {
         />
         <Text>Entries</Text>
         <Spacer />
+        <Box ml="3">
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+              {filterTempatPengujian === '' ? 'Semua' : filterTempatPengujian}
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => setFilterTempatPengujian('')}>
+                Semua
+              </MenuItem>
+              <MenuItem
+                onClick={() => setFilterTempatPengujian('Laboratorium')}
+              >
+                Laboratorium
+              </MenuItem>
+              <MenuItem onClick={() => setFilterTempatPengujian('Lapangan')}>
+                Lapangan
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
         <InputGroup maxW="xs">
           <InputLeftElement pointerEvents="none">
             <FiSearch />
@@ -146,7 +172,7 @@ const InputPengujian = () => {
             <Spinner />
           </Center>
         )}
-        { dataPengujian?.data === null && <MessageNotFoundData />}
+        {dataPengujian?.data === null && <MessageNotFoundData />}
       </Box>
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}
