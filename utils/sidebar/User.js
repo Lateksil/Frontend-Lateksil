@@ -1,21 +1,21 @@
-import { FaRegCheckSquare } from "react-icons/fa";
+import { FaRegCheckSquare } from 'react-icons/fa';
 import {
   HiCreditCard,
   HiDocumentText,
   HiHomeModern,
   HiShoppingCart,
-} from "react-icons/hi2";
+} from 'react-icons/hi2';
 
 function generateSidebaritemUser() {
   return [
     {
-      name: "Halaman Utama",
-      path: "/",
+      name: 'Halaman Utama',
+      path: '/',
       icon: HiHomeModern,
     },
     {
-      name: "Keranjang",
-      path: "/cart",
+      name: 'Keranjang',
+      path: '/cart',
       icon: HiShoppingCart,
     },
     // {
@@ -24,8 +24,8 @@ function generateSidebaritemUser() {
     //   icon: HiCreditCard,
     // },
     {
-      name: "Riwayat Transaksi",
-      path: "/history-transactions",
+      name: 'Riwayat Transaksi',
+      path: '/history-transactions',
       icon: HiDocumentText,
     },
   ];

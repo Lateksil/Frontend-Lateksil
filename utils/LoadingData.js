@@ -1,4 +1,4 @@
-import {  Center } from '@chakra-ui/layout';
+import { Center } from '@chakra-ui/layout';
 import { Spinner } from '@chakra-ui/react';
 
 const LoadingData = () => {

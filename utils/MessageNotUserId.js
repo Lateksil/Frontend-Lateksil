@@ -1,6 +1,6 @@
 import { Box, Center, Flex, Text } from '@chakra-ui/layout';
 import NextImage from '../components/core/nextimage';
-import LateksilImage from '.././assets/images/testing-ilustrator.jpg'
+import LateksilImage from '.././assets/images/testing-ilustrator.jpg';
 
 const MessageNotUserId = () => {
   return (

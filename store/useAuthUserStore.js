@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { destroyCookie, parseCookies, setCookie } from "nookies";
+import { create } from 'zustand';
+import { destroyCookie, parseCookies, setCookie } from 'nookies';
 
 const useAuthUserStore = create(
   (set) => {
@@ -11,15 +11,15 @@ const useAuthUserStore = create(
       email,
       accessToken,
       setUserId: (newId) => {
-        setCookie(null, "_id", newId, { path: "/" });
+        setCookie(null, '_id', newId, { path: '/' });
         set({ id: newId });
       },
       setLogin: (newEmail, newAccessToken) => {
-        setCookie(null, "_e", newEmail, {
-          path: "/",
+        setCookie(null, '_e', newEmail, {
+          path: '/',
         });
-        setCookie(null, "_t", newAccessToken, {
-          path: "/",
+        setCookie(null, '_t', newAccessToken, {
+          path: '/',
         });
         set({
           email: newEmail,
@@ -27,9 +27,9 @@ const useAuthUserStore = create(
         });
       },
       removeUser: () => {
-        destroyCookie(null, "_id", { path: "/" });
-        destroyCookie(null, "_e", { path: "/" });
-        destroyCookie(null, "_t", { path: "/" });
+        destroyCookie(null, '_id', { path: '/' });
+        destroyCookie(null, '_e', { path: '/' });
+        destroyCookie(null, '_t', { path: '/' });
         set({
           id: undefined,
           email: undefined,
@@ -38,7 +38,7 @@ const useAuthUserStore = create(
       },
     };
   },
-  { name: "user" }
+  { name: 'user' }
 );
 
 export default useAuthUserStore;

@@ -1,8 +1,8 @@
-import { destroyCookie, parseCookies } from "nookies";
-import { fetcherWithContext } from "../libs/axios";
+import { destroyCookie, parseCookies } from 'nookies';
+import { fetcherWithContext } from '../libs/axios';
 
 export const getServerSidePropsFrontliner = async (context) => {
-  const { _e: email, _t: accessToken } = parseCookies(context, { path: "/" });
+  const { _e: email, _t: accessToken } = parseCookies(context, { path: '/' });
 
   if (email && accessToken) {
     const url = `/me/${email}`;
@@ -10,10 +10,10 @@ export const getServerSidePropsFrontliner = async (context) => {
     const userResponse = await fetcherWithContext(url, context);
 
     if (userResponse) {
-      if (userResponse.data.role !== "frontliner")
+      if (userResponse.data.role !== 'frontliner')
         return {
           redirect: {
-            destination: "/",
+            destination: '/',
             permanent: false,
           },
         };
@@ -30,12 +30,12 @@ export const getServerSidePropsFrontliner = async (context) => {
     return returnValue;
   }
 
-  destroyCookie(context, "_e", { path: "/" });
-  destroyCookie(context, "_t", { path: "/" });
+  destroyCookie(context, '_e', { path: '/' });
+  destroyCookie(context, '_t', { path: '/' });
 
   return {
     redirect: {
-      destination: "/login",
+      destination: '/login',
       permanent: false,
     },
   };
