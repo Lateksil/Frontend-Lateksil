@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 
 import {
@@ -8,7 +7,6 @@ import {
   DrawerContent,
   DrawerOverlay,
   Flex,
-  Text,
 } from '@chakra-ui/react';
 
 import { useRouter } from 'next/router';

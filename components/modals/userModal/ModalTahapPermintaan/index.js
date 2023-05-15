@@ -114,9 +114,9 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                         Ditolak
                       </Text>{' '}
                       Karena
-                      <Text as="span">
+                      <Text as="span" color="red.600" fontWeight="semibold">
                         {' '}
-                        "Tidak dapat di uji untuk saat ini"
+                        &quot; Tidak dapat di uji untuk saat ini &quot;
                       </Text>
                     </Box>
                   )}

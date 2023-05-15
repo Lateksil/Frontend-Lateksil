@@ -49,7 +49,6 @@ const InputPengujian = () => {
     data: dataPengujian,
     isLoading: isLoadingDataPengujian,
     error,
-    isError,
   } = useRemotePengujian({
     page: pageIndex,
     limit: dataLimit,
@@ -89,8 +88,6 @@ const InputPengujian = () => {
       setFilter('');
     }
   }, [searchInput]);
-
-  console.log('depdep');
 
   return (
     <VStack align="stretch">

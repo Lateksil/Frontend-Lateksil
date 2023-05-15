@@ -15,7 +15,7 @@ import { baseUrl } from '../../../libs/axios';
 import formatCurrency from '../../../utils/formatCurrently';
 import ModalDetailPengujian from '../../modals/ModalDetailPengujian';
 
-const MainCardPengujianBase = ({ pengujian, isLoading, ...props }) => {
+const MainCardPengujianBase = ({ pengujian, ...props }) => {
   const {
     isOpen: isOpenCardDetail,
     onOpen: onOpenCardDetail,

@@ -63,15 +63,6 @@ const TableTahapPembayaran = () => {
     },
   ];
 
-  const statusOrder = (status) => {
-    if (status === 'Waiting') {
-      return 'orange';
-    }
-    if (status === 'Canceled') {
-      return 'red';
-    }
-  };
-
   return (
     <TabPanel px="0">
       <InputGroup>

@@ -34,7 +34,6 @@ import Slider from 'react-slick';
 
 const HomeDashboard = () => {
   const [searchText, setSearchText] = useState('');
-  const [page, setPage] = useState(1);
   const [filterTempatPengujian, setFilterTempatPengujian] = useState('');
 
   const [dataCat, setDataCat] = useState('Pengujian Aspal');
@@ -47,9 +46,8 @@ const HomeDashboard = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isError,
   } = useRemotePengujianClient({
-    page: page,
+    page: 1,
     limit: 10,
     search: searchText,
     category: dataCat,

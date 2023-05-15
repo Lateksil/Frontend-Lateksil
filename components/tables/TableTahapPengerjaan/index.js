@@ -18,7 +18,6 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
-import { FaWallet } from 'react-icons/fa';
 import { FiSearch } from 'react-icons/fi';
 import { MdLoop } from 'react-icons/md';
 import formatCurrency from '../../../utils/formatCurrently';

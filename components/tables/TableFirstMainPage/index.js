@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  AspectRatio,
-  Flex,
-  GridItem,
-  Image,
-  Text,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react';
+import { Flex, GridItem, Image, Text, useDisclosure } from '@chakra-ui/react';
 import ModalDetailPengujian from '../../modals/ModalDetailPengujian';
 import formatCurrency from '../../../utils/formatCurrently';
 

@@ -10,7 +10,6 @@ import {
   Spacer,
   Stack,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import { FiMenu } from 'react-icons/fi';
 import { useDashboard } from '../../../context/dashboard/DashboardProvider';

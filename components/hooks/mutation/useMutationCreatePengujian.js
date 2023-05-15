@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axiosInstance, { postFetcher } from '../../../libs/axios';
+import axiosInstance from '../../../libs/axios';
 import useToastNotification from '../useToastNotification';
 
 const useMutationCreatePengujian = () => {

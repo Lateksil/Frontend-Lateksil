@@ -3,7 +3,6 @@ import ReactSelect, { components } from 'react-select';
 import controlFlow from './helper/controlFlow';
 
 const Select = ({
-  styles: _styles,
   onChange,
   value,
   isClearable,
@@ -43,7 +42,7 @@ const Select = ({
       borderColor: 'none',
       color: 'black',
     }),
-    menu: (provided, state) => ({
+    menu: (provided) => ({
       ...provided,
       backgroundColor: 'white',
       borderColor: 'none',

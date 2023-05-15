@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Box,
   Button,
   ButtonGroup,
   FormControl,
@@ -26,13 +25,7 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
 
   const { mutate: mutateCreateOrdering } = useMutationCreateOrder();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    control,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const onModalCloseCheckout = () => {
     onClose();

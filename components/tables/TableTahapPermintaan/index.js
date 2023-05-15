@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 dayjs.locale('id');
 
-const TableTahapPermintaan = ({ order, isLoading }) => {
+const TableTahapPermintaan = ({ order }) => {
   const {
     isOpen: isOpenDetailHistory,
     onOpen: onOpenDetailHistory,

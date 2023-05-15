@@ -189,7 +189,7 @@ import useRemoteCart from '../../hooks/remote/useRemoteCart';
 
 const InputQuantitas = ({ cart, total }) => {
   const [value, setValue] = useState(parseInt(cart.quantity));
-  const [isDescrement, setIsDescrement] = useState(false);
+  const [, setIsDescrement] = useState(false);
 
   const { data: dataCartUserId } = useRemoteCart();
 

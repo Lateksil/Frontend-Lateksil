@@ -3,7 +3,6 @@ import {
   Box,
   Center,
   Flex,
-  GridItem,
   HStack,
   Input,
   InputGroup,
@@ -124,8 +123,9 @@ const HistroyTransactions = () => {
                 </Thead>
                 <Tbody>
                   {dataOrdering &&
-                    dataOrdering.data?.map((order) => (
+                    dataOrdering.data?.map((order, i) => (
                       <TableTahapPermintaan
+                        key={i}
                         order={order}
                         isLoading={isLoadingOrdering}
                       />
@@ -165,8 +165,9 @@ const HistroyTransactions = () => {
                 </Thead>
                 <Tbody>
                   {dataOrdering &&
-                    dataOrdering.data?.map((order) => (
+                    dataOrdering.data?.map((order, i) => (
                       <TableTahapPermintaan
+                        key={i}
                         order={order}
                         isLoading={isLoadingOrdering}
                       />

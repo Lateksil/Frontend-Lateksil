@@ -1,13 +1,10 @@
 import React from 'react';
 import NextLink from 'next/link';
 import {
-  AspectRatio,
   Badge,
   Box,
   Button,
-  Center,
   Flex,
-  GridItem,
   HStack,
   IconButton,
   Image,
