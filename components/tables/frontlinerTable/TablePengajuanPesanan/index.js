@@ -105,18 +105,29 @@ const TablePengajuanPesanan = ({ order }) => {
               colorScheme="blue"
               size="md"
               onClick={onOpenSendToManager}
+              isDisabled={order.status.is_send_manager}
             >
-              Send Manager
+              {order.status.is_send_manager ? 'Terikirim' : 'Send Manager'}
             </Button>
           )}
           {order.status.status_persetujuan === TransactionTypes.CANCELED && (
-            <Button w="full" colorScheme="orange" size="md">
-              Send Costumer
+            <Button
+              w="full"
+              colorScheme="orange"
+              size="md"
+              isDisabled={order.status.is_send_costumer}
+            >
+              {order.status.is_send_costumer ? 'Terikirim' : 'Send Costumer'}
             </Button>
           )}
           {order.status.status_persetujuan === TransactionTypes.ACCEPT && (
-            <Button w="full" isDisabled={true} colorScheme="orange" size="md">
-              Send Costumer
+            <Button
+              w="full"
+              colorScheme="orange"
+              size="md"
+              isDisabled={order.status.is_send_costumer}
+            >
+              {order.status.is_send_costumer ? 'Terikirim' : 'Send Costumer'}
             </Button>
           )}
         </Td>

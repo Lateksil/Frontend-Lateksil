@@ -147,7 +147,7 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
                 />
 
                 <TableToName
-                  label="No. Refrensi"
+                  label="Keterangan"
                   value={detailOrder.proyek.keterangan_to_client}
                 />
                 <Flex mt="5">
