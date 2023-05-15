@@ -1,5 +1,4 @@
 import React from 'react';
-import NextLink from 'next/link';
 import {
   Badge,
   Box,
@@ -23,13 +22,15 @@ import formatCurrency from '../utils/formatCurrently';
 import { getServerSidePropsCostumer } from '../utils/getServerSidePropsCostumer';
 import useMutationDeleteCart from '../components/hooks/mutation/delete/useMutationDeleteCart';
 import ModalCheckout from '../components/modals/ModalCheckout';
-import NextImage from '../components/core/nextimage';
-import LateksilImage from '.././assets/images/testing-ilustrator.jpg';
 import { baseUrl } from '../libs/axios';
+import MessageClientNotFoundData from '../utils/MessageClientNotFoundData';
+import useAuthUserStore from '../store/useAuthUserStore';
 
 const CartPage = () => {
   const { data: dataCartUserId } = useRemoteCart();
   const { mutate: mutateDeleteCart } = useMutationDeleteCart();
+
+  const id = useAuthUserStore((state) => state.id);
 
   const {
     isOpen: isOpenCheckout,
@@ -126,42 +127,10 @@ const CartPage = () => {
               </Flex>
             </Box>
           ))}
-          {dataCartUserId ? (
-            dataCartUserId?.data.length == 0 && (
-              <Flex maxW="sm" flexDir="column" align="center" my="10">
-                <Box width={200} height={200}>
-                  <NextImage
-                    src={LateksilImage}
-                    alt="Civil Engginering Illustration"
-                    layout="responsive"
-                    placeholder="blur"
-                  />
-                </Box>
-                <Text textAlign="center" fontWeight="semibold">
-                  Keranjang Kosong? Silahkan Cari Pengujian
-                </Text>
-                <NextLink href="/">
-                  <Button w="full" mt="2">
-                    Cari Pengujian
-                  </Button>
-                </NextLink>
-              </Flex>
-            )
-          ) : (
-            <Flex maxW="sm" flexDir="column" align="center">
-              <Box width={200} height={200}>
-                <NextImage
-                  src={LateksilImage}
-                  alt="Civil Engginering Illustration"
-                  layout="responsive"
-                  placeholder="blur"
-                />
-              </Box>
-              <Text textAlign="center" fontWeight="semibold">
-                Belum Ada Pengujian? Silahkan Masuk Terlebih Dahulu
-              </Text>
-            </Flex>
+          {dataCartUserId && dataCartUserId?.data.length == 0 && (
+            <MessageClientNotFoundData isLogin={true} />
           )}
+          {!id && <MessageClientNotFoundData isLogin={false} />}
         </VStack>
         <Box
           borderWidth={2}

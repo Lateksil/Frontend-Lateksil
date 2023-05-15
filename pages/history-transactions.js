@@ -34,18 +34,17 @@ import { generateEntryOptions } from '../components/core/select/helper/entryOpti
 import Select from '../components/core/select';
 import DashboardPagination from '../components/dashboard/DashboardPagination';
 import { TransactionTypes } from '../utils/enum/TransactionTypes';
+import MessageClientNotFoundData from '../utils/MessageClientNotFoundData';
+import useAuthUserStore from '../store/useAuthUserStore';
 
 const HistroyTransactions = () => {
+  const id = useAuthUserStore((state) => state.id);
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
   const [statusPersetujuan, setStatusPesetujuan] = useState(
     TransactionTypes.WAITING
   );
 
-  const {
-    data: dataOrdering,
-    isError,
-    isLoading: isLoadingOrdering,
-  } = useRemoteOrder({
+  const { data: dataOrdering, isLoading: isLoadingOrdering } = useRemoteOrder({
     status_persetujuan: statusPersetujuan,
   });
 
@@ -178,7 +177,11 @@ const HistroyTransactions = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      {isLoadingOrdering && !isError ? (
+      {dataOrdering?.totalData === 0 && (
+        <MessageClientNotFoundData isLogin={true} />
+      )}
+      {!id && <MessageClientNotFoundData isLogin={false} />}
+      {isLoadingOrdering && id ? (
         <Center my="10">
           <Spinner />
         </Center>

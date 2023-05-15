@@ -1,5 +1,5 @@
 import { Icon } from '@chakra-ui/icon';
-import { Box, Center, Text, VStack } from '@chakra-ui/layout';
+import { Center, Text, VStack } from '@chakra-ui/layout';
 import { RiFolderInfoFill } from 'react-icons/ri';
 
 const MessageNotFoundData = () => {
