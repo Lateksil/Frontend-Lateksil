@@ -1,6 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import DashboardProvider from '../../../context/dashboard/DashboardProvider';
 import generateSidebaritemFrontliner from '../../../utils/sidebar/Frontliner';
+import generateSidebaritemManager from '../../../utils/sidebar/Manager';
 import generateSidebaritemUser from '../../../utils/sidebar/User';
 import DashboardMain from '../DashboardMain';
 import DashboardSidebar from '../DashboardSidebar';
@@ -9,6 +10,9 @@ const DashboardLayout = ({ sidebarFor, children }) => {
   let sidebarItems = [];
 
   switch (sidebarFor) {
+    case 'manager':
+      sidebarItems = generateSidebaritemManager();
+      break;
     case 'frontliner':
       sidebarItems = generateSidebaritemFrontliner();
       break;

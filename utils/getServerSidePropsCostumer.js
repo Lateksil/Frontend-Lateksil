@@ -17,6 +17,14 @@ export const getServerSidePropsCostumer = async (context) => {
             permanent: false,
           },
         };
+
+      if (userResponse.data.role === 'manager')
+        return {
+          redirect: {
+            destination: '/manager',
+            permanent: false,
+          },
+        };
     }
   }
 

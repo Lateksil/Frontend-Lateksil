@@ -25,20 +25,40 @@ import DetailPengajuanPesanan from '../../../modals/frontlinerModal/detailPengaj
 import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
+import { useForm } from 'react-hook-form';
+import useMutationUpdateProyek from '../../../hooks/mutation/put/useMutationUpdateProyek';
 dayjs.locale('id');
 
 const TablePengajuanPesanan = ({ order }) => {
+  const { mutate: mutateSendToManager } = useMutationUpdateProyek();
   const {
     isOpen: isOpenDetailHistory,
     onOpen: onOpenDetailHistory,
     onClose: onCloseDetailHistory,
   } = useDisclosure();
 
+  const { register, handleSubmit, reset } = useForm();
+
   const {
     isOpen: isOpenSendToManager,
     onOpen: onOpenSendToManager,
     onClose: onCLoseSendToManager,
   } = useDisclosure();
+
+  const onSubmit = (data) => {
+    const formData = {
+      id: order.id,
+      no_refrensi: data.no_refrensi,
+      no_identifikasi: data.no_identifikasi,
+      no_surat: data.no_surat,
+      tanggal_mulai: data.tanggal_mulai,
+      tanggal_selesai: data.tanggal_selesai,
+    };
+    mutateSendToManager({ formData: formData });
+
+    onCLoseSendToManager();
+    reset();
+  };
 
   const statusOrder = (status) => {
     if (status === TransactionTypes.WAITING) {
@@ -141,44 +161,49 @@ const TablePengajuanPesanan = ({ order }) => {
         isCentered
       >
         <ModalOverlay />
-        <ModalContent mx="4" overflow="hidden">
+        <ModalContent
+          mx="4"
+          overflow="hidden"
+          as="form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <ModalCloseButton />
           <ModalHeader>
             <Text>Input Pengajuan Pemesanan</Text>
           </ModalHeader>
           <ModalBody>
             <Stack pb="10">
-              <FormControl id="company_name" isRequired>
+              <FormControl id="no_refrensi" isRequired>
                 <FormLabel>No. Refrensi</FormLabel>
                 <Input
-                  value="123UBL2019"
                   type="text"
-                  placeholder="Nama Perusahaan"
+                  placeholder="Masukan No Refrensi"
+                  {...register('no_refrensi')}
                 />
               </FormControl>
-              <FormControl id="company_name" isRequired>
+              <FormControl id="no_identifikasi" isRequired>
                 <FormLabel>No. Identifikasi</FormLabel>
                 <Input
-                  value="CE76843DE"
                   type="text"
-                  placeholder="Nama Perusahaan"
+                  placeholder="Masukan No Identifikasi"
+                  {...register('no_identifikasi')}
                 />
               </FormControl>
-              <FormControl id="company_name" isRequired>
+              <FormControl id="no_surat" isRequired>
                 <FormLabel>No. Surat</FormLabel>
                 <Input
-                  value="SK/12/23/V-III"
                   type="text"
-                  placeholder="Nama Perusahaan"
+                  placeholder="Masukan No Surat"
+                  {...register('no_surat')}
                 />
               </FormControl>
-              <FormControl id="company_name" isRequired>
+              <FormControl id="tanggal_mulai" isRequired>
                 <FormLabel>Tanggal Mulai</FormLabel>
-                <Input type="date" placeholder="Nama Perusahaan" />
+                <Input type="datetime-local" {...register('tanggal_mulai')} />
               </FormControl>
-              <FormControl id="company_name" isRequired>
+              <FormControl id="tanggal_selesai" isRequired>
                 <FormLabel>Tanggal Selesai</FormLabel>
-                <Input type="date" placeholder="Nama Perusahaan" />
+                <Input type="datetime-local" {...register('tanggal_selesai')} />
               </FormControl>
             </Stack>
           </ModalBody>

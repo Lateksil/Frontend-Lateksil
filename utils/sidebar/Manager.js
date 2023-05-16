@@ -1,0 +1,29 @@
+import { IoDocumentText } from 'react-icons/io5';
+import { MdPostAdd } from 'react-icons/md';
+
+function generateSidebaritemManager() {
+  return [
+    {
+      name: 'Proyek Pengujian',
+      path: '/',
+      icon: IoDocumentText,
+      sub: [
+        {
+          name: 'Pengajuan Pemesanan',
+          path: '/manager',
+        },
+        {
+          name: 'Proses Pengujian',
+          path: '/manager/proses-pengujian',
+        },
+      ],
+    },
+    {
+      name: 'Data Teknisi',
+      path: '/frontliner/input-pengujian',
+      icon: MdPostAdd,
+    },
+  ];
+}
+
+export default generateSidebaritemManager;
