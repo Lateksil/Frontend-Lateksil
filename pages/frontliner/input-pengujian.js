@@ -1,17 +1,11 @@
-import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Button,
   Center,
   Flex,
   HStack,
   Input,
   InputGroup,
   InputLeftElement,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Spacer,
   Spinner,
   Table,
@@ -33,11 +27,16 @@ import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import useRemotePengujian from '../../components/hooks/remote/useRemotePengujian';
 import PengujianTableFrontliner from '../../components/tables/frontlinerTable/pengujianTable';
+import { generateOptionTempatPengujian } from '../../utils/entryOptions/generateEntryPengujian';
 import { getServerSidePropsFrontliner } from '../../utils/getServerSidePropsFrontliner';
-import MessageNotFoundData from '../../utils/MessageNotFoundData';
+import MessageSearchNotFound from '../../utils/MessageSearchNotFound';
 
 const InputPengujian = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
+  const showTempatPengujian = useMemo(
+    () => generateOptionTempatPengujian(),
+    []
+  );
   const [pageIndex, setPageIndex] = useState(1);
   const [dataLimit, setDataLimit] = useState(10);
 
@@ -106,24 +105,12 @@ const InputPengujian = () => {
         <Text>Entries</Text>
         <Spacer />
         <Box ml="3">
-          <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-              {filterTempatPengujian === '' ? 'Semua' : filterTempatPengujian}
-            </MenuButton>
-            <MenuList>
-              <MenuItem onClick={() => setFilterTempatPengujian('')}>
-                Semua
-              </MenuItem>
-              <MenuItem
-                onClick={() => setFilterTempatPengujian('Laboratorium')}
-              >
-                Laboratorium
-              </MenuItem>
-              <MenuItem onClick={() => setFilterTempatPengujian('Lapangan')}>
-                Lapangan
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          <Select
+            isSearchable={false}
+            options={showTempatPengujian}
+            defaultValue={showTempatPengujian[0]}
+            onChange={(option) => setFilterTempatPengujian(option.value)}
+          />
         </Box>
         <InputGroup maxW="xs">
           <InputLeftElement pointerEvents="none">
@@ -131,7 +118,7 @@ const InputPengujian = () => {
           </InputLeftElement>
           <Input
             type="text"
-            placeholder="Search ..."
+            placeholder="Search Pengujian..."
             variant="outline"
             shadow="none"
             onChange={(e) => setSearchInput(e.target.value)}
@@ -163,12 +150,12 @@ const InputPengujian = () => {
             ))}
           </Tbody>
         </Table>
+        {dataPengujian?.data === null && <MessageSearchNotFound />}
         {isLoadingDataPengujian && (
           <Center my="6">
             <Spinner />
           </Center>
         )}
-        {dataPengujian?.data === null && <MessageNotFoundData />}
       </Box>
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}

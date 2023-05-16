@@ -70,7 +70,6 @@ const DataCostumer = () => {
     }
   }, [searchInput]);
 
-  console.log(dataCostumer);
   return (
     <VStack align="stretch" spacing={5}>
       <Head>

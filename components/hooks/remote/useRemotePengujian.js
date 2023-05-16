@@ -5,7 +5,7 @@ const useRemotePengujian = ({ page, limit, tempat_pengujian, search }) => {
   const uri = `/pengujian`;
 
   const { data, ...others } = useQuery(
-    ['pengujian', page, page, tempat_pengujian, search],
+    ['pengujian', page, limit, tempat_pengujian, search],
     () =>
       postFetcher(uri, {
         page,
