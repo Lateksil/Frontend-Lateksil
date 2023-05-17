@@ -86,7 +86,10 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
                   <Spacer />
                   <Flex align="center">
                     <Icon w={5} h={5} as={MdCorporateFare} />
-                    <Text ml={2}> {detailOrder.User.company_name}</Text>
+                    <Text ml={2} fontWeight="semibold">
+                      {' '}
+                      {detailOrder.User.company_name}
+                    </Text>
                   </Flex>
                 </Flex>
                 <Box py="2">
