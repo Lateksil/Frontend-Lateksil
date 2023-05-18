@@ -151,7 +151,24 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
 
                 <TableToName
                   label="Keterangan"
-                  value={detailOrder.proyek.keterangan_to_client}
+                  color={
+                    detailOrder.status.status_persetujuan ===
+                    TransactionTypes.ACCEPT
+                      ? 'green.600'
+                      : detailOrder.status.status_persetujuan ===
+                        TransactionTypes.CANCELED
+                      ? 'red.600'
+                      : 'black'
+                  }
+                  value={
+                    detailOrder.status.status_persetujuan ===
+                    TransactionTypes.ACCEPT
+                      ? detailOrder.proyek.keterangan_to_client
+                      : detailOrder.status.status_persetujuan ===
+                        TransactionTypes.CANCELED
+                      ? `Ditolak Karena ${detailOrder.proyek.keterangan_to_client}`
+                      : '-'
+                  }
                 />
                 <Flex mt="5">
                   <Box flex={1}>

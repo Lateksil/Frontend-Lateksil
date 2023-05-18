@@ -9,11 +9,15 @@ function generateSidebaritemManager() {
       icon: IoDocumentText,
       sub: [
         {
-          name: 'Pengajuan Pemesanan',
+          name: 'Persetujuan Pesanan',
           path: '/manager',
         },
         {
           name: 'Proses Pengujian',
+          path: '/manager/proses-pengujian',
+        },
+        {
+          name: 'Tahap Pengujian',
           path: '/manager/proses-pengujian',
         },
       ],

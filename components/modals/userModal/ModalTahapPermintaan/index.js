@@ -77,25 +77,25 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                   <Badge
                     ml="3"
                     colorScheme={statusOrder(
-                      detailOrder.status.status_persetujuan
+                      detailOrder.status.status_transaction
                     )}
                     rounded="md"
                     px={3}
                     py={1}
                   >
-                    {detailOrder.status.status_persetujuan ===
+                    {detailOrder.status.status_transaction ===
                     TransactionTypes.WAITING
                       ? 'Waiting'
                       : 'canceled'}
                   </Badge>
                 </Flex>
                 <Box w="full" py="2">
-                  {detailOrder.status.status_persetujuan ===
+                  {detailOrder.status.status_transaction ===
                   TransactionTypes.WAITING ? (
                     <Text
                       fontWeight="semibold"
                       color={
-                        detailOrder.status.status_persetujuan ===
+                        detailOrder.status.status_transaction ===
                         TransactionTypes.WAITING
                           ? 'yellow.600'
                           : 'red.600'
@@ -116,7 +116,7 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                       Karena
                       <Text as="span" color="red.600" fontWeight="semibold">
                         {' '}
-                        &quot; Tidak dapat di uji untuk saat ini &quot;
+                        &quot; {detailOrder.proyek.keterangan_to_client} &quot;
                       </Text>
                     </Box>
                   )}

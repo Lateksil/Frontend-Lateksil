@@ -49,12 +49,12 @@ const TableTahapPermintaan = ({ order }) => {
         </Td>
         <Td textAlign="center">
           <Badge
-            colorScheme={statusOrder(order.status.status_persetujuan)}
+            colorScheme={statusOrder(order.status.status_transaction)}
             rounded="md"
             px={3}
             py={1}
           >
-            {order.status.status_persetujuan === TransactionTypes.WAITING
+            {order.status.status_transaction === TransactionTypes.WAITING
               ? 'Waiting'
               : 'canceled'}
           </Badge>

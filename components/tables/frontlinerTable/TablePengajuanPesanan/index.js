@@ -27,6 +27,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 import { useForm } from 'react-hook-form';
 import useMutationUpdateProyek from '../../../hooks/mutation/put/useMutationUpdateProyek';
+import { BooleanType } from '../../../../utils/enum/BooleanType';
 dayjs.locale('id');
 
 const TablePengajuanPesanan = ({ order }) => {
@@ -125,9 +126,13 @@ const TablePengajuanPesanan = ({ order }) => {
               colorScheme="blue"
               size="md"
               onClick={onOpenSendToManager}
-              isDisabled={order.status.is_send_manager}
+              isDisabled={
+                order.status.is_send_manager === BooleanType.TRUE ? true : false
+              }
             >
-              {order.status.is_send_manager ? 'Terikirim' : 'Send Manager'}
+              {order.status.is_send_manager === BooleanType.TRUE
+                ? 'Terikirim'
+                : 'Send Manager'}
             </Button>
           )}
           {order.status.status_persetujuan === TransactionTypes.CANCELED && (
@@ -135,9 +140,15 @@ const TablePengajuanPesanan = ({ order }) => {
               w="full"
               colorScheme="orange"
               size="md"
-              isDisabled={order.status.is_send_costumer}
+              isDisabled={
+                order.status.is_send_costumer === BooleanType.TRUE
+                  ? true
+                  : false
+              }
             >
-              {order.status.is_send_costumer ? 'Terikirim' : 'Send Costumer'}
+              {order.status.is_send_costumer === BooleanType.TRUE
+                ? 'Terikirim'
+                : 'Send Costumer'}
             </Button>
           )}
           {order.status.status_persetujuan === TransactionTypes.ACCEPT && (
@@ -145,9 +156,15 @@ const TablePengajuanPesanan = ({ order }) => {
               w="full"
               colorScheme="orange"
               size="md"
-              isDisabled={order.status.is_send_costumer}
+              isDisabled={
+                order.status.is_send_costumer === BooleanType.TRUE
+                  ? true
+                  : false
+              }
             >
-              {order.status.is_send_costumer ? 'Terikirim' : 'Send Costumer'}
+              {order.status.is_send_costumer === BooleanType.TRUE
+                ? 'Terikirim'
+                : 'Send Costumer'}
             </Button>
           )}
         </Td>

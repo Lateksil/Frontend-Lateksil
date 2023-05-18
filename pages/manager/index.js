@@ -31,7 +31,7 @@ import { getServerSidePropsManager } from '../../utils/getServerSidePropsManager
 import TablePengajuanPesananManager from '../../components/tables/managerTable/TablePengajuanPesananManager';
 import useRemoteOrdersManager from '../../components/hooks/remote/useRemoteOrdersManager';
 
-const PengajuanPemesananManager = () => {
+const PersetujuanPesanan = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
   const [statusPersetujuan, setStatusPesetujuan] = useState('1');
 
@@ -46,11 +46,11 @@ const PengajuanPemesananManager = () => {
   return (
     <VStack align="stretch">
       <Head>
-        <title>Pengajuan Pemesanan | Lateksil</title>
+        <title>Persetujuan Pesanan | Lateksil</title>
       </Head>
       <HStack borderBottomWidth="1px" pb="4">
         <Text color="blue.700" fontWeight="bold" fontSize="xl">
-          Pengajuan Pemesanan
+          Persetujuan Pesanan
         </Text>
       </HStack>
       <Tabs variant="line" isFitted>
@@ -101,7 +101,11 @@ const PengajuanPemesananManager = () => {
                 </Th>
                 <Th textAlign="center">Tanggal Mulai</Th>
                 <Th textAlign="center">Tanggal Selesai</Th>
-                <Th textAlign="center">Aksi</Th>
+                {statusPersetujuan === TransactionTypes.WAITING ? (
+                  <Th textAlign="center">Aksi</Th>
+                ) : (
+                  <Th textAlign="center">Status Persetujuan</Th>
+                )}
               </Tr>
             </Thead>
             <Tbody>
@@ -145,8 +149,8 @@ const PengajuanPemesananManager = () => {
 
 export const getServerSideProps = getServerSidePropsManager;
 
-PengajuanPemesananManager.getLayout = (page) => (
+PersetujuanPesanan.getLayout = (page) => (
   <DashboardLayout sidebarFor="manager">{page}</DashboardLayout>
 );
 
-export default PengajuanPemesananManager;
+export default PersetujuanPesanan;

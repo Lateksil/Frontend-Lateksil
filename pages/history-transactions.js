@@ -45,7 +45,7 @@ const HistroyTransactions = () => {
   );
 
   const { data: dataOrdering, isLoading: isLoadingOrdering } = useRemoteOrder({
-    status_persetujuan: statusPersetujuan,
+    status_transaction: statusPersetujuan,
   });
 
   return (
