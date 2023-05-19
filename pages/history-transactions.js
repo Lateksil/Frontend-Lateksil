@@ -22,7 +22,6 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import DashboardLayout from '../components/dashboard/DashboardLayout';
-import TableTahapPermintaan from '../components/tables/TableTahapPermintaan';
 import { FiSearch } from 'react-icons/fi';
 import useRemoteOrder from '../components/hooks/remote/useRemoteOrder';
 import { generateEntryOptions } from '../components/core/select/helper/entryOptions';
@@ -31,6 +30,7 @@ import DashboardPagination from '../components/dashboard/DashboardPagination';
 import { TransactionTypes } from '../utils/enum/TransactionTypes';
 import MessageClientNotFoundData from '../utils/MessageClientNotFoundData';
 import useAuthUserStore from '../store/useAuthUserStore';
+import TableTahapTransaction from '../components/tables/userTable/TableTahapTransaction';
 
 const HistroyTransactions = () => {
   const id = useAuthUserStore((state) => state.id);
@@ -122,7 +122,7 @@ const HistroyTransactions = () => {
             <Tbody>
               {dataOrdering &&
                 dataOrdering.data?.map((order, i) => (
-                  <TableTahapPermintaan
+                  <TableTahapTransaction
                     key={i}
                     order={order}
                     isLoading={isLoadingOrdering}

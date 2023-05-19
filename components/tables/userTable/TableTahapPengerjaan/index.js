@@ -18,48 +18,43 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
-import { FaWallet } from 'react-icons/fa';
 import { FiSearch } from 'react-icons/fi';
-import formatCurrency from '../../../utils/formatCurrently';
-import Select from '../../core/select';
-import { generateEntryOptions } from '../../core/select/helper/entryOptions';
-import DashboardPagination from '../../dashboard/DashboardPagination';
+import { MdLoop } from 'react-icons/md';
+import formatCurrency from '../../../../utils/formatCurrently';
+import Select from '../../../core/select';
+import { generateEntryOptions } from '../../../core/select/helper/entryOptions';
+import DashboardPagination from '../../../dashboard/DashboardPagination';
 
-const TableTahapPembayaran = () => {
+const TableTahapPengerjaan = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
   const dataHistoryTransactions = [
     {
       full_name: 'Deva Aji Saputra',
-      company_name: 'PT. Indonesia Sejahtera',
+      company_name: 'PT. Pindad',
       name_project: 'Pembuatan Kubus',
       tanggal_pemesanan: '08 Mei 2023',
       total_price: '1050000',
       status_order: 'Accepted',
+      status_payment: 'Lunas',
     },
     {
       full_name: 'Deva Aji Saputra',
-      company_name: 'PT. Indonesia Sejahtera',
+      company_name: 'PT. Pindad',
       name_project: 'Pembuatan Kubus',
       tanggal_pemesanan: '08 Mei 2023',
-      total_price: '1500000',
+      total_price: '1050000',
       status_order: 'Accepted',
+      status_payment: 'Lunas',
     },
     {
       full_name: 'Deva Aji Saputra',
-      company_name: 'PT. Indonesia Sejahtera',
+      company_name: 'PT. Pindad',
       name_project: 'Pembuatan Kubus',
       tanggal_pemesanan: '08 Mei 2023',
-      total_price: '1500000',
+      total_price: '1050000',
       status_order: 'Accepted',
-    },
-    {
-      full_name: 'Deva Aji Saputra',
-      company_name: 'PT. Indonesia Sejahtera',
-      name_project: 'Pembuatan Kubus',
-      tanggal_pemesanan: '08 Mei 2023',
-      total_price: '1500000',
-      status_order: 'Accepted',
+      status_payment: 'Lunas',
     },
   ];
 
@@ -71,7 +66,7 @@ const TableTahapPembayaran = () => {
         </InputLeftElement>
         <Input
           type="text"
-          placeholder="Cari tahap pembayaran"
+          placeholder="Cari tahap pengerjaan"
           variant="outline"
           shadow="none"
           _placeholder={{ color: '#45414180' }}
@@ -88,7 +83,7 @@ const TableTahapPembayaran = () => {
               <Th textAlign="center">Total Harga</Th>
               <Th textAlign="center">Pesanan</Th>
               <Th textAlign="center">Status</Th>
-              <Th textAlign="center">Aksi</Th>
+              <Th textAlign="center">Progress</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -111,18 +106,18 @@ const TableTahapPembayaran = () => {
                 </Td>
                 <Td textAlign="center">
                   <Badge colorScheme="green" p={1}>
-                    {order.status_order}
+                    {order.status_payment}
                   </Badge>
                 </Td>
                 <Td textAlign="center">
                   <Button
-                    leftIcon={<FaWallet />}
+                    leftIcon={<MdLoop />}
                     size="sm"
-                    bg="blue.700"
+                    bg="#E44E69"
                     color="white"
                     _hover={{ bg: 'blue.800' }}
                   >
-                    Bayar
+                    In Progress
                   </Button>
                 </Td>
               </Tr>
@@ -155,4 +150,4 @@ const TableTahapPembayaran = () => {
   );
 };
 
-export default TableTahapPembayaran;
+export default TableTahapPengerjaan;

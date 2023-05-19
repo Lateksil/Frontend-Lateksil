@@ -20,10 +20,10 @@ import {
 import React, { useMemo } from 'react';
 import { VscFilePdf } from 'react-icons/vsc';
 import { FiSearch } from 'react-icons/fi';
-import formatCurrency from '../../../utils/formatCurrently';
-import Select from '../../core/select';
-import { generateEntryOptions } from '../../core/select/helper/entryOptions';
-import DashboardPagination from '../../dashboard/DashboardPagination';
+import formatCurrency from '../../../../utils/formatCurrently';
+import Select from '../../../core/select';
+import { generateEntryOptions } from '../../../core/select/helper/entryOptions';
+import DashboardPagination from '../../../dashboard/DashboardPagination';
 
 const TableTahapPenyelesaian = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);

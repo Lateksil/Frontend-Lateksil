@@ -1,15 +1,16 @@
 import React from 'react';
 import { Badge, Button, Td, Tr, useDisclosure } from '@chakra-ui/react';
 
-import formatCurrency from '../../../utils/formatCurrently';
+import formatCurrency from '../../../../utils/formatCurrently';
 
-import ModalTahapPermintaan from '../../modals/userModal/ModalTahapPermintaan';
-import { TransactionTypes } from '../../../utils/enum/TransactionTypes';
+import ModalTahapPermintaan from '../../../modals/userModal/ModalTahapPermintaan';
+import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
+import { FaWallet } from 'react-icons/fa';
 dayjs.locale('id');
 
-const TableTahapPermintaan = ({ order }) => {
+const TableTahapTransaction = ({ order }) => {
   const {
     isOpen: isOpenDetailHistory,
     onOpen: onOpenDetailHistory,
@@ -56,7 +57,9 @@ const TableTahapPermintaan = ({ order }) => {
         </Td>
         {order.status.status_transaction === TransactionTypes.ACCEPT && (
           <Td>
-            <Button variant="lateksil-solid">Bayar</Button>
+            <Button leftIcon={<FaWallet />} size="sm" variant="lateksil-solid">
+              Bayar
+            </Button>
           </Td>
         )}
       </Tr>
@@ -69,4 +72,4 @@ const TableTahapPermintaan = ({ order }) => {
   );
 };
 
-export default TableTahapPermintaan;
+export default TableTahapTransaction;
