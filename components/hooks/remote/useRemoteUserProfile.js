@@ -17,7 +17,6 @@ const useRemoteUserProfile = () => {
   useEffect(() => {
     if (data) setUserId(data?.data.id);
     else if (error) removeUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return { data, ...others };

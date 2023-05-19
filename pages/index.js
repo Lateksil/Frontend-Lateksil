@@ -30,6 +30,7 @@ import useRemotePengujianClient from '../components/hooks/remote/useRemotePenguj
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import MainPenugujianCardGrid from '../components/main/mainPengujianCardGrid';
 import MainCardPengujian from '../components/main/mainCardPengujian';
+import ButtonTab from '../components/core/ButtonTab';
 
 const HomeDashboard = () => {
   const [searchText, setSearchText] = useState('');
@@ -68,28 +69,13 @@ const HomeDashboard = () => {
             {dataCategoryClient &&
               dataCategoryClient?.data.map((category, i) => (
                 <React.Fragment key={i}>
-                  <Box
-                    w="max-content"
-                    cursor="pointer"
-                    bg={
-                      dataCat === category.name_category
-                        ? 'blue.700'
-                        : '#f5f5f5'
-                    }
-                    color={
-                      dataCat === category.name_category ? 'white' : 'black'
-                    }
-                    rounded="md"
-                    p="4"
-                    fontSize={{ base: '10px', md: 'md' }}
+                  <ButtonTab
+                    label={dataCat}
+                    value={category.name_category}
                     onClick={() => setDataCat(category.name_category)}
-                    fontWeight={
-                      dataCat === category.name_category ? 'semibold' : 'normal'
-                    }
-                    mx={{ base: '0', md: '3' }}
                   >
-                    <Text textAlign="center">{category.name_category}</Text>
-                  </Box>
+                    {category.name_category}
+                  </ButtonTab>
                 </React.Fragment>
               ))}
             {isLoadingCategoryClient && (

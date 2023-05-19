@@ -108,7 +108,7 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
                         </HStack>
                         <HStack>
                           <Icon w={5} h={5} as={MdCall} />
-                          <Text>{detailOrder.proyek.no_whatsApp_proyek}</Text>
+                          <Text>{detailOrder.User.no_whatsapp}</Text>
                         </HStack>
                         <Text>{detailOrder?.User.address}</Text>
                       </VStack>

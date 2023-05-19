@@ -6,7 +6,7 @@ const ButtonTab = ({ label, value, children, ...props }) => {
     <Box
       w="max-content"
       cursor="pointer"
-      rounded="xl"
+      rounded="md"
       border={label === value ? '1px solid #102D62' : '1px solid gray'}
       p="3"
       bg={label === value ? 'blue.700' : 'gray.100'}
@@ -15,7 +15,7 @@ const ButtonTab = ({ label, value, children, ...props }) => {
       <Text
         textAlign="center"
         color={label === value ? 'white' : 'gray.500'}
-        fontWeight="semibold"
+        fontWeight="normal"
       >
         {children}
       </Text>

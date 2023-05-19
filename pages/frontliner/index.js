@@ -1,10 +1,10 @@
 import {
-  Box,
   Flex,
   HStack,
   Input,
   InputGroup,
   InputLeftElement,
+  Spacer,
   Tab,
   Table,
   TableContainer,
@@ -44,7 +44,7 @@ const HomeDashboardFrontliner = () => {
   });
 
   return (
-    <VStack align="stretch">
+    <VStack align="stretch" spacing={4}>
       <Head>
         <title>Pengajuan Pemesanan | Lateksil</title>
       </Head>
@@ -84,65 +84,67 @@ const HomeDashboardFrontliner = () => {
             Dibatalkan
           </Tab>
         </TabList>
-        <InputGroup my="5">
+      </Tabs>
+      <HStack>
+        <Text>Show</Text>
+        <Select
+          isSearchable={false}
+          options={showEntryOptions}
+          defaultValue={showEntryOptions[0]}
+          // onChange={(option) => setDataLimit(option.value)}
+        />
+        <Text>Entries</Text>
+        <Spacer />
+
+        <InputGroup maxW="xs">
           <InputLeftElement pointerEvents="none">
             <FiSearch />
           </InputLeftElement>
           <Input
             type="text"
-            placeholder="Cari Pengajuan Pemesanan"
+            placeholder="Search..."
             variant="outline"
             shadow="none"
-            _placeholder={{ color: '#45414180' }}
+            // onChange={(e) => setSearchInput(e.target.value)}
+            // onKeyPress={handleSearchKeypress}
           />
         </InputGroup>
-        <TableContainer>
-          <Table size="md" variant="striped">
-            <Thead>
-              <Tr>
-                <Th textAlign="center">Nama Pelanggan</Th>
-                <Th textAlign="center">Nama Proyek</Th>
-                <Th textAlign="center">Tanggal Pendaftaran</Th>
-                <Th textAlign="center" isNumeric>
-                  Total Harga
-                </Th>
-                <Th textAlign="center">Status Pembayaran</Th>
-                <Th textAlign="center">Status Persetujuan</Th>
-                <Th textAlign="center">Aksi</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {isSuccessOrder &&
-                dataOrders?.data?.map((order) => (
-                  <TablePengajuanPesanan key={order.id} order={order} />
-                ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </Tabs>
+      </HStack>
+      <TableContainer>
+        <Table size="md" variant="striped">
+          <Thead>
+            <Tr>
+              <Th textAlign="center">Nama Pelanggan</Th>
+              <Th textAlign="center">Nama Proyek</Th>
+              <Th textAlign="center">Tanggal Pendaftaran</Th>
+              <Th textAlign="center" isNumeric>
+                Total Harga
+              </Th>
+              <Th textAlign="center">Status Pembayaran</Th>
+              <Th textAlign="center">Status Persetujuan</Th>
+              <Th textAlign="center">Aksi</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isSuccessOrder &&
+              dataOrders?.data?.map((order) => (
+                <TablePengajuanPesanan key={order.id} order={order} />
+              ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+
       {isLoadingOrders && <LoadingData />}
       {dataOrders?.totalData === 0 ? (
         <MessageNotFoundData />
       ) : (
         <Flex
           flexDir={{ base: 'column', md: 'row', xl: 'row' }}
-          justifyContent="space-between"
+          justifyContent="end"
           borderTopWidth="1px"
           alignItems="center"
           py="2"
         >
-          <Box display="flex" fontSize="sm" alignItems="center">
-            <HStack>
-              <Text>Show</Text>
-              <Select
-                isSearchable={false}
-                options={showEntryOptions}
-                defaultValue={showEntryOptions[0]}
-                onChange={() => {}}
-              />
-              <Text>Entries</Text>
-            </HStack>
-          </Box>
           <DashboardPagination current={1} total={1} onPageClick={() => {}} />
         </Flex>
       )}
