@@ -28,10 +28,12 @@ import 'dayjs/locale/id';
 import { useForm } from 'react-hook-form';
 import useMutationUpdateProyek from '../../../hooks/mutation/put/useMutationUpdateProyek';
 import { BooleanType } from '../../../../utils/enum/BooleanType';
+import useMutationSendCostumer from '../../../hooks/mutation/put/useMutationSendCostumer';
 dayjs.locale('id');
 
 const TablePengajuanPesanan = ({ order }) => {
   const { mutate: mutateSendToManager } = useMutationUpdateProyek();
+  const { mutate: mutauteSendCostumer } = useMutationSendCostumer();
   const {
     isOpen: isOpenDetailHistory,
     onOpen: onOpenDetailHistory,
@@ -71,6 +73,22 @@ const TablePengajuanPesanan = ({ order }) => {
     if (status === TransactionTypes.ACCEPT) {
       return 'green';
     }
+  };
+
+  const SendAcceptedCostumer = () => {
+    const formData = {
+      id: order.id,
+      status_transaction: TransactionTypes.ACCEPT,
+    };
+    mutauteSendCostumer({ formData: formData });
+  };
+
+  const SendCanceledCostumer = () => {
+    const formData = {
+      id: order.id,
+      status_transaction: TransactionTypes.CANCELED,
+    };
+    mutauteSendCostumer({ formData: formData });
   };
 
   return (
@@ -138,6 +156,7 @@ const TablePengajuanPesanan = ({ order }) => {
           {order.status.status_persetujuan === TransactionTypes.CANCELED && (
             <Button
               w="full"
+              onClick={SendCanceledCostumer}
               colorScheme="orange"
               size="md"
               isDisabled={
@@ -156,6 +175,7 @@ const TablePengajuanPesanan = ({ order }) => {
               w="full"
               colorScheme="orange"
               size="md"
+              onClick={SendAcceptedCostumer}
               isDisabled={
                 order.status.is_send_costumer === BooleanType.TRUE
                   ? true

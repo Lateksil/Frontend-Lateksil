@@ -40,15 +40,6 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
 
   const detailOrder = dataDetailOrder?.data;
 
-  const statusOrder = (status) => {
-    if (status === TransactionTypes.WAITING) {
-      return 'orange';
-    }
-    if (status === TransactionTypes.CANCELED) {
-      return 'red';
-    }
-  };
-
   return (
     <Modal
       isOpen={isOpen}
@@ -74,37 +65,65 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                 <Flex w="full" borderBottomWidth={2} py="2">
                   <Text fontWeight="semibold">Status Pemesanan</Text>
                   <Spacer />
-                  <Badge
-                    ml="3"
-                    colorScheme={statusOrder(
-                      detailOrder.status.status_transaction
-                    )}
-                    rounded="md"
-                    px={3}
-                    py={1}
-                  >
-                    {detailOrder.status.status_transaction ===
-                    TransactionTypes.WAITING
-                      ? 'Waiting'
-                      : 'canceled'}
-                  </Badge>
+                  {detailOrder.status.status_transaction ===
+                    TransactionTypes.WAITING && (
+                    <Badge
+                      ml="3"
+                      colorScheme="orange"
+                      rounded="md"
+                      px={3}
+                      py={1}
+                    >
+                      Waiting
+                    </Badge>
+                  )}
+                  {detailOrder.status.status_transaction ===
+                    TransactionTypes.ACCEPT && (
+                    <>
+                      <Badge
+                        ml="3"
+                        colorScheme="green"
+                        rounded="md"
+                        px={3}
+                        py={1}
+                      >
+                        Accepted
+                      </Badge>
+                      <Badge
+                        ml="3"
+                        colorScheme="gray"
+                        rounded="md"
+                        px={3}
+                        py={1}
+                      >
+                        Belum Bayar
+                      </Badge>
+                    </>
+                  )}
+                  {detailOrder.status.status_transaction ===
+                    TransactionTypes.CANCELED && (
+                    <Badge ml="3" colorScheme="red" rounded="md" px={3} py={1}>
+                      Canceled
+                    </Badge>
+                  )}
                 </Flex>
                 <Box w="full" py="2">
                   {detailOrder.status.status_transaction ===
-                  TransactionTypes.WAITING ? (
-                    <Text
-                      fontWeight="semibold"
-                      color={
-                        detailOrder.status.status_transaction ===
-                        TransactionTypes.WAITING
-                          ? 'yellow.600'
-                          : 'red.600'
-                      }
-                    >
+                    TransactionTypes.WAITING && (
+                    <Text fontWeight="semibold" color="yellow.600">
                       Pada Tahap ini sedang Menunggu Persetujuan, Mohon ditunggu
                       ya.
                     </Text>
-                  ) : (
+                  )}
+                  {detailOrder.status.status_transaction ===
+                    TransactionTypes.ACCEPT && (
+                    <Text fontWeight="semibold">
+                      Dimohon Pelanggan untuk segera membayar untuk melanjutkan
+                      proses selanjutnya, Terimakasih.
+                    </Text>
+                  )}
+                  {detailOrder.status.status_transaction ===
+                    TransactionTypes.CANCELED && (
                     <Box>
                       <Text>
                         Mohon Maaf Atas Nama {detailOrder.User.full_name} dari

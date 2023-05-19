@@ -36,7 +36,7 @@ import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 import useMutationPersetujuanToFrontliner from '../../../hooks/mutation/put/useMutationPersetujuanToFrontliner';
 dayjs.locale('id');
 
-const TablePengajuanPesananManager = ({ order }) => {
+const TablePersetujuanPesanan = ({ order }) => {
   const { mutate: mutateSendToFronliner } =
     useMutationPersetujuanToFrontliner();
   const {
@@ -270,4 +270,4 @@ const TablePengajuanPesananManager = ({ order }) => {
   );
 };
 
-export default TablePengajuanPesananManager;
+export default TablePersetujuanPesanan;

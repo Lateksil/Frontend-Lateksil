@@ -28,8 +28,8 @@ import LoadingData from '../../utils/LoadingData';
 import MessageNotFoundData from '../../utils/MessageNotFoundData';
 import { TransactionTypes } from '../../utils/enum/TransactionTypes';
 import { getServerSidePropsManager } from '../../utils/getServerSidePropsManager';
-import TablePengajuanPesananManager from '../../components/tables/managerTable/TablePengajuanPesananManager';
 import useRemoteOrdersManager from '../../components/hooks/remote/useRemoteOrdersManager';
+import TablePersetujuanPesanan from '../../components/tables/managerTable/TablePersetujuanPesanan';
 
 const PersetujuanPesanan = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
@@ -111,7 +111,7 @@ const PersetujuanPesanan = () => {
             <Tbody>
               {isSuccessOrder &&
                 dataOrders?.data?.map((order) => (
-                  <TablePengajuanPesananManager key={order.id} order={order} />
+                  <TablePersetujuanPesanan key={order.id} order={order} />
                 ))}
             </Tbody>
           </Table>

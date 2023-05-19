@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Td, Tr, useDisclosure } from '@chakra-ui/react';
+import { Badge, Button, Td, Tr, useDisclosure } from '@chakra-ui/react';
 
 import formatCurrency from '../../../utils/formatCurrently';
 
@@ -15,16 +15,6 @@ const TableTahapPermintaan = ({ order }) => {
     onOpen: onOpenDetailHistory,
     onClose: onCloseDetailHistory,
   } = useDisclosure();
-
-  const statusOrder = (status) => {
-    if (status === TransactionTypes.WAITING) {
-      return 'orange';
-    }
-    if (status === TransactionTypes.CANCELED) {
-      return 'red';
-    }
-  };
-  dayjs.locale('id');
 
   return (
     <>
@@ -48,17 +38,27 @@ const TableTahapPermintaan = ({ order }) => {
           Detail
         </Td>
         <Td textAlign="center">
-          <Badge
-            colorScheme={statusOrder(order.status.status_transaction)}
-            rounded="md"
-            px={3}
-            py={1}
-          >
-            {order.status.status_transaction === TransactionTypes.WAITING
-              ? 'Waiting'
-              : 'canceled'}
-          </Badge>
+          {order.status.status_transaction === TransactionTypes.WAITING && (
+            <Badge colorScheme="orange" rounded="md" px={3} py={1}>
+              Waiting
+            </Badge>
+          )}
+          {order.status.status_transaction === TransactionTypes.CANCELED && (
+            <Badge colorScheme="red" rounded="md" px={3} py={1}>
+              Canceled
+            </Badge>
+          )}
+          {order.status.status_transaction === TransactionTypes.ACCEPT && (
+            <Badge colorScheme="green" rounded="md" px={3} py={1}>
+              Accept
+            </Badge>
+          )}
         </Td>
+        {order.status.status_transaction === TransactionTypes.ACCEPT && (
+          <Td>
+            <Button variant="lateksil-solid">Bayar</Button>
+          </Td>
+        )}
       </Tr>
       <ModalTahapPermintaan
         order={order}

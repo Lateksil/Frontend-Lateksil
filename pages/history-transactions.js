@@ -12,8 +12,6 @@ import {
   Table,
   TableContainer,
   TabList,
-  TabPanel,
-  TabPanels,
   Tabs,
   Tbody,
   Text,
@@ -24,9 +22,6 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import DashboardLayout from '../components/dashboard/DashboardLayout';
-import TableTahapPembayaran from '../components/tables/TableTahapPembayaran';
-import TableTahapPengerjaan from '../components/tables/TableTahapPengerjaan';
-import TableTahapPenyelesaian from '../components/tables/TableTahapPenyelesaian';
 import TableTahapPermintaan from '../components/tables/TableTahapPermintaan';
 import { FiSearch } from 'react-icons/fi';
 import useRemoteOrder from '../components/hooks/remote/useRemoteOrder';
@@ -49,7 +44,7 @@ const HistroyTransactions = () => {
   });
 
   return (
-    <VStack align="stretch">
+    <VStack align="stretch" spacing={5}>
       <Head>
         <title>Riwayat Transaksi | Lateksil</title>
       </Head>
@@ -68,18 +63,21 @@ const HistroyTransactions = () => {
             Tahap Permintaan
           </Tab>
           <Tab
+            onClick={() => setStatusPesetujuan(TransactionTypes.ACCEPT)}
             _hover={{ bg: 'gray.100' }}
             _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Tahap Pembayaran
           </Tab>
           <Tab
+            onClick={() => setStatusPesetujuan(TransactionTypes.IN_PROGRESS)}
             _hover={{ bg: 'gray.100' }}
             _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Tahap Pengerjaan
           </Tab>
           <Tab
+            onClick={() => setStatusPesetujuan(TransactionTypes.DONE)}
             _hover={{ bg: 'gray.100' }}
             _selected={{ color: 'white', bg: 'blue.700' }}
           >
@@ -93,93 +91,48 @@ const HistroyTransactions = () => {
             Dibatalkan
           </Tab>
         </TabList>
-        <TabPanels>
-          <TabPanel px="0">
-            <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <FiSearch />
-              </InputLeftElement>
-              <Input
-                type="text"
-                placeholder="Cari tahap permintaan"
-                variant="outline"
-                shadow="none"
-                _placeholder={{ color: '#45414180' }}
-              />
-            </InputGroup>
-            <TableContainer>
-              <Table size="md" variant="striped">
-                <Thead>
-                  <Tr>
-                    <Th textAlign="center">Nama Pelanggan</Th>
-                    <Th textAlign="center">Nama Perusahaan</Th>
-                    <Th textAlign="center">Nama Proyek</Th>
-                    <Th textAlign="center">Tanggal Pemesanan</Th>
-                    <Th textAlign="center">Total Harga</Th>
-                    <Th textAlign="center">Pesanan</Th>
-                    <Th textAlign="center">Status</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {dataOrdering &&
-                    dataOrdering.data?.map((order, i) => (
-                      <TableTahapPermintaan
-                        key={i}
-                        order={order}
-                        isLoading={isLoadingOrdering}
-                      />
-                    ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          </TabPanel>
-          <TableTahapPembayaran />
-          <TableTahapPengerjaan />
-          <TableTahapPenyelesaian />
-          <TabPanel px="0">
-            <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <FiSearch />
-              </InputLeftElement>
-              <Input
-                type="text"
-                placeholder="Cari tahap permintaan"
-                variant="outline"
-                shadow="none"
-                _placeholder={{ color: '#45414180' }}
-              />
-            </InputGroup>
-            <TableContainer>
-              <Table size="md" variant="striped">
-                <Thead>
-                  <Tr>
-                    <Th textAlign="center">Nama Pelanggan</Th>
-                    <Th textAlign="center">Nama Perusahaan</Th>
-                    <Th textAlign="center">Nama Proyek</Th>
-                    <Th textAlign="center">Tanggal Pemesanan</Th>
-                    <Th textAlign="center">Total Harga</Th>
-                    <Th textAlign="center">Pesanan</Th>
-                    <Th textAlign="center">Status</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {dataOrdering &&
-                    dataOrdering.data?.map((order, i) => (
-                      <TableTahapPermintaan
-                        key={i}
-                        order={order}
-                        isLoading={isLoadingOrdering}
-                      />
-                    ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          </TabPanel>
-        </TabPanels>
+        <InputGroup my="5">
+          <InputLeftElement pointerEvents="none">
+            <FiSearch />
+          </InputLeftElement>
+          <Input
+            type="text"
+            placeholder="Cari tahap permintaan"
+            variant="outline"
+            shadow="none"
+            _placeholder={{ color: '#45414180' }}
+          />
+        </InputGroup>
+        <TableContainer>
+          <Table size="md" variant="striped">
+            <Thead>
+              <Tr>
+                <Th textAlign="center">Nama Pelanggan</Th>
+                <Th textAlign="center">Nama Perusahaan</Th>
+                <Th textAlign="center">Nama Proyek</Th>
+                <Th textAlign="center">Tanggal Pemesanan</Th>
+                <Th textAlign="center">Total Harga</Th>
+                <Th textAlign="center">Pesanan</Th>
+                <Th textAlign="center">Status</Th>
+                {statusPersetujuan === TransactionTypes.ACCEPT && (
+                  <Th textAlign="center">Aksi</Th>
+                )}
+              </Tr>
+            </Thead>
+            <Tbody>
+              {dataOrdering &&
+                dataOrdering.data?.map((order, i) => (
+                  <TableTahapPermintaan
+                    key={i}
+                    order={order}
+                    isLoading={isLoadingOrdering}
+                  />
+                ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
       </Tabs>
-      {dataOrdering?.totalData === 0 && (
-        <MessageClientNotFoundData isLogin={true} />
-      )}
+      {dataOrdering?.totalData === 0 && <Box>Data Kosong</Box>}
       {!id && <MessageClientNotFoundData isLogin={false} />}
       {isLoadingOrdering && id ? (
         <Center my="10">
