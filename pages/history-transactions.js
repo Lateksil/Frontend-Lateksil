@@ -4,15 +4,9 @@ import {
   Center,
   Flex,
   HStack,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Spinner,
-  Tab,
   Table,
   TableContainer,
-  TabList,
-  Tabs,
   Tbody,
   Text,
   Th,
@@ -22,7 +16,6 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import DashboardLayout from '../components/dashboard/DashboardLayout';
-import { FiSearch } from 'react-icons/fi';
 import useRemoteOrder from '../components/hooks/remote/useRemoteOrder';
 import { generateEntryOptions } from '../components/core/select/helper/entryOptions';
 import Select from '../components/core/select';
@@ -32,6 +25,7 @@ import MessageClientNotFoundData from '../utils/MessageClientNotFoundData';
 import useAuthUserStore from '../store/useAuthUserStore';
 import TableTahapTransaction from '../components/tables/userTable/TableTahapTransaction';
 import MessageDataNotFoundClient from '../utils/MessageDataNotFoundClient';
+import ButtonTab from '../components/core/ButtonTab';
 
 const HistroyTransactions = () => {
   const id = useAuthUserStore((state) => state.id);
@@ -47,92 +41,81 @@ const HistroyTransactions = () => {
   return (
     <VStack align="stretch" spacing={5}>
       <Head>
-        <title>Riwayat Transaksi | Lateksil</title>
+        <title>Daftar Transaksi | Lateksil</title>
       </Head>
       <HStack borderBottomWidth="1px" pb="4">
         <Text color="blue.700" fontWeight="bold" fontSize="xl">
-          Riwayat Transaksi
+          Daftar Transaksi
         </Text>
       </HStack>
-      <Tabs variant="line" isFitted>
-        <TabList color="gray.500" flexWrap="wrap" justifyContent="center">
-          <Tab
+      <TableContainer>
+        <HStack align="center" spacing={5}>
+          <ButtonTab
+            label={TransactionTypes.WAITING}
+            value={statusPersetujuan}
             onClick={() => setStatusPesetujuan(TransactionTypes.WAITING)}
-            _hover={{ bg: 'gray.100' }}
-            _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Tahap Permintaan
-          </Tab>
-          <Tab
+          </ButtonTab>
+          <ButtonTab
+            label={TransactionTypes.ACCEPT}
+            value={statusPersetujuan}
             onClick={() => setStatusPesetujuan(TransactionTypes.ACCEPT)}
-            _hover={{ bg: 'gray.100' }}
-            _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Tahap Pembayaran
-          </Tab>
-          <Tab
+          </ButtonTab>
+          <ButtonTab
+            label={TransactionTypes.IN_PROGRESS}
+            value={statusPersetujuan}
             onClick={() => setStatusPesetujuan(TransactionTypes.IN_PROGRESS)}
-            _hover={{ bg: 'gray.100' }}
-            _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Tahap Pengerjaan
-          </Tab>
-          <Tab
+          </ButtonTab>
+          <ButtonTab
+            label={TransactionTypes.DONE}
+            value={statusPersetujuan}
             onClick={() => setStatusPesetujuan(TransactionTypes.DONE)}
-            _hover={{ bg: 'gray.100' }}
-            _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Selesai
-          </Tab>
-          <Tab
+          </ButtonTab>
+          <ButtonTab
+            label={TransactionTypes.CANCELED}
+            value={statusPersetujuan}
             onClick={() => setStatusPesetujuan(TransactionTypes.CANCELED)}
-            _hover={{ bg: 'gray.100' }}
-            _selected={{ color: 'white', bg: 'blue.700' }}
           >
             Dibatalkan
-          </Tab>
-        </TabList>
-        <InputGroup my="5">
-          <InputLeftElement pointerEvents="none">
-            <FiSearch />
-          </InputLeftElement>
-          <Input
-            type="text"
-            placeholder="Cari tahap permintaan"
-            variant="outline"
-            shadow="none"
-            _placeholder={{ color: '#45414180' }}
-          />
-        </InputGroup>
-        <TableContainer>
-          <Table size="md" variant="striped">
-            <Thead>
-              <Tr>
-                <Th textAlign="center">Nama Pelanggan</Th>
-                <Th textAlign="center">Nama Perusahaan</Th>
-                <Th textAlign="center">Nama Proyek</Th>
-                <Th textAlign="center">Tanggal Pemesanan</Th>
-                <Th textAlign="center">Total Harga</Th>
-                <Th textAlign="center">Pesanan</Th>
-                <Th textAlign="center">Status</Th>
-                {statusPersetujuan === TransactionTypes.ACCEPT && (
-                  <Th textAlign="center">Aksi</Th>
-                )}
-              </Tr>
-            </Thead>
-            <Tbody>
-              {dataOrdering &&
-                dataOrdering.data?.map((order, i) => (
-                  <TableTahapTransaction
-                    key={i}
-                    order={order}
-                    isLoading={isLoadingOrdering}
-                  />
-                ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </Tabs>
+          </ButtonTab>
+        </HStack>
+      </TableContainer>
+      <TableContainer>
+        <Table size="md" variant="striped">
+          <Thead>
+            <Tr>
+              <Th textAlign="center">Nama Pelanggan</Th>
+              <Th textAlign="center">Nama Perusahaan</Th>
+              <Th textAlign="center">Nama Proyek</Th>
+              <Th textAlign="center">Tanggal Pemesanan</Th>
+              <Th textAlign="center">Total Harga</Th>
+              <Th textAlign="center">Pesanan</Th>
+              <Th textAlign="center">Status</Th>
+              {statusPersetujuan === TransactionTypes.ACCEPT && (
+                <Th textAlign="center">Aksi</Th>
+              )}
+            </Tr>
+          </Thead>
+          <Tbody>
+            {dataOrdering &&
+              dataOrdering.data?.map((order, i) => (
+                <TableTahapTransaction
+                  key={i}
+                  order={order}
+                  isLoading={isLoadingOrdering}
+                />
+              ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      {/* </Tabs> */}
       {dataOrdering?.totalData === 0 && (
         <MessageDataNotFoundClient>
           Ups? Dalam Tahap ini Data Kosong
