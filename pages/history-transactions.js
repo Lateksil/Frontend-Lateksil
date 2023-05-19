@@ -31,6 +31,7 @@ import { TransactionTypes } from '../utils/enum/TransactionTypes';
 import MessageClientNotFoundData from '../utils/MessageClientNotFoundData';
 import useAuthUserStore from '../store/useAuthUserStore';
 import TableTahapTransaction from '../components/tables/userTable/TableTahapTransaction';
+import MessageDataNotFoundClient from '../utils/MessageDataNotFoundClient';
 
 const HistroyTransactions = () => {
   const id = useAuthUserStore((state) => state.id);
@@ -132,7 +133,11 @@ const HistroyTransactions = () => {
           </Table>
         </TableContainer>
       </Tabs>
-      {dataOrdering?.totalData === 0 && <Box>Data Kosong</Box>}
+      {dataOrdering?.totalData === 0 && (
+        <MessageDataNotFoundClient>
+          Ups? Dalam Tahap ini Data Kosong
+        </MessageDataNotFoundClient>
+      )}
       {!id && <MessageClientNotFoundData isLogin={false} />}
       {isLoadingOrdering && id ? (
         <Center my="10">
