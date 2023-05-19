@@ -27,6 +27,19 @@ const variantSolid = {
   }),
 };
 
+const variantDanger = {
+  'lateksil-danger': () => ({
+    ...baseVariantSolid,
+    bg: 'lateksil-red',
+    _hover: {
+      bg: 'lateksil-red',
+    },
+    _loading: {
+      bg: 'lateksil-red',
+    },
+  }),
+};
+
 const Button = {
   sizes: {
     ...sizeLg,
@@ -34,6 +47,7 @@ const Button = {
   },
   variants: {
     ...variantSolid,
+    ...variantDanger,
   },
 };
 

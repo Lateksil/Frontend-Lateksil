@@ -217,10 +217,7 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
             </Button>
             <Button
               type="submit"
-              variant="solid"
-              bg="blue.700"
-              color="white"
-              rounded="md"
+              variant="lateksil-solid"
               isLoading={isLoading}
             >
               Tambah

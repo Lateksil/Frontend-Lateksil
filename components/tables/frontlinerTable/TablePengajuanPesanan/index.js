@@ -28,25 +28,37 @@ import 'dayjs/locale/id';
 import { useForm } from 'react-hook-form';
 import useMutationUpdateProyek from '../../../hooks/mutation/put/useMutationUpdateProyek';
 import { BooleanType } from '../../../../utils/enum/BooleanType';
-import useMutationSendCostumer from '../../../hooks/mutation/put/useMutationSendCostumer';
+import SendCostumerModal from '../../../modals/frontlinerModal/sendCostumerModal';
 dayjs.locale('id');
 
 const TablePengajuanPesanan = ({ order }) => {
   const { mutate: mutateSendToManager } = useMutationUpdateProyek();
-  const { mutate: mutauteSendCostumer } = useMutationSendCostumer();
+
   const {
     isOpen: isOpenDetailHistory,
     onOpen: onOpenDetailHistory,
     onClose: onCloseDetailHistory,
   } = useDisclosure();
 
-  const { register, handleSubmit, reset } = useForm();
-
   const {
     isOpen: isOpenSendToManager,
     onOpen: onOpenSendToManager,
     onClose: onCLoseSendToManager,
   } = useDisclosure();
+
+  const {
+    isOpen: isOpenCanceledCostumer,
+    onOpen: onOpenCanceledCostumer,
+    onClose: onCloseCanceledCostumer,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenAcceptedCostumer,
+    onOpen: onOpenAcceptedCostumer,
+    onClose: onCloseAcceptedCostumer,
+  } = useDisclosure();
+
+  const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
     const formData = {
@@ -73,22 +85,6 @@ const TablePengajuanPesanan = ({ order }) => {
     if (status === TransactionTypes.ACCEPT) {
       return 'green';
     }
-  };
-
-  const SendAcceptedCostumer = () => {
-    const formData = {
-      id: order.id,
-      status_transaction: TransactionTypes.ACCEPT,
-    };
-    mutauteSendCostumer({ formData: formData });
-  };
-
-  const SendCanceledCostumer = () => {
-    const formData = {
-      id: order.id,
-      status_transaction: TransactionTypes.CANCELED,
-    };
-    mutauteSendCostumer({ formData: formData });
   };
 
   return (
@@ -156,7 +152,7 @@ const TablePengajuanPesanan = ({ order }) => {
           {order.status.status_persetujuan === TransactionTypes.CANCELED && (
             <Button
               w="full"
-              onClick={SendCanceledCostumer}
+              onClick={onOpenCanceledCostumer}
               colorScheme="orange"
               size="md"
               isDisabled={
@@ -175,7 +171,7 @@ const TablePengajuanPesanan = ({ order }) => {
               w="full"
               colorScheme="orange"
               size="md"
-              onClick={SendAcceptedCostumer}
+              onClick={onOpenAcceptedCostumer}
               isDisabled={
                 order.status.is_send_costumer === BooleanType.TRUE
                   ? true
@@ -189,7 +185,18 @@ const TablePengajuanPesanan = ({ order }) => {
           )}
         </Td>
       </Tr>
-
+      <SendCostumerModal
+        id={order.id}
+        isAccepted={false}
+        isOpen={isOpenCanceledCostumer}
+        onClose={onCloseCanceledCostumer}
+      />
+      <SendCostumerModal
+        id={order.id}
+        isAccepted={true}
+        isOpen={isOpenAcceptedCostumer}
+        onClose={onCloseAcceptedCostumer}
+      />
       <Modal
         isOpen={isOpenSendToManager}
         onClose={onCLoseSendToManager}
