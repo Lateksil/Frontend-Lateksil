@@ -60,7 +60,7 @@ const PersetujuanPesanan = () => {
             _selected={{ color: 'white', bg: 'blue.700' }}
             onClick={() => setStatusPesetujuan(TransactionTypes.WAITING)}
           >
-            Proses Pengajuan
+            Proses Persetujuan
           </Tab>
           <Tab
             _hover={{ bg: 'gray.100' }}

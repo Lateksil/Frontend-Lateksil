@@ -8,6 +8,7 @@ import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 import { FaWallet } from 'react-icons/fa';
+import ModalPayment from '../../../modals/userModal/ModalPayment';
 dayjs.locale('id');
 
 const TableTahapTransaction = ({ order }) => {
@@ -15,6 +16,12 @@ const TableTahapTransaction = ({ order }) => {
     isOpen: isOpenDetailHistory,
     onOpen: onOpenDetailHistory,
     onClose: onCloseDetailHistory,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenPayment,
+    onOpen: onOpenPayment,
+    onClose: onClosePayment,
   } = useDisclosure();
 
   return (
@@ -57,12 +64,18 @@ const TableTahapTransaction = ({ order }) => {
         </Td>
         {order.status.status_transaction === TransactionTypes.ACCEPT && (
           <Td>
-            <Button leftIcon={<FaWallet />} size="sm" variant="lateksil-solid">
+            <Button
+              onClick={onOpenPayment}
+              leftIcon={<FaWallet />}
+              size="sm"
+              variant="lateksil-solid"
+            >
               Bayar
             </Button>
           </Td>
         )}
       </Tr>
+      <ModalPayment isOpen={isOpenPayment} onClose={onClosePayment} />
       <ModalTahapPermintaan
         order={order}
         isOpen={isOpenDetailHistory}
