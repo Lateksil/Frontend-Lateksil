@@ -115,7 +115,7 @@ const ModalPayment = ({ isOpen, onClose }) => {
               </FormControl>
               {showButton && (
                 <Button w="full" variant="lateksil-solid" mt="5">
-                  Kirim
+                  Kirim Bukti Pembayaran
                 </Button>
               )}
             </Flex>
