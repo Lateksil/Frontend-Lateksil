@@ -151,7 +151,9 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                     </Flex>
                   </Box>
                   <Box fontSize="sm" w="250px" wordBreak="break-word">
-                    <Text fontWeight="semibold">Pembuatan Kubus</Text>
+                    <Text fontWeight="semibold">
+                      {detailOrder.proyek.nama_proyek}
+                    </Text>
                   </Box>
                 </HStack>
                 <HStack mt="1" w="full" align="flex-start">
@@ -162,7 +164,9 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                     </Flex>
                   </Box>
                   <Box fontSize="sm" w="250px" wordBreak="break-word">
-                    <Text fontWeight="semibold">Untuk Penelitian</Text>
+                    <Text fontWeight="semibold">
+                      {detailOrder.proyek.tujuan_proyek}
+                    </Text>
                   </Box>
                 </HStack>
                 <TableContainer w="full">

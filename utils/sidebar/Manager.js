@@ -24,7 +24,7 @@ function generateSidebaritemManager() {
     },
     {
       name: 'Data Teknisi',
-      path: '/frontliner/input-pengujian',
+      path: '/manager/data-teknisi',
       icon: MdPostAdd,
     },
   ];

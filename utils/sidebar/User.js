@@ -1,10 +1,4 @@
-import { FaRegCheckSquare } from 'react-icons/fa';
-import {
-  HiCreditCard,
-  HiDocumentText,
-  HiHomeModern,
-  HiShoppingCart,
-} from 'react-icons/hi2';
+import { HiDocumentText, HiHomeModern, HiShoppingCart } from 'react-icons/hi2';
 
 function generateSidebaritemUser() {
   return [

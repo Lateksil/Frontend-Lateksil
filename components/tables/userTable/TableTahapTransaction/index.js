@@ -75,7 +75,11 @@ const TableTahapTransaction = ({ order }) => {
           </Td>
         )}
       </Tr>
-      <ModalPayment isOpen={isOpenPayment} onClose={onClosePayment} />
+      <ModalPayment
+        isOpen={isOpenPayment}
+        onClose={onClosePayment}
+        total_price={order.total_price}
+      />
       <ModalTahapPermintaan
         order={order}
         isOpen={isOpenDetailHistory}

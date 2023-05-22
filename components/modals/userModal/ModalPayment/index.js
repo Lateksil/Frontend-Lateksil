@@ -10,14 +10,20 @@ import {
   Modal,
   ModalContent,
   ModalOverlay,
+  SkeletonText,
   Text,
   VStack,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import formatCurrency from '../../../../utils/formatCurrently';
+import useRemoteMethodTransaction from '../../../hooks/remote/useRemoteMethodTransaction';
 
-const ModalPayment = ({ isOpen, onClose }) => {
+const ModalPayment = ({ isOpen, onClose, total_price }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [showButton, setShowButton] = useState(false);
+
+  const { data: dataMethodTransaction, isLoading: isLoadingMethodTransaction } =
+    useRemoteMethodTransaction();
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -63,7 +69,7 @@ const ModalPayment = ({ isOpen, onClose }) => {
                     Total
                   </Text>
                   <Text color="#002855" fontWeight="bold" fontSize="2xl">
-                    Rp2.134.000
+                    Rp{formatCurrency(total_price)}
                   </Text>
                 </Box>
               </Box>
@@ -75,30 +81,94 @@ const ModalPayment = ({ isOpen, onClose }) => {
               pb="2"
               mx="5"
             >
-              <Text color="black" fontWeight="semibold">
-                Metode Pembayaran
-              </Text>
-              <Text color="black">Transfer</Text>
+              {isLoadingMethodTransaction ? (
+                <>
+                  <SkeletonText
+                    mt="2"
+                    noOfLines={1}
+                    spacing="4"
+                    skeletonHeight="5"
+                  />
+                  <SkeletonText
+                    mt="2"
+                    noOfLines={1}
+                    spacing="4"
+                    skeletonHeight="5"
+                  />
+                </>
+              ) : (
+                <>
+                  <Text color="black" fontWeight="semibold">
+                    Metode Pembayaran
+                  </Text>
+                  <Text color="black">
+                    {dataMethodTransaction?.data?.type_transaction}
+                  </Text>
+                </>
+              )}
             </Flex>
             <Flex direction="column" borderBottomWidth={1} pb="2" m="5">
-              <Text color="black" fontWeight="semibold">
-                Bank Tujuan : BRI
-              </Text>
-              <Text color="black" fontWeight="semibold">
-                Atas Nama : Deva Aji Saputra
-              </Text>
+              {isLoadingMethodTransaction ? (
+                <>
+                  <SkeletonText
+                    mt="2"
+                    noOfLines={1}
+                    spacing="4"
+                    skeletonHeight="5"
+                  />
+                  <SkeletonText
+                    mt="2"
+                    noOfLines={1}
+                    spacing="4"
+                    skeletonHeight="5"
+                  />
+                </>
+              ) : (
+                <>
+                  <Text color="black" fontWeight="semibold">
+                    Bank Tujuan : {dataMethodTransaction?.data?.bank}
+                  </Text>
+                  <Text color="black" fontWeight="semibold">
+                    Atas Nama : {dataMethodTransaction?.data?.name_bank}
+                  </Text>
+                </>
+              )}
             </Flex>
             <Flex direction="column" borderBottomWidth={1} pb="2" m="5">
-              <Text color="black">No Rekening</Text>
-              <Text color="#002855" fontWeight="semibold" fontSize="2xl">
-                7488 0100 6986 532
-              </Text>
+              {isLoadingMethodTransaction ? (
+                <>
+                  <SkeletonText
+                    mt="2"
+                    noOfLines={1}
+                    spacing="4"
+                    skeletonHeight="5"
+                  />
+                  <SkeletonText
+                    mt="2"
+                    noOfLines={1}
+                    spacing="4"
+                    skeletonHeight="9"
+                  />
+                </>
+              ) : (
+                <>
+                  <Text color="black">No Rekening</Text>
+                  <Text color="#002855" fontWeight="semibold" fontSize="2xl">
+                    {dataMethodTransaction?.data?.no_rek}
+                  </Text>
+                </>
+              )}
             </Flex>
             <Flex direction="column" pb="2" m="5">
               {selectedImage && (
-                <Image src={selectedImage} alt="Selected Image" maxH="500px" />
+                <Image
+                  src={selectedImage}
+                  rounded="md"
+                  alt="Upload Images To Payment"
+                  maxH="500px"
+                />
               )}
-              <FormControl>
+              <FormControl mt={2}>
                 <FormLabel htmlFor="image-upload">Pilih Gambar</FormLabel>
                 <Input
                   type="file"
