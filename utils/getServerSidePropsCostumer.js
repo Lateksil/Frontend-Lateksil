@@ -9,6 +9,8 @@ export const getServerSidePropsCostumer = async (context) => {
 
     const userResponse = await fetcherWithContext(url, context);
 
+    console.log('DATA RESPON', userResponse);
+
     if (userResponse) {
       if (userResponse.data.role === 'frontliner')
         return {
@@ -22,6 +24,14 @@ export const getServerSidePropsCostumer = async (context) => {
         return {
           redirect: {
             destination: '/manager',
+            permanent: false,
+          },
+        };
+
+      if (userResponse.data.role === 'keuangan')
+        return {
+          redirect: {
+            destination: '/keuangan',
             permanent: false,
           },
         };

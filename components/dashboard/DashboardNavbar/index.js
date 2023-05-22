@@ -57,9 +57,11 @@ const DashboardNavbar = () => {
               {isSuccess && userProfileData && (
                 <>
                   <Text fontSize="md" fontStyle="heading" fontWeight="bold">
-                    Hi, {userProfileData.data.full_name}
+                    Hi, {userProfileData.data?.full_name}
                   </Text>
-                  <DashboardUserNavbar userProfileData={userProfileData.data} />
+                  <DashboardUserNavbar
+                    userProfileData={userProfileData?.data}
+                  />
                 </>
               )}
               {isLoading && <Box>Loading...</Box>}

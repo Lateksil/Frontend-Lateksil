@@ -15,10 +15,12 @@ const useRemoteUserProfile = () => {
   const { data, error, ...others } = useQuery(['infoUser'], () => fetcher(uri));
 
   useEffect(() => {
-    if (data) setUserId(data?.data.id);
-    else if (error) removeUser();
+    if (data && data.data && data.data.id) {
+      setUserId(data.data.id);
+    } else if (error) {
+      removeUser();
+    }
   }, [data]);
-
   return { data, ...others };
 };
 

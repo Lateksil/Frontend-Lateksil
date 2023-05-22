@@ -51,13 +51,13 @@ const DashboardUserNavbar = ({ userProfileData }) => {
                     fontStyle="heading"
                     fontWeight="bold"
                   >
-                    {userProfileData.full_name}
+                    {userProfileData?.full_name}
                   </Text>
                 </HStack>
                 <HStack>
                   <Icon as={FaBuilding} size="sm" />
                   <Text fontSize="sm" fontWeight="semibold" fontStyle="heading">
-                    {userProfileData.company_name}
+                    {userProfileData?.company_name}
                   </Text>
                 </HStack>
               </VStack>
