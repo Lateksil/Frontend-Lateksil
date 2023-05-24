@@ -78,6 +78,9 @@ const TableTahapTransaction = ({ order }) => {
       <ModalPayment
         isOpen={isOpenPayment}
         onClose={onClosePayment}
+        id={order.id}
+        full_name={order.User.full_name}
+        company_name={order.User.company_name}
         total_price={order.total_price}
       />
       <ModalTahapPermintaan

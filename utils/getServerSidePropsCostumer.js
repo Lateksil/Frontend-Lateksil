@@ -9,8 +9,6 @@ export const getServerSidePropsCostumer = async (context) => {
 
     const userResponse = await fetcherWithContext(url, context);
 
-    console.log('DATA RESPON', userResponse);
-
     if (userResponse) {
       if (userResponse.data.role === 'frontliner')
         return {

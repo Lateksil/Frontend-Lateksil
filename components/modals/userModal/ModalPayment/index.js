@@ -16,19 +16,46 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import formatCurrency from '../../../../utils/formatCurrently';
+import useMutationBuktiPembayaran from '../../../hooks/mutation/useMutationBuktiPembayaran';
 import useRemoteMethodTransaction from '../../../hooks/remote/useRemoteMethodTransaction';
 
-const ModalPayment = ({ isOpen, onClose, total_price }) => {
+const ModalPayment = ({
+  isOpen,
+  onClose,
+  id,
+  full_name,
+  company_name,
+  total_price,
+}) => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [uploadImage, setUploadImage] = useState(null);
   const [showButton, setShowButton] = useState(false);
 
   const { data: dataMethodTransaction, isLoading: isLoadingMethodTransaction } =
     useRemoteMethodTransaction();
 
+  const {
+    mutate: mutateUploadBuktiPembayaran,
+    isLoading: isLoadingUploadBuktiPembayaran,
+  } = useMutationBuktiPembayaran();
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
+    setUploadImage(file);
     setSelectedImage(URL.createObjectURL(file));
     setShowButton(true);
+  };
+
+  const handleUploadBuktiPembayaran = async () => {
+    const formData = new FormData();
+    formData.append('id_order', id);
+    formData.append('full_name', full_name);
+    formData.append('company_name', company_name);
+    formData.append('total_price', total_price);
+    formData.append('image_payment', uploadImage);
+
+    mutateUploadBuktiPembayaran(formData);
+    onClose();
   };
 
   return (
@@ -184,7 +211,13 @@ const ModalPayment = ({ isOpen, onClose, total_price }) => {
                 </label>
               </FormControl>
               {showButton && (
-                <Button w="full" variant="lateksil-solid" mt="5">
+                <Button
+                  onClick={handleUploadBuktiPembayaran}
+                  isLoading={isLoadingUploadBuktiPembayaran}
+                  w="full"
+                  variant="lateksil-solid"
+                  mt="5"
+                >
                   Kirim Bukti Pembayaran
                 </Button>
               )}

@@ -10,7 +10,7 @@ function generateSidebaritemKeuangan() {
     },
     {
       name: 'Metode Pembayaran',
-      path: '/keuangan/add-payment',
+      path: '/keuangan/add-method-payment',
       icon: MdPostAdd,
     },
   ];
