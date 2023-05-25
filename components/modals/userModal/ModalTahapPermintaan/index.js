@@ -30,6 +30,7 @@ import {
 import formatCurrency from '../../../../utils/formatCurrently';
 import useRemoteOrderById from '../../../hooks/remote/useRemoteOrderById';
 import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
+import { BooleanType } from '../../../../utils/enum/BooleanType';
 
 const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
   const {
@@ -91,12 +92,19 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                       </Badge>
                       <Badge
                         ml="3"
-                        colorScheme="gray"
+                        colorScheme={
+                          detailOrder.status.status_payment ===
+                          BooleanType.FALSE
+                            ? 'gray'
+                            : 'green'
+                        }
                         rounded="md"
                         px={3}
                         py={1}
                       >
-                        Belum Bayar
+                        {detailOrder.status.status_payment === BooleanType.FALSE
+                          ? 'Belum Bayar'
+                          : 'Sudah Bayar'}
                       </Badge>
                     </>
                   )}
@@ -116,12 +124,36 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                     </Text>
                   )}
                   {detailOrder.status.status_transaction ===
-                    TransactionTypes.ACCEPT && (
-                    <Text fontWeight="semibold">
-                      Dimohon Pelanggan untuk segera membayar untuk melanjutkan
-                      proses selanjutnya, Terimakasih.
-                    </Text>
-                  )}
+                    TransactionTypes.ACCEPT &&
+                    detailOrder.status.status_payment === BooleanType.FALSE && (
+                      <Text fontWeight="semibold">
+                        Dimohon Pelanggan untuk segera membayar untuk
+                        melanjutkan proses selanjutnya, Terimakasih.
+                      </Text>
+                    )}
+                  {detailOrder.status.status_transaction ===
+                    TransactionTypes.ACCEPT &&
+                    detailOrder.status.status_payment === BooleanType.TRUE && (
+                      <>
+                        <Text as="span" fontWeight="semibold">
+                          DiMohon Pelanggan Atas Nama{' '}
+                          {detailOrder.User.full_name} dari Perusahaan{' '}
+                          {detailOrder.User.company_name} untuk menuggu{' '}
+                        </Text>
+                        <Text
+                          as="span"
+                          fontWeight="bold"
+                          color="green.600"
+                          fontSize="large"
+                          textDecoration="underline"
+                        >
+                          Verifikasi Pembayaran{' '}
+                        </Text>
+                        <Text as="span" fontWeight="semibold">
+                          Terimakasih
+                        </Text>
+                      </>
+                    )}
                   {detailOrder.status.status_transaction ===
                     TransactionTypes.CANCELED && (
                     <Box>

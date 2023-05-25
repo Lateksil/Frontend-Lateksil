@@ -23,9 +23,22 @@ import Select from '../../components/core/select';
 import { FiSearch } from 'react-icons/fi';
 import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
+import useRemotePayment from '../../components/hooks/remote/useRemotePayment';
 
 const LaporanKeuangan = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
+
+  const {
+    data: dataLaporanPembayaran,
+    isLoading: isLoadingDataLaporanPembayaran,
+    isSuccess,
+  } = useRemotePayment({
+    page: 1,
+    limit: 10,
+    search: '',
+  });
+
+  console.log('LAPORAN PEMBAYARAN', dataLaporanPembayaran);
   return (
     <VStack align="stretch" spacing={4}>
       <Head>
@@ -66,7 +79,7 @@ const LaporanKeuangan = () => {
             <Tr>
               <Th textAlign="center">Nama Pelanggan</Th>
               <Th textAlign="center">Nama Proyek</Th>
-              <Th textAlign="center">Tanggal Pembayaran</Th>
+              <Th textAlign="center">Tujuan Proyek</Th>
               <Th textAlign="center">Harga Pesanan</Th>
               <Th textAlign="center">Status Pembayaran</Th>
               <Th textAlign="center">Bukti Pembayaran</Th>
@@ -74,7 +87,10 @@ const LaporanKeuangan = () => {
             </Tr>
           </Thead>
           <Tbody>
-            <TableLaporanPemabayaran />
+            {isSuccess &&
+              dataLaporanPembayaran?.data.map((order, i) => (
+                <TableLaporanPemabayaran key={i} order={order} />
+              ))}
           </Tbody>
         </Table>
       </TableContainer>

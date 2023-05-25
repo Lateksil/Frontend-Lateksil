@@ -5,6 +5,7 @@ import formatCurrency from '../../../../utils/formatCurrently';
 
 import ModalTahapPermintaan from '../../../modals/userModal/ModalTahapPermintaan';
 import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
+import { BooleanType } from '../../../../utils/enum/BooleanType';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 import { FaWallet } from 'react-icons/fa';
@@ -65,12 +66,18 @@ const TableTahapTransaction = ({ order }) => {
         {order.status.status_transaction === TransactionTypes.ACCEPT && (
           <Td>
             <Button
+              w="full"
+              isDisabled={
+                order.status.status_payment === BooleanType.TRUE ? true : false
+              }
               onClick={onOpenPayment}
               leftIcon={<FaWallet />}
               size="sm"
               variant="lateksil-solid"
             >
-              Bayar
+              {order.status.status_payment === BooleanType.TRUE
+                ? 'Sudah Bayar'
+                : 'Bayar'}
             </Button>
           </Td>
         )}
