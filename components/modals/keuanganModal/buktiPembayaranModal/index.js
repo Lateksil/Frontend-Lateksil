@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   Button,
@@ -12,9 +13,17 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import React from 'react';
+import useRemoteBuktiPembayaranById from '../../../hooks/remote/useRemoteBuktiPembayarById';
+import LoadingData from '../../../../utils/LoadingData';
 
-const BuktiPembayaranModal = ({ isOpen, onClose }) => {
+const BuktiPembayaranModal = ({ id, isOpen, onClose }) => {
+  const {
+    data: dataBuktiPembayaran,
+    isSuccess,
+    isLoading: isLoadingBuktiPembayaran,
+  } = useRemoteBuktiPembayaranById({
+    id: id,
+  });
   return (
     <Modal
       isOpen={isOpen}
@@ -22,7 +31,6 @@ const BuktiPembayaranModal = ({ isOpen, onClose }) => {
       isCentered
       size="xl"
       scrollBehavior="inside"
-      closeOnOverlayClick={false}
     >
       <ModalOverlay />
       <ModalContent mx="4" overflow="hidden">
@@ -34,14 +42,23 @@ const BuktiPembayaranModal = ({ isOpen, onClose }) => {
                 Bukti Pembayaran
               </Text>
             </Box>
-            <Box py="2" w="full">
-              <Text>Dibawah ini adalah bukti pembayaran </Text>
-            </Box>
-            <Image
-              rounded="md"
-              src="http://localhost:3030/bukti-pembayaran/depdep-pt.indonesiasejahtera-7fd0e539-a373-48c5-a38b-a060b61ae57e.jpeg"
-              alt="bukti-pembayaran"
-            />
+            {isLoadingBuktiPembayaran && <LoadingData />}
+            {isSuccess && (
+              <>
+                <Box py="2" w="full">
+                  <Text>Dibawah ini adalah bukti pembayaran </Text>
+                </Box>
+                <Image
+                  rounded="md"
+                  src={
+                    isSuccess
+                      ? `http://localhost:3030/bukti-pembayaran/${dataBuktiPembayaran?.data.image_payment}`
+                      : null
+                  }
+                  alt="bukti-pembayaran"
+                />
+              </>
+            )}
           </VStack>
         </ModalBody>
 

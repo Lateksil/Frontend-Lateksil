@@ -68,6 +68,7 @@ const TableLaporanPemabayaran = ({ order }) => {
         </Td>
       </Tr>
       <BuktiPembayaranModal
+        id={order.id}
         isOpen={isOpenBuktiPembayaran}
         onClose={onCloseBuktiPembayaran}
       />
