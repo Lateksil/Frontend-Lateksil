@@ -13,19 +13,26 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import React, { useRef, useState } from 'react';
+import useMutationAddKwitansi from '../../../hooks/mutation/useMutationAddKwitansi';
 
-const UploadKwitansiModal = ({ isOpen, onClose }) => {
+const UploadKwitansiModal = ({ id, isOpen, onClose }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadImage, setUploadImage] = useState(null);
   const fileInputRef = useRef(null);
+
+  const { mutate: mutateAddKwitansi, isLoading: isLoadingAddKwitansi } =
+    useMutationAddKwitansi();
 
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
+    setUploadImage(file);
     setSelectedFile(URL.createObjectURL(file));
   };
 
   const handleDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
+    setUploadImage(file);
     setSelectedFile(URL.createObjectURL(file));
   };
 
@@ -37,6 +44,15 @@ const UploadKwitansiModal = ({ isOpen, onClose }) => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
+  };
+
+  const handleUploadKwitansi = async () => {
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('image_kwitansi', uploadImage);
+
+    mutateAddKwitansi(formData);
+    onClose();
   };
 
   return (
@@ -107,8 +123,10 @@ const UploadKwitansiModal = ({ isOpen, onClose }) => {
               flexGrow={1}
               rounded="md"
               variant="lateksil-solid"
+              isLoading={isLoadingAddKwitansi}
+              onClick={handleUploadKwitansi}
             >
-              Upload
+              Kirim Kwitansi
             </Button>
           </ButtonGroup>
         </ModalFooter>

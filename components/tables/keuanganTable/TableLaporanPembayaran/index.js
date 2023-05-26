@@ -8,6 +8,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React from 'react';
+import { BooleanType } from '../../../../utils/enum/BooleanType';
 import formatCurrency from '../../../../utils/formatCurrently';
 import BuktiPembayaranModal from '../../../modals/keuanganModal/buktiPembayaranModal';
 import UploadKwitansiModal from '../../../modals/keuanganModal/uploadKwitansiModal';
@@ -60,10 +61,15 @@ const TableLaporanPemabayaran = ({ order }) => {
           <Button
             onClick={onOpenUploadKwitansi}
             w="full"
+            isDisabled={
+              order.status.accept_payment === BooleanType.TRUE ? true : false
+            }
             variant="lateksil-solid"
             size="md"
           >
-            Upload
+            {order.status.accept_payment === BooleanType.TRUE
+              ? 'Terkirim'
+              : 'Upload'}
           </Button>
         </Td>
       </Tr>
@@ -73,6 +79,7 @@ const TableLaporanPemabayaran = ({ order }) => {
         onClose={onCloseBuktiPembayaran}
       />
       <UploadKwitansiModal
+        id={order.id}
         isOpen={isOpenUploadKwitansi}
         onClose={onCloseUploadKwitansi}
       />

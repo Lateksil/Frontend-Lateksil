@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Flex,
   HStack,
@@ -29,22 +29,44 @@ import LoadingData from '../../utils/LoadingData';
 const LaporanKeuangan = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
+  const [pageIndex, setPageIndex] = useState(1);
+  const [dataLimit, setDataLimit] = useState(10);
+
   const {
     data: dataLaporanPembayaran,
     isLoading: isLoadingDataLaporanPembayaran,
     isSuccess,
+    error,
   } = useRemotePayment({
-    page: 1,
-    limit: 10,
+    page: pageIndex,
+    limit: dataLimit,
     search: '',
   });
+
+  const laporanPembayaranRef = useRef(null);
+
+  useEffect(() => {
+    setPageIndex(1);
+  }, [dataLimit]);
+
+  useEffect(() => {
+    if (error == null && pageIndex > 1) setPageIndex(pageIndex - 1);
+  }, [error]);
+
+  const handlePageClick = (page) => {
+    setPageIndex(page);
+
+    if (laporanPembayaranRef && laporanPembayaranRef.current) {
+      laporanPembayaranRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   return (
     <VStack align="stretch" spacing={4}>
       <Head>
         <title>Laporan Pembayaran | Lateksil</title>
       </Head>
       <HStack borderBottomWidth="1px" pb="4">
-        <Text color="blue.700" fontWeight="bold" fontSize="xl">
+        <Text color="blue.700" fontWeight="bold" fontSize="2xl">
           Laporan Pembayaran
         </Text>
       </HStack>
@@ -54,7 +76,7 @@ const LaporanKeuangan = () => {
           isSearchable={false}
           options={showEntryOptions}
           defaultValue={showEntryOptions[0]}
-          // onChange={(option) => setDataLimit(option.value)}
+          onChange={(option) => setDataLimit(option.value)}
         />
         <Text>Entries</Text>
         <Spacer />
@@ -72,6 +94,7 @@ const LaporanKeuangan = () => {
           />
         </InputGroup>
       </HStack>
+
       <TableContainer>
         <Table size="md" variant="striped">
           <Thead>
@@ -101,7 +124,11 @@ const LaporanKeuangan = () => {
         alignItems="center"
         py="2"
       >
-        <DashboardPagination current={1} total={10} onPageClick={() => {}} />
+        <DashboardPagination
+          current={pageIndex}
+          total={dataLaporanPembayaran ? dataLaporanPembayaran?.totalPages : 0}
+          onPageClick={handlePageClick}
+        />
       </Flex>
     </VStack>
   );

@@ -18,6 +18,9 @@ import LoadingData from '../../../../utils/LoadingData';
 import download from 'downloadjs';
 import useToastNotification from '../../../hooks/useToastNotification';
 import { baseUrl } from '../../../../libs/axios';
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
+dayjs.locale('id');
 
 const BuktiPembayaranModal = ({ id, isOpen, onClose }) => {
   const showToast = useToastNotification();
@@ -48,6 +51,7 @@ const BuktiPembayaranModal = ({ id, isOpen, onClose }) => {
         showToast('Silahkan Download Lagi nanti', 'error');
       });
   };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -69,18 +73,30 @@ const BuktiPembayaranModal = ({ id, isOpen, onClose }) => {
             {isLoadingBuktiPembayaran && <LoadingData />}
             {isSuccess && (
               <>
-                <Box py="2" w="full">
-                  <Text>Dibawah ini adalah bukti pembayaran </Text>
-                </Box>
-                <Image
-                  rounded="md"
-                  src={
-                    isSuccess
-                      ? `${baseUrl}bukti-pembayaran/${dataBuktiPembayaran?.data.image_payment}`
-                      : null
-                  }
-                  alt="bukti-pembayaran"
-                />
+                <VStack spacing={3}>
+                  <Box py="2" w="full">
+                    <Text>
+                      Dibawah ini adalah bukti pembayaran atas nama{' '}
+                      {dataBuktiPembayaran?.data.full_name} Perusahaan{' '}
+                      {dataBuktiPembayaran?.data.company_name}{' '}
+                    </Text>
+                    <Text fontWeight="semibold">
+                      Tanggal Pembayaran :{' '}
+                      {dayjs(dataBuktiPembayaran?.data.createdAt).format(
+                        'dddd, DD MMMM YYYY'
+                      )}
+                    </Text>
+                  </Box>
+                  <Image
+                    rounded="md"
+                    src={
+                      isSuccess
+                        ? `${baseUrl}bukti-pembayaran/${dataBuktiPembayaran?.data.image_payment}`
+                        : null
+                    }
+                    alt="bukti-pembayaran"
+                  />
+                </VStack>
               </>
             )}
           </VStack>
