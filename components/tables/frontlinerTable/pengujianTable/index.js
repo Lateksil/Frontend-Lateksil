@@ -34,6 +34,7 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FiEdit, FiTrash } from 'react-icons/fi';
+import { baseUrl } from '../../../../libs/axios';
 import formatCurrency from '../../../../utils/formatCurrently';
 import Select from '../../../core/select';
 import useMutationDeletePengujian from '../../../hooks/mutation/delete/useMutationDeletePengujian';
@@ -132,7 +133,7 @@ const PengujianTableFrontliner = ({ pengujian }) => {
               objectFit="cover"
               src={
                 pengujian.image
-                  ? `http://localhost:3030/uploads/${pengujian.image}`
+                  ? `${baseUrl}uploads/${pengujian.image}`
                   : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s'
               }
               alt="Dan Abramov"

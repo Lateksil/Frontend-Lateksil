@@ -24,6 +24,7 @@ import { FiSearch } from 'react-icons/fi';
 import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import useRemotePayment from '../../components/hooks/remote/useRemotePayment';
+import LoadingData from '../../utils/LoadingData';
 
 const LaporanKeuangan = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
@@ -37,8 +38,6 @@ const LaporanKeuangan = () => {
     limit: 10,
     search: '',
   });
-
-  console.log('LAPORAN PEMBAYARAN', dataLaporanPembayaran);
   return (
     <VStack align="stretch" spacing={4}>
       <Head>
@@ -94,6 +93,7 @@ const LaporanKeuangan = () => {
           </Tbody>
         </Table>
       </TableContainer>
+      {isLoadingDataLaporanPembayaran && <LoadingData />}
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}
         justifyContent="end"

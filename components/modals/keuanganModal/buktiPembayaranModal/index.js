@@ -15,8 +15,12 @@ import {
 } from '@chakra-ui/react';
 import useRemoteBuktiPembayaranById from '../../../hooks/remote/useRemoteBuktiPembayarById';
 import LoadingData from '../../../../utils/LoadingData';
+import download from 'downloadjs';
+import useToastNotification from '../../../hooks/useToastNotification';
+import { baseUrl } from '../../../../libs/axios';
 
 const BuktiPembayaranModal = ({ id, isOpen, onClose }) => {
+  const showToast = useToastNotification();
   const {
     data: dataBuktiPembayaran,
     isSuccess,
@@ -24,6 +28,26 @@ const BuktiPembayaranModal = ({ id, isOpen, onClose }) => {
   } = useRemoteBuktiPembayaranById({
     id: id,
   });
+
+  const getFileExtension = (url) => {
+    const extension = url.substring(url.lastIndexOf('.') + 1);
+    return extension.toLowerCase();
+  };
+
+  const handleDownloadClick = (data) => {
+    const ImageURL = `${baseUrl}bukti-pembayaran/` + data.image_payment;
+
+    fetch(ImageURL)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const fileExtension = getFileExtension(ImageURL);
+        const fileName = `${data.full_name}_${data.company_name}.${fileExtension}`;
+        download(blob, fileName);
+      })
+      .catch(() => {
+        showToast('Silahkan Download Lagi nanti', 'error');
+      });
+  };
   return (
     <Modal
       isOpen={isOpen}
@@ -52,7 +76,7 @@ const BuktiPembayaranModal = ({ id, isOpen, onClose }) => {
                   rounded="md"
                   src={
                     isSuccess
-                      ? `http://localhost:3030/bukti-pembayaran/${dataBuktiPembayaran?.data.image_payment}`
+                      ? `${baseUrl}bukti-pembayaran/${dataBuktiPembayaran?.data.image_payment}`
                       : null
                   }
                   alt="bukti-pembayaran"
@@ -66,6 +90,14 @@ const BuktiPembayaranModal = ({ id, isOpen, onClose }) => {
           <ButtonGroup display="flex" flexGrow={1}>
             <Button flexGrow={1} rounded="md" onClick={onClose} border="1px">
               Tutup
+            </Button>
+            <Button
+              flexGrow={1}
+              rounded="md"
+              variant="lateksil-solid"
+              onClick={() => handleDownloadClick(dataBuktiPembayaran?.data)}
+            >
+              Download
             </Button>
           </ButtonGroup>
         </ModalFooter>
