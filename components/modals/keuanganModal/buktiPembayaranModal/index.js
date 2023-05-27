@@ -67,7 +67,7 @@ const BuktiPembayaranModal = ({ id, isOpen, onClose }) => {
           <VStack>
             <Box py="2" borderBottomWidth={2} w="full">
               <Text fontWeight="semibold" fontSize="xl">
-                Bukti Pembayaran
+                Riwayat Pembayaran
               </Text>
             </Box>
             {isLoadingBuktiPembayaran && <LoadingData />}
@@ -101,7 +101,6 @@ const BuktiPembayaranModal = ({ id, isOpen, onClose }) => {
             )}
           </VStack>
         </ModalBody>
-
         <ModalFooter bg="gray.100">
           <ButtonGroup display="flex" flexGrow={1}>
             <Button flexGrow={1} rounded="md" onClick={onClose} border="1px">
@@ -113,7 +112,7 @@ const BuktiPembayaranModal = ({ id, isOpen, onClose }) => {
               variant="lateksil-solid"
               onClick={() => handleDownloadClick(dataBuktiPembayaran?.data)}
             >
-              Download
+              Download Bukti Pembayaran
             </Button>
           </ButtonGroup>
         </ModalFooter>
