@@ -18,7 +18,7 @@ function generateSidebaritemManager() {
         },
         {
           name: 'Tahap Pengujian',
-          path: '/manager/proses-pengujian',
+          path: '/manager/tahap-pengujian',
         },
       ],
     },

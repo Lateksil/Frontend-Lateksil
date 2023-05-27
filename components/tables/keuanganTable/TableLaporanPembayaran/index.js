@@ -10,6 +10,7 @@ import {
 import React from 'react';
 import { BooleanType } from '../../../../utils/enum/BooleanType';
 import formatCurrency from '../../../../utils/formatCurrently';
+import DetailPengajuanPesanan from '../../../modals/frontlinerModal/detailPengajuanPesananModal';
 import BuktiPembayaranModal from '../../../modals/keuanganModal/buktiPembayaranModal';
 import UploadKwitansiModal from '../../../modals/keuanganModal/uploadKwitansiModal';
 
@@ -26,10 +27,16 @@ const TableLaporanPemabayaran = ({ order }) => {
     onClose: onCloseUploadKwitansi,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenDetailOrder,
+    onOpen: onOpenDetailOrder,
+    onClose: onCloseDetailOrder,
+  } = useDisclosure();
+
   return (
     <>
       <Tr>
-        <Td>
+        <Td onClick={onOpenDetailOrder}>
           <Flex direction="column" w="full">
             <Text fontWeight="semibold">{order.User.full_name}</Text>
             <Text>{order.User.company_name}</Text>
@@ -82,6 +89,11 @@ const TableLaporanPemabayaran = ({ order }) => {
         id={order.id}
         isOpen={isOpenUploadKwitansi}
         onClose={onCloseUploadKwitansi}
+      />
+      <DetailPengajuanPesanan
+        id={order.id}
+        isOpen={isOpenDetailOrder}
+        onClose={onCloseDetailOrder}
       />
     </>
   );

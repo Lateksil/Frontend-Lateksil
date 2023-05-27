@@ -35,6 +35,7 @@ import useRemoteOrderById from '../../../hooks/remote/useRemoteOrderById';
 import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 import TableToName from '../../../core/tableToName';
 import ParseDate from '../../../core/parseDate';
+import { BooleanType } from '../../../../utils/enum/BooleanType';
 
 const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
   const {
@@ -69,7 +70,7 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
       <ModalContent mx="4" overflow="hidden">
         <ModalCloseButton />
         <ModalHeader>
-          <Text>Detail Pengajuan</Text>
+          <Text>Detail Pemesanan</Text>
         </ModalHeader>
         <ModalBody>
           <Stack pb="10" spacing={10}>
@@ -119,8 +120,19 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
                   <Text fontWeight="semibold">Detail Produk</Text>
                   <Spacer />
                   <HStack>
-                    <Badge colorScheme="gray" rounded="md" px={3} py={1}>
-                      Belum Lunas
+                    <Badge
+                      colorScheme={
+                        detailOrder?.status.status_payment === BooleanType.TRUE
+                          ? 'green'
+                          : 'gray'
+                      }
+                      rounded="md"
+                      px={3}
+                      py={1}
+                    >
+                      {detailOrder?.status.status_payment === BooleanType.TRUE
+                        ? 'Sudah Lunas'
+                        : 'Belum Lunas'}
                     </Badge>
                     <Badge
                       colorScheme={statusOrder(
