@@ -16,29 +16,33 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import formatCurrency from '../../../../utils/formatCurrently';
 import { FaTools, FaUserPlus } from 'react-icons/fa';
 import PilihTeknisiModal from '../../../modals/managerModal/pilihTeknisiModal';
+import ParseDate from '../../../core/parseDate';
 
-const TableProsesPengujianPesanan = () => {
+const TableProsesPengujianPesanan = ({ pengujian }) => {
   const {
     isOpen: isOpenPilihTeknisi,
     onOpen: onOpenPilihTeknisi,
     onClose: onClosePilihTeknisi,
   } = useDisclosure();
+
   return (
     <>
       <Tr cursor="pointer">
         <Td>
           <Flex direction="column" w="full">
-            <Text fontWeight="semibold">Deva Aji Saputra</Text>
-            <Text>PT. Indonesia</Text>
+            <Text fontWeight="semibold">{pengujian.User.full_name}</Text>
+            <Text>{pengujian.User.company_name}</Text>
           </Flex>
         </Td>
-        <Td textAlign="center">Pembuatan Kubus</Td>
+        <Td textAlign="center">{pengujian.proyek.nama_proyek}</Td>
         <Td textAlign="center" color="blue.700" fontWeight="semibold">
-          Rp{formatCurrency(1500000)}
+          Rp{formatCurrency(pengujian.total_price)}
         </Td>
-        <Td textAlign="center">27 Mei 2023</Td>
-        <Td textAlign="center">04 Juni 2023</Td>
-        <Td textAlign="center">19 Juni 2023</Td>
+        <Td textAlign="center">{ParseDate(pengujian.createdAt)}</Td>
+        <Td textAlign="center">{ParseDate(pengujian.proyek.tanggal_mulai)}</Td>
+        <Td textAlign="center">
+          {ParseDate(pengujian.proyek.tanggal_selesai)}
+        </Td>
         <Td textAlign="center">
           <Badge colorScheme="green" px="4" py="2">
             Lunas

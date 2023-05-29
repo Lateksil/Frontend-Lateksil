@@ -1,21 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import { postFetcher } from '../../../libs/axios';
 
-const useRemotePayment = ({ page, limit, search, accept_payment = '' }) => {
-  const uri = `/payment`;
+const useRemoteProsesPengujian = ({ page, limit, search = '' }) => {
+  const uri = `/proses-pengujian`;
 
   const { data, ...others } = useQuery(
-    ['payment', page, limit, search, accept_payment],
+    ['proses-pengujian', page, limit, search],
     () =>
       postFetcher(uri, {
         page,
         limit,
         search,
-        accept_payment,
       })
   );
 
   return { data, ...others };
 };
 
-export default useRemotePayment;
+export default useRemoteProsesPengujian;

@@ -26,6 +26,7 @@ import DashboardPagination from '../../components/dashboard/DashboardPagination'
 
 const ProsesPengujian = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
+
   return (
     <VStack align="stretch" spacing={5}>
       <Head>

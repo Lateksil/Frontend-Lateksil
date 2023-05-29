@@ -27,14 +27,12 @@ import {
 } from '@chakra-ui/react';
 import formatCurrency from '../../../../utils/formatCurrently';
 import DetailPengajuanPesanan from '../../../modals/frontlinerModal/detailPengajuanPesananModal';
-import dayjs from 'dayjs';
-import 'dayjs/locale/id';
 import { useForm } from 'react-hook-form';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdCancel, MdCheckBox } from 'react-icons/md';
 import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 import useMutationPersetujuanToFrontliner from '../../../hooks/mutation/put/useMutationPersetujuanToFrontliner';
-dayjs.locale('id');
+import ParseDate from '../../../core/parseDate';
 
 const TablePersetujuanPesanan = ({ order }) => {
   const { mutate: mutateSendToFronliner } =
@@ -96,7 +94,7 @@ const TablePersetujuanPesanan = ({ order }) => {
           {order.proyek.nama_proyek}
         </Td>
         <Td textAlign="center" cursor="pointer" onClick={onOpenDetailHistory}>
-          {dayjs(order.createdAt).format('dddd, DD-MM-YYYY')}
+          {ParseDate(order.createdAt)}
         </Td>
         <Td
           onClick={onOpenDetailHistory}
@@ -109,10 +107,10 @@ const TablePersetujuanPesanan = ({ order }) => {
           Rp{formatCurrency(order.total_price)}
         </Td>
         <Td textAlign="center" onClick={onOpenDetailHistory} cursor="pointer">
-          {dayjs(order.proyek.tanggal_mulai).format('dddd, DD-MM-YYYY')}
+          {ParseDate(order.proyek.tanggal_mulai)}
         </Td>
         <Td textAlign="center" onClick={onOpenDetailHistory} cursor="pointer">
-          {dayjs(order.proyek.tanggal_selesai).format('dddd, DD-MM-YYYY')}
+          {ParseDate(order.proyek.tanggal_selesai)}
         </Td>
         <Td textAlign="center">
           {order.status.status_persetujuan === TransactionTypes.WAITING ? (

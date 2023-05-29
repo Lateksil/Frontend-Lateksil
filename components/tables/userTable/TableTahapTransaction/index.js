@@ -6,11 +6,9 @@ import formatCurrency from '../../../../utils/formatCurrently';
 import ModalTahapPermintaan from '../../../modals/userModal/ModalTahapPermintaan';
 import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 import { BooleanType } from '../../../../utils/enum/BooleanType';
-import dayjs from 'dayjs';
-import 'dayjs/locale/id';
 import { FaWallet } from 'react-icons/fa';
 import ModalPayment from '../../../modals/userModal/ModalPayment';
-dayjs.locale('id');
+import ParseDate from '../../../core/parseDate';
 
 const TableTahapTransaction = ({ order }) => {
   const {
@@ -31,9 +29,7 @@ const TableTahapTransaction = ({ order }) => {
         <Td textAlign="center">{order.User.full_name}</Td>
         <Td textAlign="center">{order.User.company_name}</Td>
         <Td textAlign="center">{order.proyek.nama_proyek}</Td>
-        <Td textAlign="center">
-          {dayjs(order.createdAt).format('dddd, DD-MM-YYYY')}
-        </Td>
+        <Td textAlign="center">{ParseDate(order.createdAt)}</Td>
         <Td textAlign="center" fontWeight="semibold" color="blue.700">
           Rp{formatCurrency(order.total_price)}
         </Td>

@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  Flex,
   HStack,
   Input,
   InputGroup,
@@ -21,9 +22,43 @@ import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import { getServerSidePropsManager } from '../../utils/getServerSidePropsManager';
 import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
 import TableProsesPengujianPesanan from '../../components/tables/managerTable/TableProsesPengujianPesanan';
+import DashboardPagination from '../../components/dashboard/DashboardPagination';
+import LoadingData from '../../utils/LoadingData';
+import MessageSearchNotFound from '../../utils/MessageSearchNotFound';
+import useRemoteProsesPengujian from '../../components/hooks/remote/useRemoteProsesPengujian';
 
 const ProsesPengujian = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
+
+  const pengujianListRef = useRef(null);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [dataLimit, setDataLimit] = useState(10);
+
+  const {
+    data: dataProsePengujian,
+    isLoading: isLoadingProsesPengujian,
+    error,
+  } = useRemoteProsesPengujian({
+    page: pageIndex,
+    limit: dataLimit,
+  });
+
+  useEffect(() => {
+    setPageIndex(1);
+  }, [dataLimit]);
+
+  useEffect(() => {
+    if (error == null && pageIndex > 1) setPageIndex(pageIndex - 1);
+  }, [error]);
+
+  const handlePageClick = (page) => {
+    setPageIndex(page);
+
+    if (pengujianListRef && pengujianListRef.current) {
+      pengujianListRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <VStack align="stretch" spacing={4}>
       <Head>
@@ -40,7 +75,7 @@ const ProsesPengujian = () => {
           isSearchable={false}
           options={showEntryOptions}
           defaultValue={showEntryOptions[0]}
-          // onChange={(option) => setDataLimit(option.value)}
+          onChange={(option) => setDataLimit(option.value)}
         />
         <Text>Entries</Text>
         <Spacer />
@@ -73,10 +108,27 @@ const ProsesPengujian = () => {
             </Tr>
           </Thead>
           <Tbody>
-            <TableProsesPengujianPesanan />
+            {dataProsePengujian?.data?.map((pengujian, i) => (
+              <TableProsesPengujianPesanan pengujian={pengujian} key={i} />
+            ))}
           </Tbody>
         </Table>
       </TableContainer>
+      {dataProsePengujian?.data === null && <MessageSearchNotFound />}
+      {isLoadingProsesPengujian && <LoadingData />}
+      <Flex
+        flexDir={{ base: 'column', md: 'row', xl: 'row' }}
+        justifyContent="end"
+        borderTopWidth="1px"
+        alignItems="center"
+        py="2"
+      >
+        <DashboardPagination
+          current={pageIndex}
+          total={dataProsePengujian ? dataProsePengujian?.totalPages : 0}
+          onPageClick={handlePageClick}
+        />
+      </Flex>
     </VStack>
   );
 };

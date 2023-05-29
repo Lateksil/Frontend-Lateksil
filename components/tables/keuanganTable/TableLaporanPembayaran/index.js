@@ -10,8 +10,8 @@ import {
 import React from 'react';
 import { BooleanType } from '../../../../utils/enum/BooleanType';
 import formatCurrency from '../../../../utils/formatCurrently';
-import DetailPengajuanPesanan from '../../../modals/frontlinerModal/detailPengajuanPesananModal';
 import BuktiPembayaranModal from '../../../modals/keuanganModal/buktiPembayaranModal';
+import DetailLaporanKeuangan from '../../../modals/keuanganModal/detailLaporanPembayaran';
 import UploadKwitansiModal from '../../../modals/keuanganModal/uploadKwitansiModal';
 
 const TableLaporanPemabayaran = ({ order }) => {
@@ -36,22 +36,31 @@ const TableLaporanPemabayaran = ({ order }) => {
   return (
     <>
       <Tr>
-        <Td onClick={onOpenDetailOrder}>
+        <Td onClick={onOpenDetailOrder} cursor="pointer">
           <Flex direction="column" w="full">
             <Text fontWeight="semibold">{order.User.full_name}</Text>
             <Text>{order.User.company_name}</Text>
           </Flex>
         </Td>
-        <Td textAlign="center">{order.proyek.nama_proyek}</Td>
-        <Td textAlign="center">{order.proyek.tujuan_proyek}</Td>
+        <Td textAlign="center" onClick={onOpenDetailOrder} cursor="pointer">
+          {order.proyek.nama_proyek}
+        </Td>
+        <Td textAlign="center" onClick={onOpenDetailOrder} cursor="pointer">
+          {order.proyek.tujuan_proyek}
+        </Td>
         <Td isNumeric>
-          <Text color="blue.700" fontWeight="semibold">
+          <Text
+            color="blue.700"
+            fontWeight="semibold"
+            onClick={onOpenDetailOrder}
+            cursor="pointer"
+          >
             Rp{formatCurrency(order.total_price)}
           </Text>
         </Td>
-        <Td textAlign="center">
+        <Td textAlign="center" onClick={onOpenDetailOrder} cursor="pointer">
           <Badge w="full" colorScheme="green" rounded="md" px={3} py={1}>
-            Lunas
+            Sudah Bayar
           </Badge>
         </Td>
         <Td textAlign="center" w="15%" onClick={onOpenBuktiPembayaran}>
@@ -90,7 +99,7 @@ const TableLaporanPemabayaran = ({ order }) => {
         isOpen={isOpenUploadKwitansi}
         onClose={onCloseUploadKwitansi}
       />
-      <DetailPengajuanPesanan
+      <DetailLaporanKeuangan
         id={order.id}
         isOpen={isOpenDetailOrder}
         onClose={onCloseDetailOrder}

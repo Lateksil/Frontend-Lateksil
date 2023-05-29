@@ -42,7 +42,7 @@ const PilihTeknisiModal = ({ isOpen, onClose }) => {
                 Batal
               </Button>
               <Button type="submit" colorScheme="green">
-                Tambah Teknisi
+                Selesai
               </Button>
             </ButtonGroup>
           </ModalFooter>

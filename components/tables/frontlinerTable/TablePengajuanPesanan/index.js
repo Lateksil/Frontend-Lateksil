@@ -23,13 +23,11 @@ import {
 import formatCurrency from '../../../../utils/formatCurrently';
 import DetailPengajuanPesanan from '../../../modals/frontlinerModal/detailPengajuanPesananModal';
 import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
-import dayjs from 'dayjs';
-import 'dayjs/locale/id';
 import { useForm } from 'react-hook-form';
 import useMutationUpdateProyek from '../../../hooks/mutation/put/useMutationUpdateProyek';
 import { BooleanType } from '../../../../utils/enum/BooleanType';
 import SendCostumerModal from '../../../modals/frontlinerModal/sendCostumerModal';
-dayjs.locale('id');
+import ParseDate from '../../../core/parseDate';
 
 const TablePengajuanPesanan = ({ order }) => {
   const { mutate: mutateSendToManager } = useMutationUpdateProyek();
@@ -100,7 +98,7 @@ const TablePengajuanPesanan = ({ order }) => {
           {order.proyek.nama_proyek}
         </Td>
         <Td textAlign="center" cursor="pointer" onClick={onOpenDetailHistory}>
-          {dayjs(order.createdAt).format('dddd, DD-MM-YYYY')}
+          {ParseDate(order.createdAt)}
         </Td>
         <Td
           onClick={onOpenDetailHistory}
