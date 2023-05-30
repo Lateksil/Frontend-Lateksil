@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -24,9 +24,24 @@ import {
 import useRemotePeralatanByIdOrder from '../../../hooks/remote/useRemotePeralatanByIdOrder';
 
 const AddPeralatanModal = ({ id, isOpen, onClose }) => {
+  const [dataNamaAlat, setDataNamaAlat] = useState([]);
+
   const { data: dataPermintaanAlat } = useRemotePeralatanByIdOrder({
     id: id,
   });
+
+  useEffect(() => {
+    const mergedArray = Array.from(
+      new Set(
+        dataPermintaanAlat?.data.itemOrders
+          .map((pengujian) =>
+            pengujian.Pengujian.peralatan.map((alat) => alat.nama_alat)
+          )
+          .flat()
+      )
+    );
+    setDataNamaAlat(mergedArray);
+  }, [isOpen]);
 
   return (
     <Modal
@@ -72,24 +87,11 @@ const AddPeralatanModal = ({ id, isOpen, onClose }) => {
                 <TableContainer>
                   <Table size="md" variant="striped">
                     <Tbody>
-                      <Tr>
-                        <Td>Core Drill Aspal</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>Sigmart</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>Compression Testing Mechine</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>Core Drill Aspal</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>Sigmart</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>Compression Testing Mechine</Td>
-                      </Tr>
+                      {dataNamaAlat.map((alat, i) => (
+                        <Tr key={i}>
+                          <Td>{alat}</Td>
+                        </Tr>
+                      ))}
                     </Tbody>
                   </Table>
                 </TableContainer>
