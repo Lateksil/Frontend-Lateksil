@@ -86,10 +86,12 @@ const TableProsesPengujianPesanan = ({ pengujian }) => {
         </Td>
       </Tr>
       <AddPeralatanModal
+        id={pengujian.id}
         isOpen={isOpenAddPeralatan}
         onClose={onCloseAddPeralatan}
       />
       <PilihTeknisiModal
+        id={pengujian.id}
         isOpen={isOpenPilihTeknisi}
         onClose={onClosePilihTeknisi}
       />

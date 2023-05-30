@@ -17,14 +17,14 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
-const PilihTeknisiModal = ({ isOpen, onClose }) => {
+const PilihTeknisiModal = ({ id, isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside" isCentered>
       <ModalOverlay />
       <ModalContent mx="4" overflow="hidden">
-        <Box as="form">
+        <Box>
           <ModalHeader>
-            <Text>Tambah Teknisi</Text>
+            <Text>Tambah Teknisi {id}</Text>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody py="5">

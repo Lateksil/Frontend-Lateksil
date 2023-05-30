@@ -21,8 +21,13 @@ import {
   Text,
   Tr,
 } from '@chakra-ui/react';
+import useRemotePeralatanByIdOrder from '../../../hooks/remote/useRemotePeralatanByIdOrder';
 
-const AddPeralatanModal = ({ isOpen, onClose }) => {
+const AddPeralatanModal = ({ id, isOpen, onClose }) => {
+  const { data: dataPermintaanAlat } = useRemotePeralatanByIdOrder({
+    id: id,
+  });
+
   return (
     <Modal
       isOpen={isOpen}
@@ -49,24 +54,13 @@ const AddPeralatanModal = ({ isOpen, onClose }) => {
                 <TableContainer>
                   <Table size="md" variant="striped">
                     <Tbody>
-                      <Tr>
-                        <Td>Depdep</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>Depdep</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>Depdep</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>Depdep</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>Depdep</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>Depdep</Td>
-                      </Tr>
+                      {dataPermintaanAlat?.data.itemOrders.map(
+                        (pengujian, i) => (
+                          <Tr key={i}>
+                            <Td>{pengujian.Pengujian.jenis_pengujian}</Td>
+                          </Tr>
+                        )
+                      )}
                     </Tbody>
                   </Table>
                 </TableContainer>
