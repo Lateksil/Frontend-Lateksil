@@ -1,5 +1,6 @@
 import React from 'react';
-import { Flex, Td, Text, Tr } from '@chakra-ui/react';
+import { Flex, Td, Text, Tr, Icon } from '@chakra-ui/react';
+import { GrFormClose } from 'react-icons/gr';
 
 const TableInputPeralatan = ({ pengujian }) => {
   return (
@@ -14,7 +15,20 @@ const TableInputPeralatan = ({ pengujian }) => {
         <Td textAlign="center">{pengujian.category}</Td>
         <Td textAlign="center">
           {pengujian.peralatan.map((alat, i) => (
-            <Text key={i}>{alat.nama_alat}</Text>
+            <Flex
+              key={i}
+              border="1px solid black"
+              justify="space-between"
+              rounded="md"
+              p="2"
+              shadow="sm"
+              mb="1"
+            >
+              <Text>{alat.nama_alat}</Text>
+              <Flex alignItems="center" mr={1} cursor="pointer">
+                <Icon as={GrFormClose} boxSize={5} />
+              </Flex>
+            </Flex>
           ))}
         </Td>
       </Tr>
