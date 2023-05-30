@@ -17,6 +17,10 @@ export const getServerSidePropsFrontliner = async (context) => {
             permanent: false,
           },
         };
+    } else {
+      destroyCookie(context, '_id', { path: '/' });
+      destroyCookie(context, '_e', { path: '/' });
+      destroyCookie(context, '_t', { path: '/' });
     }
 
     const returnValue = {
@@ -25,10 +29,6 @@ export const getServerSidePropsFrontliner = async (context) => {
 
     return returnValue;
   }
-
-  destroyCookie(context, '_id', { path: '/' });
-  destroyCookie(context, '_e', { path: '/' });
-  destroyCookie(context, '_t', { path: '/' });
 
   return {
     redirect: {

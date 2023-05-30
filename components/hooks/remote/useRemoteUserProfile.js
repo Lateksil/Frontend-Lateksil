@@ -12,12 +12,14 @@ const useRemoteUserProfile = () => {
 
   const uri = email ? `/me/${email}` : null;
 
-  const { data, error, ...others } = useQuery(['infoUser'], () => fetcher(uri));
+  const { data, isError, ...others } = useQuery(['info-user'], () =>
+    fetcher(uri)
+  );
 
   useEffect(() => {
     if (data && data.data && data.data.id) {
       setUserId(data.data.id);
-    } else if (error) {
+    } else if (isError) {
       removeUser();
     }
   }, [data]);

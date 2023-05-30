@@ -17,8 +17,15 @@ import formatCurrency from '../../../../utils/formatCurrently';
 import { FaTools, FaUserPlus } from 'react-icons/fa';
 import PilihTeknisiModal from '../../../modals/managerModal/pilihTeknisiModal';
 import ParseDate from '../../../core/parseDate';
+import AddPeralatanModal from '../../../modals/managerModal/addPeralatanModal';
 
 const TableProsesPengujianPesanan = ({ pengujian }) => {
+  const {
+    isOpen: isOpenAddPeralatan,
+    onOpen: onOpenAddPeralatan,
+    onClose: onCloseAddPeralatan,
+  } = useDisclosure();
+
   const {
     isOpen: isOpenPilihTeknisi,
     onOpen: onOpenPilihTeknisi,
@@ -70,6 +77,7 @@ const TableProsesPengujianPesanan = ({ pengujian }) => {
                 icon={<FaTools size={15} />}
                 color="orange.600"
                 fontWeight="semibold"
+                onClick={onOpenAddPeralatan}
               >
                 Peralatan
               </MenuItem>
@@ -77,6 +85,10 @@ const TableProsesPengujianPesanan = ({ pengujian }) => {
           </Menu>
         </Td>
       </Tr>
+      <AddPeralatanModal
+        isOpen={isOpenAddPeralatan}
+        onClose={onCloseAddPeralatan}
+      />
       <PilihTeknisiModal
         isOpen={isOpenPilihTeknisi}
         onClose={onClosePilihTeknisi}

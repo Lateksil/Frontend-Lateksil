@@ -1,4 +1,4 @@
-import { parseCookies } from 'nookies';
+import { destroyCookie, parseCookies } from 'nookies';
 import { fetcherWithContext } from '../libs/axios';
 
 export const getServerSidePropsCostumer = async (context) => {
@@ -33,6 +33,16 @@ export const getServerSidePropsCostumer = async (context) => {
             permanent: false,
           },
         };
+    } else {
+      destroyCookie(context, '_id', { path: '/' });
+      destroyCookie(context, '_e', { path: '/' });
+      destroyCookie(context, '_t', { path: '/' });
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
     }
   }
 

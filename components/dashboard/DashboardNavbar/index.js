@@ -15,6 +15,7 @@ import { FiMenu } from 'react-icons/fi';
 import { useDashboard } from '../../../context/dashboard/DashboardProvider';
 import DashboardUserNavbar from '../DashboardUserNavbar';
 import useRemoteUserProfile from '../../hooks/remote/useRemoteUserProfile';
+import { getServerSidePropsUsers } from '../../../utils/getServerSideUsers';
 
 const DashboardNavbar = () => {
   const { isDesktopSidebarOpened, onSidebarToggle } = useDashboard();
@@ -105,10 +106,15 @@ const DashboardNavbar = () => {
                   Masuk
                 </Button>
               </NextLink>
-
-              <Button variant="outline" borderColor="blue.700" color="blue.700">
-                Daftar
-              </Button>
+              <NextLink href="/register" passHref>
+                <Button
+                  variant="outline"
+                  borderColor="blue.700"
+                  color="blue.700"
+                >
+                  Daftar
+                </Button>
+              </NextLink>
             </ButtonGroup>
           </HStack>
         </Flex>
@@ -116,5 +122,6 @@ const DashboardNavbar = () => {
     </Stack>
   );
 };
+export const getServerSideProps = getServerSidePropsUsers;
 
 export default DashboardNavbar;

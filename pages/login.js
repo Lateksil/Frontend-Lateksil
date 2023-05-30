@@ -28,12 +28,9 @@ import { getServerSidePropsWithNoAuth } from '../utils/getServerSidePropsWithNoA
 import { loginSchema } from '../utils/schema/AuthenticationSchema';
 import useAxios from '../components/hooks/useAxios';
 import useAuthUserStore from '../store/useAuthUserStore';
-import useNoAuth from '../components/hooks/useNoAuth';
 import AuthenticationLayout from '../components/main/AuthenticationLayout';
 
 const LoginPage = () => {
-  useNoAuth();
-
   const router = useRouter();
   const [errors, setErrors] = useState();
   const [isLoading, setIsloading] = useBoolean();
