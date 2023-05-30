@@ -33,6 +33,14 @@ export const getServerSidePropsCostumer = async (context) => {
             permanent: false,
           },
         };
+
+      if (userResponse.data.role === 'peralatan')
+        return {
+          redirect: {
+            destination: '/peralatan',
+            permanent: false,
+          },
+        };
     } else {
       destroyCookie(context, '_id', { path: '/' });
       destroyCookie(context, '_e', { path: '/' });
