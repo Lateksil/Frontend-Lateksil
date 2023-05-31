@@ -19,6 +19,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import Select from '../../components/core/select';
 import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
+import PeralatanCreate from '../../components/create/peralatanCreate';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import useRemotePeralatan from '../../components/hooks/remote/useRemotePeralatan';
@@ -64,11 +65,7 @@ const InputPeralatan = () => {
       <Head>
         <title>Input Peralatan | Lateksil</title>
       </Head>
-      <HStack borderBottomWidth="1px" pb="4">
-        <Text color="blue.700" fontWeight="bold" fontSize="2xl">
-          Input Peralatan
-        </Text>
-      </HStack>
+      <PeralatanCreate />
       <HStack>
         <Text>Show</Text>
         <Select
