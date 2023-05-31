@@ -111,8 +111,19 @@ const TablePengajuanPesanan = ({ order }) => {
           Rp{formatCurrency(order.total_price)}
         </Td>
         <Td textAlign="center" onClick={onOpenDetailHistory} cursor="pointer">
-          <Badge colorScheme="gray" rounded="md" px={3} py={1}>
-            Belum Lunas
+          <Badge
+            colorScheme={
+              order.status.status_payment === BooleanType.TRUE
+                ? 'green'
+                : 'gray'
+            }
+            rounded="md"
+            px={3}
+            py={1}
+          >
+            {order.status.status_payment === BooleanType.TRUE
+              ? 'Sudah Lunas'
+              : 'Belum Lunas'}
           </Badge>
         </Td>
         <Td textAlign="center" onClick={onOpenDetailHistory} cursor="pointer">

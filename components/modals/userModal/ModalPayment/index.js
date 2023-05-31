@@ -206,7 +206,7 @@ const ModalPayment = ({
                 />
                 <label htmlFor="image-upload">
                   <Button as="span" w="full">
-                    Upload Bukti Pemabayaran
+                    Upload Bukti Pembayaran
                   </Button>
                 </label>
               </FormControl>
