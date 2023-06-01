@@ -19,6 +19,8 @@ import {
 import Select from '../../../core/select';
 import useRemoteCategoriesOptions from '../../../hooks/remote/useRemoteCategoriesOptions';
 import useRemotePengujianOptions from '../../../hooks/remote/useRemotePengujianOptions';
+import useMutationCreatePeralatan from '../../../hooks/mutation/useMutationCreatePeralatan';
+import { useForm } from 'react-hook-form';
 
 const AddPeralatanPengujianModal = ({ isOpen, onClose }) => {
   const [category, setCategory] = useState('');
@@ -33,6 +35,11 @@ const AddPeralatanPengujianModal = ({ isOpen, onClose }) => {
       category: category,
     });
 
+  const { mutate: mutateCreatePeralatan, isLoading: isLoadingCreatePeralatan } =
+    useMutationCreatePeralatan();
+
+  const { register, handleSubmit, reset } = useForm();
+
   useEffect(() => {
     if (pengujian !== '') {
       setDisabled(false);
@@ -42,10 +49,21 @@ const AddPeralatanPengujianModal = ({ isOpen, onClose }) => {
     }
   }, [category, pengujian]);
 
+  const onSubmit = (data) => {
+    const formData = {
+      pengujian_id: pengujian,
+      nama_alat: data.nama_alat,
+    };
+
+    mutateCreatePeralatan(formData);
+    onClose();
+    reset();
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent mx="4">
+      <ModalContent mx="4" as="form" onSubmit={handleSubmit(onSubmit)}>
         <Box>
           <ModalHeader>
             <Text>Tambah Peralatan</Text>
@@ -76,9 +94,13 @@ const AddPeralatanPengujianModal = ({ isOpen, onClose }) => {
                   <Box>Loading....</Box>
                 )}
               </FormControl>
-              <FormControl id="name_alat" isRequired>
+              <FormControl id="nama_alat" isRequired>
                 <FormLabel>Jenis Pengujian</FormLabel>
-                <Input type="text" placeholder="Tambah Alat Pengujian" />
+                <Input
+                  type="text"
+                  placeholder="Tambah Alat Pengujian"
+                  {...register('nama_alat')}
+                />
               </FormControl>
             </Stack>
           </ModalBody>
@@ -89,6 +111,7 @@ const AddPeralatanPengujianModal = ({ isOpen, onClose }) => {
               </Button>
               <Button
                 isDisabled={disabled}
+                isLoading={isLoadingCreatePeralatan}
                 type="submit"
                 variant="lateksil-solid"
               >
