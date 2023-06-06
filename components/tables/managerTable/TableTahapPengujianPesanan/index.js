@@ -18,8 +18,6 @@ const TableTahapPengujianPesanan = ({ pengujian }) => {
     onClose: onCloseDetailPengujian,
   } = useDisclosure();
 
-  console.log(pengujian);
-
   return (
     <>
       <Tr cursor="pointer">

@@ -101,6 +101,9 @@ const HistroyTransactions = () => {
               {statusPersetujuan === TransactionTypes.ACCEPT && (
                 <Th textAlign="center">Aksi</Th>
               )}
+              {statusPersetujuan === TransactionTypes.IN_PROGRESS && (
+                <Th textAlign="center">Progress</Th>
+              )}
             </Tr>
           </Thead>
           <Tbody>

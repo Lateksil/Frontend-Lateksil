@@ -41,6 +41,8 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
 
   const detailOrder = dataDetailOrder?.data;
 
+  console.log('DATA PESANAN', detailOrder);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -80,6 +82,36 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                   )}
                   {detailOrder.status.status_transaction ===
                     TransactionTypes.ACCEPT && (
+                    <>
+                      <Badge
+                        ml="3"
+                        colorScheme="green"
+                        rounded="md"
+                        px={3}
+                        py={1}
+                      >
+                        Accepted
+                      </Badge>
+                      <Badge
+                        ml="3"
+                        colorScheme={
+                          detailOrder.status.status_payment ===
+                          BooleanType.FALSE
+                            ? 'gray'
+                            : 'green'
+                        }
+                        rounded="md"
+                        px={3}
+                        py={1}
+                      >
+                        {detailOrder.status.status_payment === BooleanType.FALSE
+                          ? 'Belum Bayar'
+                          : 'Sudah Bayar'}
+                      </Badge>
+                    </>
+                  )}
+                  {detailOrder.status.status_transaction ===
+                    TransactionTypes.IN_PROGRESS && (
                     <>
                       <Badge
                         ml="3"
@@ -150,6 +182,20 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
                           Verifikasi Pembayaran{' '}
                         </Text>
                         <Text as="span" fontWeight="semibold">
+                          Terimakasih
+                        </Text>
+                      </>
+                    )}
+                  {detailOrder.status.status_transaction ===
+                    TransactionTypes.IN_PROGRESS &&
+                    detailOrder.status.status_payment === BooleanType.TRUE && (
+                      <>
+                        <Text as="span" fontWeight="semibold">
+                          Kami sedang Mengerjakan Pesanan kamu, Mohon untuk
+                          menunggu sampai proses selesai
+                        </Text>
+                        <Text as="span" fontWeight="semibold">
+                          {' '}
                           Terimakasih
                         </Text>
                       </>

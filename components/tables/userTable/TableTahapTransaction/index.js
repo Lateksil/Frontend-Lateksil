@@ -1,5 +1,13 @@
 import React from 'react';
-import { Badge, Button, Td, Tr, useDisclosure } from '@chakra-ui/react';
+import {
+  Badge,
+  Button,
+  Flex,
+  Td,
+  Text,
+  Tr,
+  useDisclosure,
+} from '@chakra-ui/react';
 
 import formatCurrency from '../../../../utils/formatCurrently';
 
@@ -9,6 +17,7 @@ import { BooleanType } from '../../../../utils/enum/BooleanType';
 import { FaWallet } from 'react-icons/fa';
 import ModalPayment from '../../../modals/userModal/ModalPayment';
 import ParseDate from '../../../core/parseDate';
+import { MdLoop } from 'react-icons/md';
 
 const TableTahapTransaction = ({ order }) => {
   const {
@@ -58,6 +67,11 @@ const TableTahapTransaction = ({ order }) => {
               Accept
             </Badge>
           )}
+          {order.status.status_transaction === TransactionTypes.IN_PROGRESS && (
+            <Badge colorScheme="green" rounded="md" px={3} py={1}>
+              Accept
+            </Badge>
+          )}
         </Td>
         {order.status.status_transaction === TransactionTypes.ACCEPT && (
           <Td>
@@ -75,6 +89,21 @@ const TableTahapTransaction = ({ order }) => {
                 ? 'Sudah Bayar'
                 : 'Bayar'}
             </Button>
+          </Td>
+        )}
+        {order.status.status_transaction === TransactionTypes.IN_PROGRESS && (
+          <Td>
+            <Flex
+              justify="center"
+              alignItems="center"
+              p="2"
+              bg="#E44E69"
+              rounded="md"
+              gap={2}
+            >
+              <MdLoop color="white" />
+              <Text color="white">In Progress</Text>
+            </Flex>
           </Td>
         )}
       </Tr>
