@@ -21,20 +21,28 @@ import {
   Text,
   Tr,
   Icon,
+  Input,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { GrFormClose } from 'react-icons/gr';
 import Select from '../../../core/select';
 import useMutationAddTeknisiPengujian from '../../../hooks/mutation/useMutationAddTeknisiPengujian';
+import useRemotePeralatanByIdOrder from '../../../hooks/remote/useRemotePeralatanByIdOrder';
 import useRemoteTeknisibyOrderId from '../../../hooks/remote/useRemoteTeknisibyOrderId';
 import useRemoteTeknisiOptions from '../../../hooks/remote/useRemoteTeknisiOptions';
 
-const PilihTeknisiModal = ({ id, isOpen, onClose }) => {
+const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
+  const [dataNamaAlat, setDataNamaAlat] = useState([]);
+
   const { data: dataTeknisi, isLoading: isLoadingDataTeknisi } =
     useRemoteTeknisibyOrderId({ id });
 
   const { data: teknisiDataOption } = useRemoteTeknisiOptions();
+
+  const { data: dataPermintaanAlat } = useRemotePeralatanByIdOrder({
+    id: id,
+  });
 
   const {
     mutate: mutateAddTeknisiPengujian,
@@ -48,6 +56,19 @@ const PilihTeknisiModal = ({ id, isOpen, onClose }) => {
     reset();
   };
 
+  useEffect(() => {
+    const mergedArray = Array.from(
+      new Set(
+        dataPermintaanAlat?.data.itemOrders
+          .map((pengujian) =>
+            pengujian.Pengujian.peralatan.map((alat) => alat.nama_alat)
+          )
+          .flat()
+      )
+    );
+    setDataNamaAlat(mergedArray);
+  }, [isOpen]);
+
   const onSubmit = async (data) => {
     const formData = {
       order_id: id,
@@ -59,14 +80,20 @@ const PilihTeknisiModal = ({ id, isOpen, onClose }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onModalClose} isCentered>
+    <Modal
+      isOpen={isOpen}
+      onClose={onModalClose}
+      size="lg"
+      scrollBehavior="inside"
+      isCentered
+    >
       <ModalOverlay />
       <ModalContent mx="4" as="form" onSubmit={handleSubmit(onSubmit)}>
-        <Box>
-          <ModalHeader>
-            <Text>Tambah Teknisi</Text>
-          </ModalHeader>
-          <ModalCloseButton />
+        <ModalHeader>
+          <Text>Tambah Teknisi dan Peralatan</Text>
+        </ModalHeader>
+        <ModalCloseButton />
+        <Box overflow="auto">
           <ModalBody py="5">
             <Flex direction="column" gap={5}>
               <Flex direction="column">
@@ -122,27 +149,73 @@ const PilihTeknisiModal = ({ id, isOpen, onClose }) => {
                   )}
                 />
               </FormControl>
-            </Flex>
-          </ModalBody>
-
-          <ModalFooter bg="gray.100">
-            <ButtonGroup>
-              <Button onClick={onModalClose} border="1px">
-                Batal
-              </Button>
               <Button
                 type="submit"
                 colorScheme="green"
                 isLoading={isLoadingTeknisiPengujian}
               >
-                Selesai
+                Tambah Teknisi
               </Button>
-            </ButtonGroup>
-          </ModalFooter>
+            </Flex>
+
+            <Flex direction="column" mt="5">
+              <Text mb="2" fontWeight="semibold">
+                Jenis Pengujian
+              </Text>
+              <Box mb="5" h="150px" borderWidth={2} overflow="auto">
+                <TableContainer>
+                  <Table size="md" variant="striped">
+                    <Tbody>
+                      {dataPermintaanAlat?.data.itemOrders.map(
+                        (pengujian, i) => (
+                          <Tr key={i}>
+                            <Td>{pengujian.Pengujian.jenis_pengujian}</Td>
+                          </Tr>
+                        )
+                      )}
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              </Box>
+              <Text mb="2" fontWeight="semibold">
+                Alat Pengujian
+              </Text>
+              <Box mb="5" h="150px" borderWidth={2} overflow="auto">
+                <TableContainer>
+                  <Table size="md" variant="striped">
+                    <Tbody>
+                      {dataNamaAlat.map((alat, i) => (
+                        <Tr key={i}>
+                          <Td>{alat}</Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              </Box>
+              <FormControl id="name_category">
+                <FormLabel>Catatan Ke Peralatan</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Tambah Alat yang ingin anda tambahkan"
+                />
+              </FormControl>
+            </Flex>
+          </ModalBody>
         </Box>
+        <ModalFooter bg="gray.100">
+          <ButtonGroup>
+            <Button onClick={onModalClose} border="1px">
+              Batal
+            </Button>
+            <Button type="submit" variant="lateksil-solid">
+              Kirim
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );
 };
 
-export default PilihTeknisiModal;
+export default AddTeknisiAndPeralatanModal;

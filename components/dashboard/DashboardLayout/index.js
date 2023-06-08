@@ -4,6 +4,7 @@ import generateSidebaritemFrontliner from '../../../utils/sidebar/Frontliner';
 import generateSidebaritemKeuangan from '../../../utils/sidebar/Keuangan';
 import generateSidebaritemManager from '../../../utils/sidebar/Manager';
 import generateSidebaritemPeralatan from '../../../utils/sidebar/Peralatan';
+import generateSidebaritemTeknisi from '../../../utils/sidebar/Teknisi';
 import generateSidebaritemUser from '../../../utils/sidebar/User';
 import DashboardMain from '../DashboardMain';
 import DashboardSidebar from '../DashboardSidebar';
@@ -26,6 +27,9 @@ const DashboardLayout = ({ sidebarFor, children }) => {
       break;
     case 'peralatan':
       sidebarItems = generateSidebaritemPeralatan();
+      break;
+    case 'teknisi':
+      sidebarItems = generateSidebaritemTeknisi();
       break;
     default:
       sidebarItems = generateSidebaritemUser();

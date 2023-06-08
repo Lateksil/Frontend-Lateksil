@@ -8,8 +8,7 @@ import {
   Tr,
   useDisclosure,
 } from '@chakra-ui/react';
-import formatCurrency from '../../../../utils/formatCurrently';
-import DetailProsesPengujian from '../../../modals/managerModal/detailProsesPengujian';
+import DetailTahapPengujian from '../../../modals/managerModal/detailTahapPengujian';
 
 const TableTahapPengujianPesanan = ({ pengujian }) => {
   const {
@@ -30,13 +29,8 @@ const TableTahapPengujianPesanan = ({ pengujian }) => {
         <Td textAlign="center" onClick={onOpenDetailPengujian}>
           {pengujian.proyek.nama_proyek}
         </Td>
-        <Td
-          textAlign="center"
-          color="blue.700"
-          fontWeight="semibold"
-          onClick={onOpenDetailPengujian}
-        >
-          Rp{formatCurrency(pengujian.total_price)}
+        <Td textAlign="center" onClick={onOpenDetailPengujian}>
+          {pengujian.proyek.no_identifikasi}
         </Td>
         <Td textAlign="center">Lihat</Td>
         <Td textAlign="center" onClick={onOpenDetailPengujian}>
@@ -48,7 +42,7 @@ const TableTahapPengujianPesanan = ({ pengujian }) => {
           <Button variant="lateksil-solid">Upload</Button>
         </Td>
       </Tr>
-      <DetailProsesPengujian
+      <DetailTahapPengujian
         id={pengujian.id}
         isOpen={isOpenDetailPengujian}
         onClose={onCloseDetailPengujian}

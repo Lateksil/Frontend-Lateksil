@@ -1,24 +1,17 @@
 import React from 'react';
 import {
   Badge,
+  Button,
   Flex,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Td,
   Text,
   Tr,
   useDisclosure,
 } from '@chakra-ui/react';
-import { BsThreeDotsVertical } from 'react-icons/bs';
 import formatCurrency from '../../../../utils/formatCurrently';
-import { FaTools, FaUserPlus } from 'react-icons/fa';
-import PilihTeknisiModal from '../../../modals/managerModal/pilihTeknisiModal';
 import ParseDate from '../../../core/parseDate';
-import AddPeralatanModal from '../../../modals/managerModal/addPeralatanModal';
 import DetailProsesPengujian from '../../../modals/managerModal/detailProsesPengujian';
+import AddTeknisiAndPeralatanModal from '../../../modals/managerModal/addTeknisiAndPeralatanModal';
 
 const TableProsesPengujianPesanan = ({ pengujian }) => {
   const {
@@ -28,15 +21,9 @@ const TableProsesPengujianPesanan = ({ pengujian }) => {
   } = useDisclosure();
 
   const {
-    isOpen: isOpenAddPeralatan,
-    onOpen: onOpenAddPeralatan,
-    onClose: onCloseAddPeralatan,
-  } = useDisclosure();
-
-  const {
-    isOpen: isOpenPilihTeknisi,
-    onOpen: onOpenPilihTeknisi,
-    onClose: onClosePilihTeknisi,
+    isOpen: isOpenPilihTeknisiAndPeralatan,
+    onOpen: onOpenPilihTeknisiAndPeralatan,
+    onClose: onClosePilihTeknisiAndPeralatan,
   } = useDisclosure();
 
   return (
@@ -75,41 +62,12 @@ const TableProsesPengujianPesanan = ({ pengujian }) => {
         </Td>
 
         <Td textAlign="center">
-          <Menu placement="left">
-            <MenuButton
-              as={IconButton}
-              icon={<BsThreeDotsVertical />}
-              border="1px solid #102D62"
-              rounded="xl"
-            />
-            <MenuList>
-              <MenuItem
-                icon={<FaUserPlus size={15} />}
-                color="green.700"
-                fontWeight="semibold"
-                onClick={onOpenPilihTeknisi}
-              >
-                Teknisi
-              </MenuItem>
-              <MenuItem
-                icon={<FaTools size={15} />}
-                color="orange.600"
-                fontWeight="semibold"
-                onClick={onOpenAddPeralatan}
-              >
-                Peralatan
-              </MenuItem>
-              <MenuItem
-                icon={<FaTools size={15} />}
-                color="orange.600"
-                fontWeight="semibold"
-                isDisabled={true}
-                onClick={onOpenAddPeralatan}
-              >
-                Kirim
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          <Button
+            variant="lateksil-solid"
+            onClick={onOpenPilihTeknisiAndPeralatan}
+          >
+            Tambah
+          </Button>
         </Td>
       </Tr>
       <DetailProsesPengujian
@@ -117,15 +75,10 @@ const TableProsesPengujianPesanan = ({ pengujian }) => {
         isOpen={isOpenDetailPengujian}
         onClose={onCloseDetailPengujian}
       />
-      <AddPeralatanModal
+      <AddTeknisiAndPeralatanModal
         id={pengujian.id}
-        isOpen={isOpenAddPeralatan}
-        onClose={onCloseAddPeralatan}
-      />
-      <PilihTeknisiModal
-        id={pengujian.id}
-        isOpen={isOpenPilihTeknisi}
-        onClose={onClosePilihTeknisi}
+        isOpen={isOpenPilihTeknisiAndPeralatan}
+        onClose={onClosePilihTeknisiAndPeralatan}
       />
     </>
   );

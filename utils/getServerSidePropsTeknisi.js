@@ -1,7 +1,7 @@
 import { destroyCookie, parseCookies } from 'nookies';
 import { fetcherWithContext } from '../libs/axios';
 
-export const getServerSidePropsPeralatan = async (context) => {
+export const getServerSidePropsTeknisi = async (context) => {
   const { _e: email, _t: accessToken } = parseCookies(context, { path: '/' });
 
   if (email && accessToken) {
@@ -10,7 +10,7 @@ export const getServerSidePropsPeralatan = async (context) => {
     const userResponse = await fetcherWithContext(url, context);
 
     if (userResponse) {
-      if (userResponse.data.role !== 'peralatan')
+      if (userResponse.data.role !== 'teknisi')
         return {
           redirect: {
             destination: '/',

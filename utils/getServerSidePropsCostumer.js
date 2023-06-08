@@ -41,6 +41,13 @@ export const getServerSidePropsCostumer = async (context) => {
             permanent: false,
           },
         };
+      if (userResponse.data.role === 'teknisi')
+        return {
+          redirect: {
+            destination: '/teknisi',
+            permanent: false,
+          },
+        };
     } else {
       destroyCookie(context, '_id', { path: '/' });
       destroyCookie(context, '_e', { path: '/' });

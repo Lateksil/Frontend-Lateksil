@@ -24,7 +24,7 @@ import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import useRemotePeralatan from '../../components/hooks/remote/useRemotePeralatan';
 import TableInputPeralatan from '../../components/tables/peralatanTable/TableInputPeralatan';
-import { getServerSidePropsPeralatan } from '../../utils/getServerSidePropsManager copy';
+import { getServerSidePropsPeralatan } from '../../utils/getServerSidePropsPeralatan';
 import LoadingData from '../../utils/LoadingData';
 
 const InputPeralatan = () => {
