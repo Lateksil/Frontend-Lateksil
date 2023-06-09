@@ -37,8 +37,9 @@ import TableToName from '../../../core/tableToName';
 import ParseDate from '../../../core/parseDate';
 import StatusOrderPengujian from '../../../core/status/StatusOrderPengujian';
 import StatusPembayaran from '../../../core/status/StatusPayment';
+import StatusPersetujuan from '../../../core/status/StatusPersetujuan';
 
-const DetailTahapPengujian = ({ id, isOpen, onClose }) => {
+const DetailTahapPengerjaan = ({ id, isOpen, onClose }) => {
   const {
     data: dataDetailOrder,
     isSuccess,
@@ -49,9 +50,14 @@ const DetailTahapPengujian = ({ id, isOpen, onClose }) => {
 
   const { color: color_pengujian, text: text_pengujian } = StatusOrderPengujian(
     {
-      status: detailOrder?.status.status_persetujuan,
+      status: detailOrder?.status.status_transaction,
     }
   );
+
+  const { color: color_persetujuan, text: text_persetujuan } =
+    StatusPersetujuan({
+      status: detailOrder?.status.status_persetujuan,
+    });
   const { color: color_payment, text: text_payment } = StatusPembayaran({
     status: detailOrder?.status.status_payment,
   });
@@ -125,6 +131,14 @@ const DetailTahapPengujian = ({ id, isOpen, onClose }) => {
                       py={1}
                     >
                       {text_payment}
+                    </Badge>
+                    <Badge
+                      colorScheme={color_persetujuan}
+                      rounded="md"
+                      px={3}
+                      py={1}
+                    >
+                      {text_persetujuan}
                     </Badge>
                     <Badge
                       colorScheme={color_pengujian}
@@ -264,4 +278,4 @@ const DetailTahapPengujian = ({ id, isOpen, onClose }) => {
   );
 };
 
-export default DetailTahapPengujian;
+export default DetailTahapPengerjaan;

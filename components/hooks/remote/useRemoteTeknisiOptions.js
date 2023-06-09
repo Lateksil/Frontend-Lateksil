@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { postFetcher } from '../../../libs/axios';
 
 const useRemoteTeknisiOptions = () => {
-  const uri = `/teknisi`;
+  const uri = `/teknisi/all`;
 
   const { data, ...others } = useQuery(['teknisi'], () => postFetcher(uri));
 

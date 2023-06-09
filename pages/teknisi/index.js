@@ -21,11 +21,17 @@ import Select from '../../components/core/select';
 import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
+import useRemoteOrderByIdTeknisi from '../../components/hooks/remote/useRemoteOrderByIdTeknisi';
 import TableTaskPengujian from '../../components/tables/teknisiTable/TableTaskPengujian';
 import { getServerSidePropsTeknisi } from '../../utils/getServerSidePropsTeknisi';
+import LoadingData from '../../utils/LoadingData';
 
 const TaskTeknisi = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
+
+  const { data: dataPengujianTeknisi, isLoading: isLoadingPengujianTeknisi } =
+    useRemoteOrderByIdTeknisi();
+
   return (
     <VStack align="stretch" spacing={4}>
       <Head>
@@ -75,10 +81,13 @@ const TaskTeknisi = () => {
             </Tr>
           </Thead>
           <Tbody>
-            <TableTaskPengujian />
+            {dataPengujianTeknisi?.data.map((pengujian, i) => (
+              <TableTaskPengujian key={i} pengujian={pengujian} />
+            ))}
           </Tbody>
         </Table>
       </TableContainer>
+      {isLoadingPengujianTeknisi && <LoadingData />}
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}
         justifyContent="end"

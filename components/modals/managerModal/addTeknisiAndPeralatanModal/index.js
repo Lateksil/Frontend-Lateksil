@@ -27,6 +27,7 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { GrFormClose } from 'react-icons/gr';
 import Select from '../../../core/select';
+import useMutationProsesToTahapPengujian from '../../../hooks/mutation/put/useMutationProsesToTahapPengujian';
 import useMutationAddTeknisiPengujian from '../../../hooks/mutation/useMutationAddTeknisiPengujian';
 import useRemotePeralatanByIdOrder from '../../../hooks/remote/useRemotePeralatanByIdOrder';
 import useRemoteTeknisibyOrderId from '../../../hooks/remote/useRemoteTeknisibyOrderId';
@@ -38,11 +39,17 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
   const { data: dataTeknisi, isLoading: isLoadingDataTeknisi } =
     useRemoteTeknisibyOrderId({ id });
 
-  const { data: teknisiDataOption } = useRemoteTeknisiOptions();
+  const { data: teknisiDataOption, isLoadingTeknisiOption } =
+    useRemoteTeknisiOptions();
 
   const { data: dataPermintaanAlat } = useRemotePeralatanByIdOrder({
     id: id,
   });
+
+  const {
+    mutate: mutateToTahapPengujian,
+    isLoading: isLoadingToTahapPengujian,
+  } = useMutationProsesToTahapPengujian();
 
   const {
     mutate: mutateAddTeknisiPengujian,
@@ -77,6 +84,16 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
 
     mutateAddTeknisiPengujian(formData);
     reset();
+  };
+
+  const handelToTahapPengujian = async () => {
+    const formData = {
+      order_id: id,
+    };
+    mutateToTahapPengujian({
+      formData: formData,
+    });
+    onModalClose();
   };
 
   return (
@@ -152,7 +169,7 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
               <Button
                 type="submit"
                 colorScheme="green"
-                isLoading={isLoadingTeknisiPengujian}
+                isLoading={isLoadingTeknisiPengujian || isLoadingTeknisiOption}
               >
                 Tambah Teknisi
               </Button>
@@ -208,7 +225,12 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
             <Button onClick={onModalClose} border="1px">
               Batal
             </Button>
-            <Button type="submit" variant="lateksil-solid">
+            <Button
+              onClick={handelToTahapPengujian}
+              isLoading={isLoadingToTahapPengujian}
+              isDisabled={dataTeknisi?.data.length === 0 && true}
+              variant="lateksil-solid"
+            >
               Kirim
             </Button>
           </ButtonGroup>

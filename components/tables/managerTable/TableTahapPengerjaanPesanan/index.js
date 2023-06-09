@@ -8,13 +8,20 @@ import {
   Tr,
   useDisclosure,
 } from '@chakra-ui/react';
-import DetailTahapPengujian from '../../../modals/managerModal/detailTahapPengujian';
+import DetailTeknisiProgress from '../../../modals/managerModal/detailTeknisiProgress';
+import DetailTahapPengerjaan from '../../../modals/managerModal/detailTahapPengerjaan';
 
-const TableTahapPengujianPesanan = ({ pengujian }) => {
+const TableTahapPengerjaanPesanan = ({ pengujian }) => {
   const {
     isOpen: isOpenDetailPengujian,
     onOpen: onOpenDetailPengujian,
     onClose: onCloseDetailPengujian,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenTeknisiProgress,
+    onOpen: onOpenTeknisiProgress,
+    onClose: onCloseTeknisiProgress,
   } = useDisclosure();
 
   return (
@@ -32,7 +39,11 @@ const TableTahapPengujianPesanan = ({ pengujian }) => {
         <Td textAlign="center" onClick={onOpenDetailPengujian}>
           {pengujian.proyek.no_identifikasi}
         </Td>
-        <Td textAlign="center">Lihat</Td>
+        <Td textAlign="center">
+          <Button variant="lateksil-solid" onClick={onOpenTeknisiProgress}>
+            Lihat
+          </Button>
+        </Td>
         <Td textAlign="center" onClick={onOpenDetailPengujian}>
           <Badge colorScheme="pink" px="4" py="2">
             On Progress
@@ -42,13 +53,17 @@ const TableTahapPengujianPesanan = ({ pengujian }) => {
           <Button variant="lateksil-solid">Upload</Button>
         </Td>
       </Tr>
-      <DetailTahapPengujian
+      <DetailTahapPengerjaan
         id={pengujian.id}
         isOpen={isOpenDetailPengujian}
         onClose={onCloseDetailPengujian}
+      />
+      <DetailTeknisiProgress
+        isOpen={isOpenTeknisiProgress}
+        onClose={onCloseTeknisiProgress}
       />
     </>
   );
 };
 
-export default TableTahapPengujianPesanan;
+export default TableTahapPengerjaanPesanan;

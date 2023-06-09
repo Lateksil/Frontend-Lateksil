@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { postFetcher } from '../../../libs/axios';
 
-const useRemoteTahapPengujian = ({ page, limit, search = '' }) => {
-  const uri = `/tahap-pengujian`;
+const useRemoteTahapPengerjaan = ({ page, limit, search = '' }) => {
+  const uri = `/tahap-pengerjaan`;
 
   const { data, ...others } = useQuery(
-    ['tahap-pengujian', page, limit, search],
+    ['tahap-pengerjaan', page, limit, search],
     () =>
       postFetcher(uri, {
         page,
@@ -17,4 +17,4 @@ const useRemoteTahapPengujian = ({ page, limit, search = '' }) => {
   return { data, ...others };
 };
 
-export default useRemoteTahapPengujian;
+export default useRemoteTahapPengerjaan;

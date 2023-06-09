@@ -114,7 +114,7 @@ const ProsesPengujian = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      {dataProsePengujian?.data === null && <MessageSearchNotFound />}
+      {dataProsePengujian?.totalData === 0 && <MessageSearchNotFound />}
       {isLoadingProsesPengujian && <LoadingData />}
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}

@@ -24,10 +24,10 @@ import { generateEntryOptions } from '../../components/core/select/helper/entryO
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import LoadingData from '../../utils/LoadingData';
 import MessageSearchNotFound from '../../utils/MessageSearchNotFound';
-import TableTahapPengujianPesanan from '../../components/tables/managerTable/TableTahapPengujianPesanan';
-import useRemoteTahapPengujian from '../../components/hooks/remote/useRemoteTahapPengujian';
+import useRemoteTahapPengerjaan from '../../components/hooks/remote/useRemoteTahapPengerjaan';
+import TableTahapPengerjaanPesanan from '../../components/tables/managerTable/TableTahapPengerjaanPesanan';
 
-const TahapPengujianPage = () => {
+const TahapPengerjaan = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
   const pengujianListRef = useRef(null);
@@ -38,7 +38,7 @@ const TahapPengujianPage = () => {
     data: dataProsePengujian,
     isLoading: isLoadingProsesPengujian,
     error,
-  } = useRemoteTahapPengujian({
+  } = useRemoteTahapPengerjaan({
     page: pageIndex,
     limit: dataLimit,
   });
@@ -62,11 +62,11 @@ const TahapPengujianPage = () => {
   return (
     <VStack align="stretch" spacing={4}>
       <Head>
-        <title>Proses Pengujian | Lateksil</title>
+        <title>Tahap Pengerjaan | Lateksil</title>
       </Head>
       <HStack borderBottomWidth="1px" pb="4">
         <Text color="blue.700" fontWeight="bold" fontSize="2xl">
-          Proses Pengujian
+          Tahap Pengerjaan
         </Text>
       </HStack>
       <HStack>
@@ -107,7 +107,7 @@ const TahapPengujianPage = () => {
           </Thead>
           <Tbody>
             {dataProsePengujian?.data?.map((pengujian, i) => (
-              <TableTahapPengujianPesanan pengujian={pengujian} key={i} />
+              <TableTahapPengerjaanPesanan pengujian={pengujian} key={i} />
             ))}
           </Tbody>
         </Table>
@@ -133,8 +133,8 @@ const TahapPengujianPage = () => {
 
 export const getServerSideProps = getServerSidePropsManager;
 
-TahapPengujianPage.getLayout = (page) => (
+TahapPengerjaan.getLayout = (page) => (
   <DashboardLayout sidebarFor="manager">{page}</DashboardLayout>
 );
 
-export default TahapPengujianPage;
+export default TahapPengerjaan;
