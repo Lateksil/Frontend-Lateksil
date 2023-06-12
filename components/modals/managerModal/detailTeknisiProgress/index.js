@@ -11,6 +11,8 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Skeleton,
+  Stack,
   Table,
   TableContainer,
   Tbody,
@@ -21,8 +23,14 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import React from 'react';
+import { PengerjaanTypes } from '../../../../utils/enum/PengerjaanTypes';
+import StatusProgresTeknisi from '../../../core/status/StatusProgresTeknisi';
+import useRemoteTeknisibyOrderId from '../../../hooks/remote/useRemoteTeknisibyOrderId';
 
-const DetailTeknisiProgress = ({ isOpen, onClose }) => {
+const DetailTeknisiProgress = ({ id, isOpen, onClose }) => {
+  const { data: dataTeknisi, isLoading: isLoadingDataTeknisi } =
+    useRemoteTeknisibyOrderId({ id });
+
   const onModalClose = () => {
     onClose();
   };
@@ -43,8 +51,8 @@ const DetailTeknisiProgress = ({ isOpen, onClose }) => {
         <ModalCloseButton />
         <Box overflow="auto">
           <ModalBody py="5">
-            <Flex>
-              <TableContainer>
+            <Flex direction="column">
+              <TableContainer w="full">
                 <Table size="md" variant="striped">
                   <Thead>
                     <Tr>
@@ -54,33 +62,49 @@ const DetailTeknisiProgress = ({ isOpen, onClose }) => {
                     </Tr>
                   </Thead>
                   <Tbody borderWidth={2}>
-                    <Tr>
-                      <Td>Teknisi 1</Td>
-                      <Td textAlign="center">
-                        <Badge colorScheme="pink" p="2" rounded="md" w="full">
-                          Proses Pengerjaan
-                        </Badge>
-                      </Td>
-                      <Td>
-                        <Button isDisabled={true} colorScheme="blue">
-                          Download File
-                        </Button>
-                      </Td>
-                    </Tr>
-                    <Tr>
-                      <Td>Teknisi 2</Td>
-                      <Td textAlign="center">
-                        <Badge colorScheme="green" p="2" rounded="md" w="full">
-                          Selesai
-                        </Badge>
-                      </Td>
-                      <Td>
-                        <Button colorScheme="blue">Download File</Button>
-                      </Td>
-                    </Tr>
+                    {dataTeknisi?.data?.map((users, i) => {
+                      const { color: color_pengerjaan, text: text_pengerjaan } =
+                        StatusProgresTeknisi({
+                          status: users.status_pengerjaan,
+                        });
+                      return (
+                        <Tr key={i}>
+                          <Td textAlign="center">{users.teknisi.full_name}</Td>
+                          <Td textAlign="center">
+                            <Badge
+                              colorScheme={color_pengerjaan}
+                              p="2"
+                              rounded="md"
+                              w="full"
+                            >
+                              {text_pengerjaan}
+                            </Badge>
+                          </Td>
+                          <Td textAlign="center">
+                            <Button
+                              isDisabled={
+                                users.status_pengerjaan ===
+                                PengerjaanTypes.COMPLETED
+                                  ? false
+                                  : true
+                              }
+                              colorScheme="blue"
+                            >
+                              Download File
+                            </Button>
+                          </Td>
+                        </Tr>
+                      );
+                    })}
                   </Tbody>
                 </Table>
               </TableContainer>
+              {isLoadingDataTeknisi && (
+                <Stack w="full">
+                  <Skeleton height="25px" />
+                  <Skeleton height="25px" />
+                </Stack>
+              )}
             </Flex>
           </ModalBody>
         </Box>

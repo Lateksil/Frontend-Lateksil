@@ -59,6 +59,7 @@ const TableTahapPengerjaanPesanan = ({ pengujian }) => {
         onClose={onCloseDetailPengujian}
       />
       <DetailTeknisiProgress
+        id={pengujian.id}
         isOpen={isOpenTeknisiProgress}
         onClose={onCloseTeknisiProgress}
       />

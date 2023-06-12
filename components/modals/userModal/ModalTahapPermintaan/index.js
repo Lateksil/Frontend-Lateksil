@@ -41,8 +41,6 @@ const ModalTahapPermintaan = ({ order, isOpen, onClose }) => {
 
   const detailOrder = dataDetailOrder?.data;
 
-  console.log('DATA PESANAN', detailOrder);
-
   return (
     <Modal
       isOpen={isOpen}
