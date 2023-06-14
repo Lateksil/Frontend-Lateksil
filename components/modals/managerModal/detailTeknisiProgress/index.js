@@ -22,12 +22,15 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { baseUrl } from '../../../../libs/axios';
 import { PengerjaanTypes } from '../../../../utils/enum/PengerjaanTypes';
 import StatusProgresTeknisi from '../../../core/status/StatusProgresTeknisi';
 import useRemoteTeknisibyOrderId from '../../../hooks/remote/useRemoteTeknisibyOrderId';
 
 const DetailTeknisiProgress = ({ id, isOpen, onClose }) => {
+  const router = useRouter();
   const { data: dataTeknisi, isLoading: isLoadingDataTeknisi } =
     useRemoteTeknisibyOrderId({ id });
 
@@ -89,6 +92,11 @@ const DetailTeknisiProgress = ({ id, isOpen, onClose }) => {
                                   : true
                               }
                               colorScheme="blue"
+                              onClick={() =>
+                                router.push(
+                                  `${baseUrl}view-task/download/${users.file_task_pengujian}`
+                                )
+                              }
                             >
                               Download File
                             </Button>
