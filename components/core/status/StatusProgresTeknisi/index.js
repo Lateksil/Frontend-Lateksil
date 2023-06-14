@@ -6,6 +6,8 @@ const StatusProgresTeknisi = ({ status }) => {
       return { color: 'orange', text: 'BELUM DIKERJAKAN' };
     case PengerjaanTypes.IN_PROGRESS:
       return { color: 'pink', text: 'SEDANG DIKERJAKAN' };
+    case PengerjaanTypes.UPLOADED_FILE:
+      return { color: 'pink', text: 'SEDANG DIKERJAKAN' };
     case PengerjaanTypes.COMPLETED:
       return { color: 'green', text: 'SELESAI' };
     default:

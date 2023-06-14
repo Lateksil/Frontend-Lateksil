@@ -22,27 +22,27 @@ import { generateEntryOptions } from '../../components/core/select/helper/entryO
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import useRemoteOrderByIdTeknisi from '../../components/hooks/remote/useRemoteOrderByIdTeknisi';
-import TableTaskPengujian from '../../components/tables/teknisiTable/TableTaskPengujian';
+import TablePengerjaanTask from '../../components/tables/teknisiTable/TablePengerjaanTask';
 import { PengerjaanTypes } from '../../utils/enum/PengerjaanTypes';
 import { getServerSidePropsTeknisi } from '../../utils/getServerSidePropsTeknisi';
 import LoadingData from '../../utils/LoadingData';
 
-const TaskTeknisi = () => {
+const PengerjaanTaskTeknisi = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
   const { data: dataPengujianTeknisi, isLoading: isLoadingPengujianTeknisi } =
     useRemoteOrderByIdTeknisi({
-      status_pengerjaan: PengerjaanTypes.PENDING,
+      status_pengerjaan: PengerjaanTypes.IN_PROGRESS,
     });
 
   return (
     <VStack align="stretch" spacing={4}>
       <Head>
-        <title>Task Teknisi | Lateksil</title>
+        <title>Pengerjaan Task Teknisi | Lateksil</title>
       </Head>
       <HStack borderBottomWidth="1px" pb="4">
         <Text color="blue.700" fontWeight="bold" fontSize="2xl">
-          Task Pengujian
+          Pengerjaan
         </Text>
       </HStack>
       <HStack>
@@ -86,7 +86,7 @@ const TaskTeknisi = () => {
           </Thead>
           <Tbody>
             {dataPengujianTeknisi?.data.map((pengujian, i) => (
-              <TableTaskPengujian key={i} pengujian={pengujian} />
+              <TablePengerjaanTask key={i} pengujian={pengujian} />
             ))}
           </Tbody>
         </Table>
@@ -107,8 +107,8 @@ const TaskTeknisi = () => {
 
 export const getServerSideProps = getServerSidePropsTeknisi;
 
-TaskTeknisi.getLayout = (page) => (
+PengerjaanTaskTeknisi.getLayout = (page) => (
   <DashboardLayout sidebarFor="teknisi">{page}</DashboardLayout>
 );
 
-export default TaskTeknisi;
+export default PengerjaanTaskTeknisi;

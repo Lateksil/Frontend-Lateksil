@@ -5,19 +5,19 @@ import ParseDate from '../../../core/parseDate';
 import useMutationProgressTaskPengujian from '../../../hooks/mutation/useMutationProgressTaskPengujian';
 import useToastNotification from '../../../hooks/useToastNotification';
 import { PengerjaanTypes } from '../../../../utils/enum/PengerjaanTypes';
-const TableTaskPengujian = ({ pengujian }) => {
+const TablePengerjaanTask = ({ pengujian }) => {
   const router = useRouter();
   const showToast = useToastNotification();
   const {
-    mutateAsync: mutateTaskToInProgress,
+    mutateAsync: mutateTaskToComplete,
     isLoading: isLoadingTaskProgress,
   } = useMutationProgressTaskPengujian();
 
   const onClickTaskToInProgress = async () => {
     try {
-      mutateTaskToInProgress({
+      mutateTaskToComplete({
         id: pengujian.id,
-        status_pengerjaan: PengerjaanTypes.IN_PROGRESS,
+        status_pengerjaan: PengerjaanTypes.COMPLETED,
       }).then(() => router.push('/teknisi/pengerjaan'));
     } catch (error) {
       showToast('Gagal memperbarui data', 'error');
@@ -47,8 +47,8 @@ const TableTaskPengujian = ({ pengujian }) => {
         {ParseDate(pengujian.order.proyek.tanggal_selesai)}
       </Td>
       <Td textAlign="center" cursor="pointer">
-        <Badge colorScheme="orange" p="2" rounded="md" w="full">
-          Belum Dikerjakan
+        <Badge colorScheme="pink" p="2" rounded="md" w="full">
+          Sedang Dikerjakan
         </Badge>
       </Td>
       <Td textAlign="center" cursor="pointer">
@@ -57,11 +57,11 @@ const TableTaskPengujian = ({ pengujian }) => {
           isLoading={isLoadingTaskProgress}
           onClick={onClickTaskToInProgress}
         >
-          Kerjakan
+          Upload
         </Button>
       </Td>
     </Tr>
   );
 };
 
-export default TableTaskPengujian;
+export default TablePengerjaanTask;
