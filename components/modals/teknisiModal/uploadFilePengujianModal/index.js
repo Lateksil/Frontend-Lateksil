@@ -14,6 +14,7 @@ import {
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { PengerjaanTypes } from '../../../../utils/enum/PengerjaanTypes';
+import { TaskTeknisiTypes } from '../../../../utils/enum/TaskTeknisiType';
 import useMutationProgressTaskPengujian from '../../../hooks/mutation/useMutationProgressTaskPengujian';
 import useToastNotification from '../../../hooks/useToastNotification';
 
@@ -36,6 +37,7 @@ const UploadFilePengujianTeknisi = ({ id, isOpen, onClose }) => {
     try {
       const formData = new FormData();
       formData.append('id', id);
+      formData.append('status_task', TaskTeknisiTypes.TASK_COMPLETED);
       formData.append('status_pengerjaan', PengerjaanTypes.UPLOADED_FILE);
       formData.append('file_task_pengujian', selectedFile);
 

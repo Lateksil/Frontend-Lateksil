@@ -24,17 +24,17 @@ import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import useRemoteOrderByIdTeknisi from '../../components/hooks/remote/useRemoteOrderByIdTeknisi';
 import TableReportPengujian from '../../components/tables/teknisiTable/TableReportPengujian';
-import { PengerjaanTypes } from '../../utils/enum/PengerjaanTypes';
 import { getServerSidePropsTeknisi } from '../../utils/getServerSidePropsTeknisi';
 import LoadingData from '../../utils/LoadingData';
 import MessageNotFoundData from '../../utils/MessageNotFoundData';
+import { TaskTeknisiTypes } from '../../utils/enum/TaskTeknisiType';
 
 const ReportTeknisiPengujian = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
   const { data: dataPengujianTeknisi, isLoading: isLoadingPengujianTeknisi } =
     useRemoteOrderByIdTeknisi({
-      status_pengerjaan: PengerjaanTypes.UPLOADED_FILE,
+      status_task: TaskTeknisiTypes.TASK_COMPLETED,
     });
 
   return (

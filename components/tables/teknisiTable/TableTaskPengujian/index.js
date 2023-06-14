@@ -5,6 +5,7 @@ import ParseDate from '../../../core/parseDate';
 import useMutationProgressTaskPengujian from '../../../hooks/mutation/useMutationProgressTaskPengujian';
 import useToastNotification from '../../../hooks/useToastNotification';
 import { PengerjaanTypes } from '../../../../utils/enum/PengerjaanTypes';
+import { TaskTeknisiTypes } from '../../../../utils/enum/TaskTeknisiType';
 const TableTaskPengujian = ({ pengujian }) => {
   const router = useRouter();
   const showToast = useToastNotification();
@@ -17,6 +18,7 @@ const TableTaskPengujian = ({ pengujian }) => {
     try {
       mutateTaskToInProgress({
         id: pengujian.id,
+        status_task: TaskTeknisiTypes.TASK_IN_PROGRESS,
         status_pengerjaan: PengerjaanTypes.IN_PROGRESS,
       }).then(() => router.push('/teknisi/pengerjaan'));
     } catch (error) {

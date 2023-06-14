@@ -23,7 +23,7 @@ import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import useRemoteOrderByIdTeknisi from '../../components/hooks/remote/useRemoteOrderByIdTeknisi';
 import TableTaskPengujian from '../../components/tables/teknisiTable/TableTaskPengujian';
-import { PengerjaanTypes } from '../../utils/enum/PengerjaanTypes';
+import { TaskTeknisiTypes } from '../../utils/enum/TaskTeknisiType';
 import { getServerSidePropsTeknisi } from '../../utils/getServerSidePropsTeknisi';
 import LoadingData from '../../utils/LoadingData';
 
@@ -32,7 +32,7 @@ const TaskTeknisi = () => {
 
   const { data: dataPengujianTeknisi, isLoading: isLoadingPengujianTeknisi } =
     useRemoteOrderByIdTeknisi({
-      status_pengerjaan: PengerjaanTypes.PENDING,
+      status_task: TaskTeknisiTypes.TASK_PENDING,
     });
 
   return (
