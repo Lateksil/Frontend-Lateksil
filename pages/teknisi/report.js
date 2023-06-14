@@ -1,3 +1,4 @@
+import React, { useMemo } from 'react';
 import {
   Flex,
   HStack,
@@ -8,42 +9,42 @@ import {
   Table,
   TableContainer,
   Tbody,
-  Text,
   Th,
+  Text,
   Thead,
   Tr,
   VStack,
 } from '@chakra-ui/react';
 import Head from 'next/head';
-import React, { useMemo } from 'react';
+
 import { FiSearch } from 'react-icons/fi';
 import Select from '../../components/core/select';
 import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import useRemoteOrderByIdTeknisi from '../../components/hooks/remote/useRemoteOrderByIdTeknisi';
-import TablePengerjaanTask from '../../components/tables/teknisiTable/TablePengerjaanTask';
+import TableReportPengujian from '../../components/tables/teknisiTable/TableReportPengujian';
 import { PengerjaanTypes } from '../../utils/enum/PengerjaanTypes';
 import { getServerSidePropsTeknisi } from '../../utils/getServerSidePropsTeknisi';
 import LoadingData from '../../utils/LoadingData';
 import MessageNotFoundData from '../../utils/MessageNotFoundData';
 
-const PengerjaanTaskTeknisi = () => {
+const ReportTeknisiPengujian = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
   const { data: dataPengujianTeknisi, isLoading: isLoadingPengujianTeknisi } =
     useRemoteOrderByIdTeknisi({
-      status_pengerjaan: PengerjaanTypes.IN_PROGRESS,
+      status_pengerjaan: PengerjaanTypes.UPLOADED_FILE,
     });
 
   return (
     <VStack align="stretch" spacing={4}>
       <Head>
-        <title>Pengerjaan Task Teknisi | Lateksil</title>
+        <title>Report Task Teknisi | Lateksil</title>
       </Head>
       <HStack borderBottomWidth="1px" pb="4">
         <Text color="blue.700" fontWeight="bold" fontSize="2xl">
-          Pengerjaan
+          Report
         </Text>
       </HStack>
       <HStack>
@@ -82,12 +83,13 @@ const PengerjaanTaskTeknisi = () => {
               <Th textAlign="center">Tanggal Mulai</Th>
               <Th textAlign="center">Tanggal Selesai</Th>
               <Th textAlign="center">Status Task</Th>
+              <Th textAlign="center">File</Th>
               <Th textAlign="center">Aksi</Th>
             </Tr>
           </Thead>
           <Tbody>
             {dataPengujianTeknisi?.data.map((pengujian, i) => (
-              <TablePengerjaanTask key={i} pengujian={pengujian} />
+              <TableReportPengujian key={i} pengujian={pengujian} />
             ))}
           </Tbody>
         </Table>
@@ -109,8 +111,8 @@ const PengerjaanTaskTeknisi = () => {
 
 export const getServerSideProps = getServerSidePropsTeknisi;
 
-PengerjaanTaskTeknisi.getLayout = (page) => (
+ReportTeknisiPengujian.getLayout = (page) => (
   <DashboardLayout sidebarFor="teknisi">{page}</DashboardLayout>
 );
 
-export default PengerjaanTaskTeknisi;
+export default ReportTeknisiPengujian;

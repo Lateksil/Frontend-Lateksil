@@ -27,6 +27,7 @@ import { useRouter } from 'next/router';
 import formatCurrency from '../../../utils/formatCurrently';
 import useMutationAddToCart from '../../hooks/mutation/useMutationAddToCart';
 import useAuthUserStore from '../../../store/useAuthUserStore';
+import { baseUrl } from '../../../libs/axios';
 
 const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
   const router = useRouter();
@@ -99,7 +100,7 @@ const ModalDetailPengujian = ({ pengujian, isOpen, onClose }) => {
                   <Image
                     src={
                       pengujian.image
-                        ? `http://localhost:3030/uploads/${pengujian.image}`
+                        ? `${baseUrl}uploads/${pengujian.image}`
                         : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzaf-A9g3WCySkL8QBaTArVm5ELMy8NkXmb3tAmG0&s'
                     }
                     alt="Image"

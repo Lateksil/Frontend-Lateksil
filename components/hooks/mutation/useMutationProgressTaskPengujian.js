@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postFetcher } from '../../../libs/axios';
+import axiosInstance from '../../../libs/axios';
 
 const useMutationProgressTaskPengujian = () => {
   const queryClient = useQueryClient();
@@ -8,8 +8,12 @@ const useMutationProgressTaskPengujian = () => {
 
   const { mutateAsync, ...others } = useMutation(
     async (formData) => {
-      const data = await postFetcher(uri, formData);
-      return data;
+      const response = await axiosInstance.post(uri, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
     },
     {
       onSuccess: () => {
