@@ -24,6 +24,16 @@ const TableTahapPengerjaanPesanan = ({ pengujian }) => {
     onClose: onCloseTeknisiProgress,
   } = useDisclosure();
 
+  // const isDone = dataTeknisi?.data.every(
+  //   (status) => status.status_pengerjaan === PengerjaanTypes.COMPLETED
+  // );
+
+  // if (isDone) {
+  //   console.log('done');
+  // } else {
+  //   console.log('progress');
+  // }
+
   return (
     <>
       <Tr cursor="pointer">

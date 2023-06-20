@@ -35,6 +35,9 @@ import useRemoteTeknisiOptions from '../../../hooks/remote/useRemoteTeknisiOptio
 
 const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
   const [dataNamaAlat, setDataNamaAlat] = useState([]);
+  const [catatanPeralatan, setCatatanPeralatan] = useState(
+    'Tidak ada catatan khusus peralatan'
+  );
 
   const { data: dataTeknisi, isLoading: isLoadingDataTeknisi } =
     useRemoteTeknisibyOrderId({ id });
@@ -87,11 +90,12 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
   };
 
   const handelToTahapPengujian = async () => {
-    const formData = {
+    const formDataTahapPengujian = {
       order_id: id,
+      catatan_khusus: catatanPeralatan,
     };
     mutateToTahapPengujian({
-      formData: formData,
+      formData: formDataTahapPengujian,
     });
     onModalClose();
   };
@@ -215,6 +219,7 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
                 <Input
                   type="text"
                   placeholder="Tambah Alat yang ingin anda tambahkan"
+                  onChange={(e) => setCatatanPeralatan(e.target.value)}
                 />
               </FormControl>
             </Flex>

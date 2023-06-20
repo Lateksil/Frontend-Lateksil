@@ -21,11 +21,24 @@ import Select from '../../components/core/select';
 import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
+import useRemotePeralatanOrderPengajuan from '../../components/hooks/remote/useRemotePeralatanOrderPengajuan';
 import TablePengajuanAlat from '../../components/tables/peralatanTable/TablePengajuanAlat';
 import { getServerSidePropsPeralatan } from '../../utils/getServerSidePropsPeralatan';
+import LoadingData from '../../utils/LoadingData';
 
 const PengajuanPeralatan = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
+
+  const {
+    data: dataPengajuanAlat,
+    isLoading: isLoadingPengajuanAlat,
+    isSuccess: isSuccessPengajuanAlat,
+  } = useRemotePeralatanOrderPengajuan({
+    page: 1,
+    limit: 10,
+  });
+
+  console.log('DATA PENGAJUAN', dataPengajuanAlat);
   return (
     <VStack align="stretch" spacing={4}>
       <Head>
@@ -78,10 +91,14 @@ const PengajuanPeralatan = () => {
             </Tr>
           </Thead>
           <Tbody>
-            <TablePengajuanAlat />
+            {isSuccessPengajuanAlat &&
+              dataPengajuanAlat?.data.map((pengujian, i) => (
+                <TablePengajuanAlat key={i} pengujian={pengujian} />
+              ))}
           </Tbody>
         </Table>
       </TableContainer>
+      {isLoadingPengajuanAlat && <LoadingData />}
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}
         justifyContent="end"
