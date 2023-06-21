@@ -26,7 +26,9 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { baseUrl } from '../../../../libs/axios';
 import { PengerjaanTypes } from '../../../../utils/enum/PengerjaanTypes';
+import StatusPeralatan from '../../../core/status/StatusPeralatan';
 import StatusProgresTeknisi from '../../../core/status/StatusProgresTeknisi';
+import useRemoteStatusPeralatan from '../../../hooks/remote/useRemoteStatusPeralatan';
 import useRemoteTeknisibyOrderId from '../../../hooks/remote/useRemoteTeknisibyOrderId';
 
 const DetailTeknisiProgress = ({ id, isOpen, onClose }) => {
@@ -34,9 +36,18 @@ const DetailTeknisiProgress = ({ id, isOpen, onClose }) => {
   const { data: dataTeknisi, isLoading: isLoadingDataTeknisi } =
     useRemoteTeknisibyOrderId({ id });
 
+  const { data: dataStatusPeralatan, isLoading: isLoadingStatusPeralatan } =
+    useRemoteStatusPeralatan({
+      id,
+    });
+
   const onModalClose = () => {
     onClose();
   };
+
+  const { color: color_peralatan, text: text_peralatan } = StatusPeralatan({
+    status: dataStatusPeralatan?.data.status_peralatan,
+  });
 
   return (
     <Modal
@@ -49,12 +60,27 @@ const DetailTeknisiProgress = ({ id, isOpen, onClose }) => {
       <ModalOverlay />
       <ModalContent mx="4">
         <ModalHeader>
-          <Text>Detail Progress Teknisi</Text>
+          <Text>Detail Progress Teknisi & Peralatan</Text>
         </ModalHeader>
         <ModalCloseButton />
         <Box overflow="auto">
           <ModalBody py="5">
             <Flex direction="column">
+              <Flex align="center" mb="5">
+                <Text fontWeight="semibold">Status Peralatan : </Text>
+                {isLoadingStatusPeralatan ? (
+                  <Skeleton ml="3" w="28" h="7" />
+                ) : (
+                  <Badge
+                    ml="3"
+                    p="2"
+                    colorScheme={color_peralatan}
+                    rounded="md"
+                  >
+                    {text_peralatan}
+                  </Badge>
+                )}
+              </Flex>
               <TableContainer w="full">
                 <Table size="md" variant="striped">
                   <Thead>

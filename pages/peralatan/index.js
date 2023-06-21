@@ -38,7 +38,6 @@ const PengajuanPeralatan = () => {
     limit: 10,
   });
 
-  console.log('DATA PENGAJUAN', dataPengajuanAlat);
   return (
     <VStack align="stretch" spacing={4}>
       <Head>

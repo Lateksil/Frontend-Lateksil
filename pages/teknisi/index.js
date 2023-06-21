@@ -26,6 +26,7 @@ import TableTaskPengujian from '../../components/tables/teknisiTable/TableTaskPe
 import { TaskTeknisiTypes } from '../../utils/enum/TaskTeknisiType';
 import { getServerSidePropsTeknisi } from '../../utils/getServerSidePropsTeknisi';
 import LoadingData from '../../utils/LoadingData';
+import MessageNotFoundData from '../../utils/MessageNotFoundData';
 
 const TaskTeknisi = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
@@ -91,6 +92,7 @@ const TaskTeknisi = () => {
           </Tbody>
         </Table>
       </TableContainer>
+      {dataPengujianTeknisi?.totalData === 0 && <MessageNotFoundData />}
       {isLoadingPengujianTeknisi && <LoadingData />}
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}
