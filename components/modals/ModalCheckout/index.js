@@ -50,7 +50,7 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
     onClose();
     reset();
 
-    router.push('/history-transactions');
+    router.push('/order?type=1');
   };
 
   return (

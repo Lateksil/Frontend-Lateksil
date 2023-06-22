@@ -19,7 +19,7 @@ function generateSidebaritemUser() {
     // },
     {
       name: 'Riwayat Transaksi',
-      path: '/history-transactions',
+      path: '/order',
       icon: HiDocumentText,
     },
   ];
