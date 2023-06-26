@@ -1,3 +1,5 @@
+import React from 'react';
+import NextLink from 'next/link';
 import {
   Badge,
   Box,
@@ -11,23 +13,20 @@ import {
   ButtonGroup,
   useDisclosure,
 } from '@chakra-ui/react';
-import React from 'react';
+import download from 'downloadjs';
 import { FaWallet } from 'react-icons/fa';
 import { MdCorporateFare } from 'react-icons/md';
+import { baseUrl } from '../../../../libs/axios';
 import { BooleanType } from '../../../../utils/enum/BooleanType';
 import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 import formatCurrency from '../../../../utils/formatCurrently';
 import ParseDate from '../../../core/parseDate';
 import StatusOrderTransaction from '../../../core/status/StatusOrderTransaction';
+import useToastNotification from '../../../hooks/useToastNotification';
 import ModalPayment from '../../../modals/userModal/ModalPayment';
-import ModalTahapPermintaan from '../../../modals/userModal/ModalTahapPermintaan';
 
 const TableCardHistoryTransaction = ({ order }) => {
-  const {
-    isOpen: isOpenDetailHistory,
-    onOpen: onOpenDetailHistory,
-    onClose: onCloseDetailHistory,
-  } = useDisclosure();
+  const showToast = useToastNotification();
 
   const {
     isOpen: isOpenPayment,
@@ -42,7 +41,28 @@ const TableCardHistoryTransaction = ({ order }) => {
     text_ket: textKetTransaction,
   } = StatusOrderTransaction({
     status: order.status.status_transaction,
+    message_canceled: order.proyek.keterangan_to_client,
   });
+
+  const getFileExtension = (url) => {
+    const extension = url.substring(url.lastIndexOf('.') + 1);
+    return extension.toLowerCase();
+  };
+
+  const handleDownloadKwitansi = (data) => {
+    const ImageURL = `${baseUrl}bukti-kwitansi/` + data;
+
+    fetch(ImageURL)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const fileExtension = getFileExtension(ImageURL);
+        const fileName = `bukti-${data}.${fileExtension}`;
+        download(blob, fileName);
+      })
+      .catch(() => {
+        showToast('Silahkan Download Lagi nanti', 'error');
+      });
+  };
 
   return (
     <>
@@ -84,26 +104,27 @@ const TableCardHistoryTransaction = ({ order }) => {
             {textStatusTransaction}
           </Badge>
         </HStack>
-        <Flex
-          direction="column"
-          w="full"
-          borderBottomWidth={1}
-          cursor="pointer"
-          onClick={onOpenDetailHistory}
-        >
-          <Box p="1">
-            <Text fontSize="sm">Nama Proyek </Text>
-            <Text mr="2" fontWeight="bold" color="blue.700">
-              {order.proyek.nama_proyek}
-            </Text>
-          </Box>
-          <Box p="1">
-            <Text fontSize="sm">Tujuan Proyek </Text>
-            <Text mr="2" color="blue.700">
-              {order.proyek.tujuan_proyek}
-            </Text>
-          </Box>
-        </Flex>
+        <NextLink href={`/order/${order?.id}`} passHref>
+          <Flex
+            direction="column"
+            w="full"
+            borderBottomWidth={1}
+            cursor="pointer"
+          >
+            <Box p="1">
+              <Text fontSize="sm">Nama Proyek </Text>
+              <Text mr="2" fontWeight="bold" color="blue.700">
+                {order.proyek.nama_proyek}
+              </Text>
+            </Box>
+            <Box p="1">
+              <Text fontSize="sm">Tujuan Proyek </Text>
+              <Text mr="2" color="blue.700">
+                {order.proyek.tujuan_proyek}
+              </Text>
+            </Box>
+          </Flex>
+        </NextLink>
         {order.status.status_transaction === TransactionTypes.ACCEPT && (
           <Flex
             direction="column"
@@ -120,17 +141,30 @@ const TableCardHistoryTransaction = ({ order }) => {
             </Box>
           </Flex>
         )}
-        <HStack
-          display={{ base: 'block', lg: 'none' }}
-          borderBottomWidth={1}
-          p="2"
-        >
-          <Text mr="2" fontSize="x-small" color="orange.600">
-            Sedang Menunggu Persetujuan, Mohon ditunggu ya
-          </Text>
-        </HStack>
-
+        {order.status.status_transaction === TransactionTypes.IN_PROGRESS && (
+          <Flex
+            direction="column"
+            w="full"
+            borderBottomWidth={1}
+            cursor="pointer"
+          >
+            <Box p="1">
+              <Text fontSize="sm">Tanggal Pengerjaan </Text>
+              <Text mr="2" fontSize="sm">
+                {ParseDate(order.proyek.tanggal_mulai)} s/d{' '}
+                {ParseDate(order.proyek.tanggal_selesai)}
+              </Text>
+            </Box>
+          </Flex>
+        )}
         <HStack p="2" align="center">
+          <Text
+            mr="2"
+            fontSize={{ base: 'x-small', lg: 'sm' }}
+            color="blue.600"
+          >
+            {order.itemOrders.length} Pengujian
+          </Text>
           <Spacer />
           <Text fontSize="sm">Total Pesanan : </Text>
           <Text
@@ -161,6 +195,18 @@ const TableCardHistoryTransaction = ({ order }) => {
                   : 'Bayar'}
               </Button>
             )}
+            {order.status.status_transaction ===
+              TransactionTypes.IN_PROGRESS && (
+              <Button
+                w="full"
+                variant="lateksil-solid"
+                onClick={() =>
+                  handleDownloadKwitansi(order.payment.image_kwitansi)
+                }
+              >
+                Bukti Kwitansi
+              </Button>
+            )}
           </ButtonGroup>
         </HStack>
       </Stack>
@@ -171,11 +217,6 @@ const TableCardHistoryTransaction = ({ order }) => {
         full_name={order.User.full_name}
         company_name={order.User.company_name}
         total_price={order.total_price}
-      />
-      <ModalTahapPermintaan
-        order={order}
-        isOpen={isOpenDetailHistory}
-        onClose={onCloseDetailHistory}
       />
     </>
   );

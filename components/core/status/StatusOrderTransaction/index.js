@@ -1,6 +1,6 @@
 import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 
-const StatusOrderTransaction = ({ status }) => {
+const StatusOrderTransaction = ({ status, message_canceled = '' }) => {
   switch (status) {
     case TransactionTypes.WAITING:
       return {
@@ -28,7 +28,12 @@ const StatusOrderTransaction = ({ status }) => {
     case TransactionTypes.DONE:
       return { color: 'green', text: 'Selesai' };
     case TransactionTypes.CANCELED:
-      return { color: 'red', text: 'Batal' };
+      return {
+        color: 'red',
+        text: 'Batal',
+        color_ket: 'red.600',
+        text_ket: `Dibatalkan karena, ${message_canceled}`,
+      };
     default:
       return { color: 'gray', text: 'Error' };
   }

@@ -15,6 +15,8 @@ const DashboardSidebarItem = ({ item, pathname }) => {
     ? item.sub.some((subItem) => subItem.path === pathname)
     : item.path === pathname;
 
+  const isActiveIdPath = item.path + `/[id]` === pathname;
+
   const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: isActive });
 
   if (item.sub)
@@ -73,15 +75,21 @@ const DashboardSidebarItem = ({ item, pathname }) => {
         <Flex
           align="stretch"
           alignItems="center"
-          borderLeftColor={isActive ? 'blue.700' : 'transparent'}
+          borderLeftColor={
+            isActive || isActiveIdPath ? 'blue.700' : 'transparent'
+          }
           borderLeftWidth={4}
           p="3"
-          bg={isActive ? 'blue.600' : undefined}
-          color={isActive ? 'white' : 'grey'}
+          bg={isActive || isActiveIdPath ? 'blue.600' : undefined}
+          color={isActive || isActiveIdPath ? 'white' : 'grey'}
           transitionProperty="common"
           transitionDuration="normal"
         >
-          <Box ml="2" mr="4" color={isActive ? 'white' : 'grey'}>
+          <Box
+            ml="2"
+            mr="4"
+            color={isActive || isActiveIdPath ? 'white' : 'grey'}
+          >
             <Icon as={item.icon} />
           </Box>
           <Text fontSize="md">{item.name}</Text>
