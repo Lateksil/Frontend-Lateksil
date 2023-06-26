@@ -3,6 +3,7 @@ import {
   Button,
   ButtonGroup,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Modal,
@@ -20,6 +21,8 @@ import useAuthUserStore from '../../../store/useAuthUserStore';
 import { useRouter } from 'next/router';
 import useRemoteUserProfile from '../../hooks/remote/useRemoteUserProfile';
 import LoadingData from '../../../utils/LoadingData';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { CheckoutSchema } from '../../../utils/schema/CheckoutSchema';
 
 const ModalCheckout = ({ isOpen, onClose, total_price }) => {
   const router = useRouter();
@@ -31,7 +34,14 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
   const { mutate: mutateCreateOrdering, isLoading: isLoadingCreateOrdering } =
     useMutationCreateOrder();
 
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(CheckoutSchema),
+  });
 
   const onModalCloseCheckout = () => {
     onClose();
@@ -61,6 +71,7 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
         overflow="hidden"
         as="form"
         onSubmit={handleSubmit(onSubmit)}
+        noValidate
       >
         <ModalHeader>
           <Text textAlign="center">Tambah Data Pesanan</Text>
@@ -96,21 +107,35 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
                   isDisabled={true}
                 />
               </FormControl>
-              <FormControl id="nama_proyek" isRequired>
-                <FormLabel>Nama Proyek</FormLabel>
+              <FormControl
+                id="nama_proyek"
+                isInvalid={!!errors.nama_proyek}
+                isRequired
+              >
+                <FormLabel>Nama Pekerjaan</FormLabel>
                 <Input
                   type="text"
-                  placeholder="Nama Proyek yang akan anda pesan"
+                  placeholder="Nama Pekerjaan yang akan anda pesan"
                   {...register('nama_proyek')}
                 />
+                <FormErrorMessage>
+                  {errors.nama_proyek && errors.nama_proyek.message}
+                </FormErrorMessage>
               </FormControl>
-              <FormControl id="tujuan_proyek" isRequired>
-                <FormLabel>Tujuan pegujian</FormLabel>
+              <FormControl
+                id="tujuan_proyek"
+                isInvalid={!!errors.tujuan_proyek}
+                isRequired
+              >
+                <FormLabel>Tujuan Pegujian</FormLabel>
                 <Input
                   type="text"
-                  placeholder="Nama Proyek yang akan anda pesan"
+                  placeholder="Tujuan Pengujian yang akan anda pesan"
                   {...register('tujuan_proyek')}
                 />
+                <FormErrorMessage>
+                  {errors.tujuan_proyek && errors.tujuan_proyek.message}
+                </FormErrorMessage>
               </FormControl>
             </Stack>
           )}

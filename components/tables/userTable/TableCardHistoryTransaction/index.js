@@ -112,7 +112,7 @@ const TableCardHistoryTransaction = ({ order }) => {
             cursor="pointer"
           >
             <Box p="1">
-              <Text fontSize="sm">Nama Proyek </Text>
+              <Text fontSize="sm">Nama Pekerjaan </Text>
               <Text mr="2" fontWeight="bold" color="blue.700">
                 {order.proyek.nama_proyek}
               </Text>

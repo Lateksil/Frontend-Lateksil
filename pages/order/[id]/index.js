@@ -140,7 +140,7 @@ const DetailOrderPengujian = ({ order }) => {
             </Text>
           </Flex>
           <Box mt="2" ml="5">
-            <Text fontSize="sm">Nama Proyek </Text>
+            <Text fontSize="sm">Nama Pekerjaan </Text>
             <Text mr="2" fontWeight="bold" color="blue.700">
               {order.proyek.nama_proyek}
             </Text>
