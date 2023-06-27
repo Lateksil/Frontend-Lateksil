@@ -84,6 +84,7 @@ const TablePengajuanAlat = ({ pengujian }) => {
         </Td>
       </Tr>
       <PengajuanAlatModal
+        id={pengujian.id}
         isOpen={isOpenPengajuanAlat}
         onClose={onClosePengajuanAlat}
       />

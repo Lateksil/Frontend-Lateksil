@@ -12,16 +12,27 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import useMutationPengajuanAlat from '../../../hooks/mutation/put/useMutationPengajuanAlat';
+import { PengambilaAlatType } from '../../../../utils/enum/PembambilanAlatType';
 
-const PengajuanAlatModal = ({ isOpen, onClose }) => {
+const PengajuanAlatModal = ({ id, isOpen, onClose }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadImage, setUploadImage] = useState(null);
+  const [disabledButton, setDisabledButton] = useState(true);
   const fileInputRef = useRef(null);
+
+  const {
+    mutateAsync: mutatePengajuanAlat,
+    isLoading: isLoadingPengajuanAlat,
+  } = useMutationPengajuanAlat({
+    id,
+  });
 
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
     setUploadImage(file);
     setSelectedFile(URL.createObjectURL(file));
+    setDisabledButton(false);
   };
 
   const handleDrop = (event) => {
@@ -29,6 +40,7 @@ const PengajuanAlatModal = ({ isOpen, onClose }) => {
     const file = event.dataTransfer.files[0];
     setUploadImage(file);
     setSelectedFile(URL.createObjectURL(file));
+    setDisabledButton(false);
   };
 
   const handleDragOver = (event) => {
@@ -41,10 +53,25 @@ const PengajuanAlatModal = ({ isOpen, onClose }) => {
     }
   };
 
+  const onModalClose = () => {
+    onClose();
+    setSelectedFile(null);
+    setUploadImage(null);
+  };
+
+  const hadlePengajuanAlat = async () => {
+    const formData = new FormData();
+    formData.append('status_peralatan', PengambilaAlatType.COMPLETED);
+    formData.append('image_pengajuan_alat', uploadImage);
+
+    mutatePengajuanAlat(formData);
+    onClose();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={onModalClose}
       isCentered
       closeOnOverlayClick={false}
     >
@@ -73,13 +100,14 @@ const PengajuanAlatModal = ({ isOpen, onClose }) => {
                 alignItems="center"
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
+                onClick={handleClick}
               >
                 {selectedFile ? (
                   <Image src={selectedFile} alt="Choose File Images" />
                 ) : (
                   <>
                     <Text>Tarik dan Lepaskan kesini atau </Text>
-                    <Box cursor="pointer" onClick={handleClick}>
+                    <Box cursor="pointer">
                       <Text fontWeight="semibold" textDecoration="underline">
                         Pilih File
                       </Text>
@@ -98,10 +126,15 @@ const PengajuanAlatModal = ({ isOpen, onClose }) => {
           </ModalBody>
           <ModalFooter bg="gray.100">
             <ButtonGroup>
-              <Button onClick={onClose} border="1px">
+              <Button onClick={onModalClose} border="1px">
                 Batal
               </Button>
-              <Button type="submit" variant="lateksil-solid">
+              <Button
+                isLoading={isLoadingPengajuanAlat}
+                isDisabled={disabledButton}
+                onClick={hadlePengajuanAlat}
+                variant="lateksil-solid"
+              >
                 Kirim
               </Button>
             </ButtonGroup>
