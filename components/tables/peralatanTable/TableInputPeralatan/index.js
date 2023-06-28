@@ -1,8 +1,28 @@
-import React from 'react';
-import { Flex, Td, Text, Tr, Icon } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { Flex, Td, Text, Tr, Icon, useDisclosure } from '@chakra-ui/react';
 import { GrFormClose } from 'react-icons/gr';
+import DeleteAlatModel from '../../../modals/peralatanModal/DeleteAlatModal';
+import useToastNotification from '../../../hooks/useToastNotification';
 
 const TableInputPeralatan = ({ pengujian }) => {
+  const showToast = useToastNotification();
+  const [idPeralatan, setIdPeralatan] = useState('');
+  const {
+    isOpen: isOpenDeleteAlat,
+    onOpen: onOpenDeleteAlat,
+    onClose: onCloseDeleteAlat,
+  } = useDisclosure();
+
+  const handleDeleteAlat = async (id) => {
+    try {
+      setIdPeralatan(id);
+    } catch (error) {
+      showToast('Server Sedang Bermasalah', 'error');
+    } finally {
+      onOpenDeleteAlat();
+    }
+  };
+
   return (
     <>
       <Tr>
@@ -25,13 +45,23 @@ const TableInputPeralatan = ({ pengujian }) => {
               mb="1"
             >
               <Text>{alat.nama_alat}</Text>
-              <Flex alignItems="center" mr={1} cursor="pointer">
+              <Flex
+                alignItems="center"
+                onClick={() => handleDeleteAlat(alat.id)}
+                mr={1}
+                cursor="pointer"
+              >
                 <Icon as={GrFormClose} boxSize={5} />
               </Flex>
             </Flex>
           ))}
         </Td>
       </Tr>
+      <DeleteAlatModel
+        id={idPeralatan}
+        isOpen={isOpenDeleteAlat}
+        onClose={onCloseDeleteAlat}
+      />
     </>
   );
 };
