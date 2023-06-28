@@ -9,6 +9,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import PengajuanAlatModal from '../../../modals/peralatanModal/PengajuanAlatModal';
+import { BooleanType } from '../../../../utils/enum/BooleanType';
 
 const TablePengajuanAlat = ({ pengujian }) => {
   const [dataNamaAlat, setDataNamaAlat] = useState([]);
@@ -78,8 +79,18 @@ const TablePengajuanAlat = ({ pengujian }) => {
           </Badge>
         </Td>
         <Td textAlign="center">
-          <Button variant="lateksil-solid" onClick={onOpenPengajuanAlat}>
-            Siapkan
+          <Button
+            variant="lateksil-solid"
+            isDisabled={
+              pengujian.status_alat.status_peralatan === BooleanType.TRUE
+                ? true
+                : false
+            }
+            onClick={onOpenPengajuanAlat}
+          >
+            {pengujian.status_alat.status_peralatan === BooleanType.TRUE
+              ? 'Terkirim'
+              : 'Siapkan'}
           </Button>
         </Td>
       </Tr>

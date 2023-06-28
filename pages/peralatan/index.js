@@ -15,7 +15,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Head from 'next/head';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import Select from '../../components/core/select';
 import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
@@ -29,14 +29,36 @@ import LoadingData from '../../utils/LoadingData';
 const PengajuanPeralatan = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
+  const [pageIndex, setPageIndex] = useState(1);
+  const [dataLimit, setDataLimit] = useState(10);
+
   const {
     data: dataPengajuanAlat,
     isLoading: isLoadingPengajuanAlat,
     isSuccess: isSuccessPengajuanAlat,
+    error,
   } = useRemotePeralatanOrderPengajuan({
-    page: 1,
-    limit: 10,
+    page: pageIndex,
+    limit: dataLimit,
   });
+
+  const pengujianListRef = useRef(null);
+
+  useEffect(() => {
+    setPageIndex(1);
+  }, [dataLimit]);
+
+  useEffect(() => {
+    if (error == null && pageIndex > 1) setPageIndex(pageIndex - 1);
+  }, [error]);
+
+  const handlePageClick = (page) => {
+    setPageIndex(page);
+
+    if (pengujianListRef && pengujianListRef.current) {
+      pengujianListRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <VStack align="stretch" spacing={4}>
@@ -54,7 +76,7 @@ const PengajuanPeralatan = () => {
           isSearchable={false}
           options={showEntryOptions}
           defaultValue={showEntryOptions[0]}
-          //   onChange={(option) => setDataLimit(option.value)}
+          onChange={(option) => setDataLimit(option.value)}
         />
         <Text>Entries</Text>
         <Spacer />
@@ -105,7 +127,11 @@ const PengajuanPeralatan = () => {
         alignItems="center"
         py="2"
       >
-        <DashboardPagination current={1} total={10} onPageClick={() => {}} />
+        <DashboardPagination
+          current={pageIndex}
+          total={dataPengajuanAlat ? dataPengajuanAlat?.totalPages : 0}
+          onPageClick={handlePageClick}
+        />
       </Flex>
     </VStack>
   );
