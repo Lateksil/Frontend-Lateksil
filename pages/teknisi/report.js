@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Flex,
   HStack,
@@ -32,10 +32,33 @@ import { TaskTeknisiTypes } from '../../utils/enum/TaskTeknisiType';
 const ReportTeknisiPengujian = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
-  const { data: dataPengujianTeknisi, isLoading: isLoadingPengujianTeknisi } =
-    useRemoteOrderByIdTeknisi({
-      status_task: TaskTeknisiTypes.TASK_COMPLETED,
-    });
+  const taskReportRef = useRef(null);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [dataLimit, setDataLimit] = useState(10);
+
+  const {
+    data: dataPengujianTeknisi,
+    isLoading: isLoadingPengujianTeknisi,
+    error,
+  } = useRemoteOrderByIdTeknisi({
+    status_task: TaskTeknisiTypes.TASK_COMPLETED,
+  });
+
+  useEffect(() => {
+    setPageIndex(1);
+  }, [dataLimit]);
+
+  useEffect(() => {
+    if (error == null && pageIndex > 1) setPageIndex(pageIndex - 1);
+  }, [error]);
+
+  const handlePageClick = (page) => {
+    setPageIndex(page);
+
+    if (taskReportRef && taskReportRef.current) {
+      taskReportRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <VStack align="stretch" spacing={4}>
@@ -53,7 +76,7 @@ const ReportTeknisiPengujian = () => {
           isSearchable={false}
           options={showEntryOptions}
           defaultValue={showEntryOptions[0]}
-          //   onChange={(option) => setDataLimit(option.value)}
+          onChange={(option) => setDataLimit(option.value)}
         />
         <Text>Entries</Text>
         <Spacer />
@@ -103,7 +126,11 @@ const ReportTeknisiPengujian = () => {
         alignItems="center"
         py="2"
       >
-        <DashboardPagination current={1} total={10} onPageClick={() => {}} />
+        <DashboardPagination
+          current={pageIndex}
+          total={dataPengujianTeknisi ? dataPengujianTeknisi?.totalPages : 0}
+          onPageClick={handlePageClick}
+        />
       </Flex>
     </VStack>
   );

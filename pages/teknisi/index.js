@@ -15,7 +15,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Head from 'next/head';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import Select from '../../components/core/select';
 import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
@@ -31,10 +31,35 @@ import MessageNotFoundData from '../../utils/MessageNotFoundData';
 const TaskTeknisi = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
-  const { data: dataPengujianTeknisi, isLoading: isLoadingPengujianTeknisi } =
-    useRemoteOrderByIdTeknisi({
-      status_task: TaskTeknisiTypes.TASK_PENDING,
-    });
+  const taskPengujianRef = useRef(null);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [dataLimit, setDataLimit] = useState(10);
+
+  const {
+    data: dataPengujianTeknisi,
+    isLoading: isLoadingPengujianTeknisi,
+    error,
+  } = useRemoteOrderByIdTeknisi({
+    page: pageIndex,
+    limit: dataLimit,
+    status_task: TaskTeknisiTypes.TASK_PENDING,
+  });
+
+  useEffect(() => {
+    setPageIndex(1);
+  }, [dataLimit]);
+
+  useEffect(() => {
+    if (error == null && pageIndex > 1) setPageIndex(pageIndex - 1);
+  }, [error]);
+
+  const handlePageClick = (page) => {
+    setPageIndex(page);
+
+    if (taskPengujianRef && taskPengujianRef.current) {
+      taskPengujianRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <VStack align="stretch" spacing={4}>
@@ -52,7 +77,7 @@ const TaskTeknisi = () => {
           isSearchable={false}
           options={showEntryOptions}
           defaultValue={showEntryOptions[0]}
-          //   onChange={(option) => setDataLimit(option.value)}
+          onChange={(option) => setDataLimit(option.value)}
         />
         <Text>Entries</Text>
         <Spacer />
@@ -101,7 +126,11 @@ const TaskTeknisi = () => {
         alignItems="center"
         py="2"
       >
-        <DashboardPagination current={1} total={10} onPageClick={() => {}} />
+        <DashboardPagination
+          current={pageIndex}
+          total={dataPengujianTeknisi ? dataPengujianTeknisi?.totalPages : 0}
+          onPageClick={handlePageClick}
+        />
       </Flex>
     </VStack>
   );
