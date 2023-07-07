@@ -80,7 +80,7 @@ const AddMethodTransactionModal = ({ isOpen, onClose }) => {
                 <FormLabel>Type Transaction</FormLabel>
                 <Input
                   type="text"
-                  placeholder="Example : Transaksi "
+                  placeholder="Example : Transfer "
                   {...register('type_transaction')}
                 />
                 <FormErrorMessage>
@@ -129,7 +129,7 @@ const AddMethodTransactionModal = ({ isOpen, onClose }) => {
 
           <ModalFooter bg="gray.100">
             <ButtonGroup>
-              <Button onClick={onClose} border="1px">
+              <Button onClick={onModalClose} border="1px">
                 Batal
               </Button>
               <Button

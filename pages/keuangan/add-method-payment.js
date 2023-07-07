@@ -7,7 +7,6 @@ import {
   Table,
   TableContainer,
   Tbody,
-  Td,
   Text,
   Th,
   Thead,
@@ -18,8 +17,16 @@ import Head from 'next/head';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import { getServerSidePropsKeuangan } from '../../utils/getServerSidePropsKeuangan';
 import CreateNewMethodTransaction from '../../components/create/keuanganCreate/createMethodTransaction';
+import TableMetodePembayaran from '../../components/tables/keuanganTable/TableMetodePembayaran';
+import useRemoteMethodTransactionAll from '../../components/hooks/remote/useRemoteMethodTransactionAll';
 
 const MethodPaymnet = () => {
+  const { data: dataMetodePembayaran } = useRemoteMethodTransactionAll({
+    page: 1,
+    limit: 10,
+    search: '',
+  });
+
   return (
     <VStack align="stretch" spacing={4}>
       <Head>
@@ -40,33 +47,9 @@ const MethodPaymnet = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr>
-                  <Td textAlign="center">BRI</Td>
-                  <Td textAlign="center">Deva Aji Saputra</Td>
-                  <Td textAlign="center">Transfer</Td>
-                  <Td textAlign="center">7488 0100 6986 532</Td>
-                  <Td textAlign="center">
-                    <Button colorScheme="green">Active</Button>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td textAlign="center">BRI</Td>
-                  <Td textAlign="center">Deva Aji Saputra</Td>
-                  <Td textAlign="center">Transfer</Td>
-                  <Td textAlign="center">7488 0100 6986 532</Td>
-                  <Td textAlign="center">
-                    <Button colorScheme="green">Active</Button>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td textAlign="center">BRI</Td>
-                  <Td textAlign="center">Deva Aji Saputra</Td>
-                  <Td textAlign="center">Transfer</Td>
-                  <Td textAlign="center">7488 0100 6986 532</Td>
-                  <Td textAlign="center">
-                    <Button colorScheme="green">Active</Button>
-                  </Td>
-                </Tr>
+                {dataMetodePembayaran?.data.map((account, i) => (
+                  <TableMetodePembayaran key={i} account={account} />
+                ))}
               </Tbody>
             </Table>
           </TableContainer>

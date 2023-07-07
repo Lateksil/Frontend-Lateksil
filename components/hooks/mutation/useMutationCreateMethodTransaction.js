@@ -15,7 +15,7 @@ const useMutationCreateMethodTransaction = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('method_transaction').then(() => {
+        queryClient.invalidateQueries('method_transaction-all').then(() => {
           showToast('Berhasil Menambahkan', 'success');
         });
       },
