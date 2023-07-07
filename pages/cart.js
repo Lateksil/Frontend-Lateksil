@@ -3,11 +3,13 @@ import {
   Badge,
   Box,
   Button,
+  Center,
   Flex,
   HStack,
   IconButton,
   Image,
   Spacer,
+  Spinner,
   Text,
   Tooltip,
   useDisclosure,
@@ -27,7 +29,8 @@ import MessageClientNotFoundData from '../utils/MessageClientNotFoundData';
 import useAuthUserStore from '../store/useAuthUserStore';
 
 const CartPage = () => {
-  const { data: dataCartUserId } = useRemoteCart();
+  const { data: dataCartUserId, isLoading: isLoadingDataCartUserId } =
+    useRemoteCart();
   const { mutate: mutateDeleteCart } = useMutationDeleteCart();
 
   const id = useAuthUserStore((state) => state.id);
@@ -130,7 +133,14 @@ const CartPage = () => {
           {dataCartUserId && dataCartUserId?.data.length == 0 && (
             <MessageClientNotFoundData isLogin={true} />
           )}
-          {!id && <MessageClientNotFoundData isLogin={false} />}
+          {isLoadingDataCartUserId && (
+            <Center my="10">
+              <Spinner />
+            </Center>
+          )}
+          {!id && !isLoadingDataCartUserId && (
+            <MessageClientNotFoundData isLogin={false} />
+          )}
         </VStack>
         <Box
           borderWidth={2}
