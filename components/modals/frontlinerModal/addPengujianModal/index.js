@@ -25,8 +25,10 @@ import useMutationCreatePengujian from '../../../hooks/mutation/useMutationCreat
 import Select from '../../../core/select';
 import useRemoteCategoriesOptions from '../../../hooks/remote/useRemoteCategoriesOptions';
 import { PengujianSchema } from '../../../../utils/schema/PengujianSchema';
+import useToastNotification from '../../../hooks/useToastNotification';
 
 const AddPengujianModal = ({ isOpen, onClose }) => {
+  const showToast = useToastNotification();
   const {
     register,
     handleSubmit,
@@ -60,9 +62,13 @@ const AddPengujianModal = ({ isOpen, onClose }) => {
     formData.append('catatan_khusus', data.catatan_khusus);
     formData.append('image', data.image[0]);
 
-    mutateCreatePengujian(formData);
-    onClose();
-    reset();
+    try {
+      mutateCreatePengujian(formData);
+    } catch (error) {
+      showToast('Server Sedang Bermasalah', 'error');
+    } finally {
+      onModalClose();
+    }
   };
 
   return (

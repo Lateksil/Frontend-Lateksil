@@ -17,6 +17,8 @@ import {
   Stack,
   Text,
   Icon,
+  Skeleton,
+  HStack,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { GrFormClose } from 'react-icons/gr';
@@ -25,8 +27,12 @@ import useRemoteCategories from '../../../hooks/remote/useRemoteCategories';
 import useMutationDeleteCategories from '../../../hooks/mutation/delete/useMutationDeleteCategories';
 
 const AddCategoryModal = ({ isOpen, onClose }) => {
-  const { data: dataCategories } = useRemoteCategories();
-  const { mutate: mutateCreateCategories } = useMutationCreateCategories();
+  const { data: dataCategories, isLoading: isLoadingDataCategories } =
+    useRemoteCategories();
+  const {
+    mutate: mutateCreateCategories,
+    isLoading: isLoadingCreateCategories,
+  } = useMutationCreateCategories();
   const { mutate: mutateDeleteCategories } = useMutationDeleteCategories();
 
   const { register, handleSubmit } = useForm();
@@ -74,6 +80,13 @@ const AddCategoryModal = ({ isOpen, onClose }) => {
                     </Flex>
                   </Flex>
                 ))}
+                {isLoadingDataCategories && (
+                  <HStack>
+                    <Skeleton width={100} height={8} />
+                    <Skeleton width={100} height={8} />
+                    <Skeleton width={100} height={8} />
+                  </HStack>
+                )}
               </Flex>
               <FormControl id="name_category">
                 <FormLabel>Nama Kategori Pengujian</FormLabel>
@@ -93,6 +106,7 @@ const AddCategoryModal = ({ isOpen, onClose }) => {
               </Button>
               <Button
                 type="submit"
+                isLoading={isLoadingCreateCategories}
                 variant="solid"
                 bg="blue.700"
                 color="white"
