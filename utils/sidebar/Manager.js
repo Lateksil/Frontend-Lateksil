@@ -20,6 +20,10 @@ function generateSidebaritemManager() {
           name: 'Tahap Pengerjaan',
           path: '/manager/tahap-pengerjaan',
         },
+        {
+          name: 'Selesai',
+          path: '/manager/selesai',
+        },
       ],
     },
     {

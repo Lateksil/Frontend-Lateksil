@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Badge,
   Button,
@@ -55,12 +55,14 @@ const TablePersetujuanPesanan = ({ order }) => {
     onClose: onCloseCanceled,
   } = useDisclosure();
 
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, setValue, reset } = useForm();
 
   const onSubmitAccepted = (data) => {
     const formData = {
       id: order.id,
       status_persetujuan: TransactionTypes.ACCEPT,
+      tanggal_mulai: data.tanggal_mulai,
+      tanggal_selesai: data.tanggal_selesai,
       keterangan_to_client: data.keterangan_to_client,
     };
     mutateSendToFronliner({ formData: formData });
@@ -80,6 +82,13 @@ const TablePersetujuanPesanan = ({ order }) => {
     onCloseAccept();
     reset();
   };
+
+  useEffect(() => {
+    if (isOpenAccept && order) {
+      setValue('tanggal_mulai', order.proyek.tanggal_mulai);
+      setValue('tanggal_selesai', order.proyek.tanggal_selesai);
+    }
+  }, [isOpenAccept]);
 
   return (
     <>
@@ -179,6 +188,14 @@ const TablePersetujuanPesanan = ({ order }) => {
           </ModalHeader>
           <ModalBody>
             <Stack pb="10">
+              <FormControl id="tanggal_mulai">
+                <FormLabel>Tanggal Mulai</FormLabel>
+                <Input type="datetime-local" {...register('tanggal_mulai')} />
+              </FormControl>
+              <FormControl id="tanggal_selesai">
+                <FormLabel>Tanggal Selesai</FormLabel>
+                <Input type="datetime-local" {...register('tanggal_selesai')} />
+              </FormControl>
               <FormControl id="keterangan_to_client" isRequired>
                 <FormLabel>Keterangan Diterima</FormLabel>
                 <Input

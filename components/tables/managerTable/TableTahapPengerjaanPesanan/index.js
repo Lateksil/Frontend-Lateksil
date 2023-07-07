@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import DetailTeknisiProgress from '../../../modals/managerModal/detailTeknisiProgress';
 import DetailTahapPengerjaan from '../../../modals/managerModal/detailTahapPengerjaan';
+import UploadResultPengujianModal from '../../../modals/managerModal/uploadResultPengujianModal';
 
 const TableTahapPengerjaanPesanan = ({ pengujian }) => {
   const {
@@ -22,6 +23,12 @@ const TableTahapPengerjaanPesanan = ({ pengujian }) => {
     isOpen: isOpenTeknisiProgress,
     onOpen: onOpenTeknisiProgress,
     onClose: onCloseTeknisiProgress,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpengUploadResult,
+    onOpen: onOpenUploadResult,
+    onClose: onCloseUploadResult,
   } = useDisclosure();
 
   // const isDone = dataTeknisi?.data.every(
@@ -60,7 +67,9 @@ const TableTahapPengerjaanPesanan = ({ pengujian }) => {
           </Badge>
         </Td>
         <Td textAlign="center">
-          <Button variant="lateksil-solid">Upload</Button>
+          <Button variant="lateksil-solid" onClick={onOpenUploadResult}>
+            Upload
+          </Button>
         </Td>
       </Tr>
       <DetailTahapPengerjaan
@@ -72,6 +81,10 @@ const TableTahapPengerjaanPesanan = ({ pengujian }) => {
         id={pengujian.id}
         isOpen={isOpenTeknisiProgress}
         onClose={onCloseTeknisiProgress}
+      />
+      <UploadResultPengujianModal
+        isOpen={isOpengUploadResult}
+        onClose={onCloseUploadResult}
       />
     </>
   );
