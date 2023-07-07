@@ -8,7 +8,7 @@ const useMutationCreateOrder = () => {
 
   const uri = '/order/create';
 
-  const { mutate, ...others } = useMutation(
+  const { mutateAsync, ...others } = useMutation(
     async (formData) => {
       const data = await postFetcher(uri, formData);
       return data;
@@ -16,13 +16,13 @@ const useMutationCreateOrder = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('order').then(() => {
-          showToast('Sukses Ordering!!', 'success');
+          showToast('Berhasil Memesan Pengujian', 'success');
         });
       },
     }
   );
 
-  return { mutate, ...others };
+  return { mutateAsync, ...others };
 };
 
 export default useMutationCreateOrder;
