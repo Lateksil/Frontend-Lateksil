@@ -23,16 +23,20 @@ import useRemoteUserProfile from '../../hooks/remote/useRemoteUserProfile';
 import LoadingData from '../../../utils/LoadingData';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CheckoutSchema } from '../../../utils/schema/CheckoutSchema';
+import useToastNotification from '../../hooks/useToastNotification';
 
 const ModalCheckout = ({ isOpen, onClose, total_price }) => {
+  const showToast = useToastNotification();
   const router = useRouter();
   const userId = useAuthUserStore((state) => state.id);
 
   const { data: userProfileData, isLoading: isLoadingUserProfile } =
     useRemoteUserProfile();
 
-  const { mutate: mutateCreateOrdering, isLoading: isLoadingCreateOrdering } =
-    useMutationCreateOrder();
+  const {
+    mutateAsync: mutateAsyncCreateOrdering,
+    isLoading: isLoadingCreateOrdering,
+  } = useMutationCreateOrder();
 
   const {
     register,
@@ -56,11 +60,13 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
       total_price,
     };
 
-    mutateCreateOrdering(formData);
-    onClose();
-    reset();
-
-    router.push('/order?type=1');
+    try {
+      mutateAsyncCreateOrdering(formData);
+    } catch (error) {
+      showToast('Server Sedang Bermasalah', 'error');
+    } finally {
+      router.push('/order?type=1').then(() => onModalCloseCheckout());
+    }
   };
 
   return (
