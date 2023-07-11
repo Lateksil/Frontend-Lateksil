@@ -101,11 +101,10 @@ const TaskTeknisi = () => {
           <Thead>
             <Tr>
               <Th textAlign="center">Nama Pelanggan</Th>
-              <Th textAlign="center">No Surat</Th>
               <Th textAlign="center">Nama Proyek</Th>
-              <Th textAlign="center">Tujuan Proyek</Th>
               <Th textAlign="center">Tanggal Mulai</Th>
               <Th textAlign="center">Tanggal Selesai</Th>
+              <Th textAlign="center">Status Alat</Th>
               <Th textAlign="center">Status Task</Th>
               <Th textAlign="center">Aksi</Th>
             </Tr>

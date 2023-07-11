@@ -6,6 +6,9 @@ import useMutationProgressTaskPengujian from '../../../hooks/mutation/useMutatio
 import useToastNotification from '../../../hooks/useToastNotification';
 import { PengerjaanTypes } from '../../../../utils/enum/PengerjaanTypes';
 import { TaskTeknisiTypes } from '../../../../utils/enum/TaskTeknisiType';
+import useRemoteStatusPeralatan from '../../../hooks/remote/useRemoteStatusPeralatan';
+import StatusPeralatan from '../../../core/status/StatusPeralatan';
+import { PengambilaAlatType } from '../../../../utils/enum/PembambilanAlatType';
 const TableTaskPengujian = ({ pengujian }) => {
   const router = useRouter();
   const showToast = useToastNotification();
@@ -25,6 +28,15 @@ const TableTaskPengujian = ({ pengujian }) => {
       showToast('Gagal memperbarui data', 'error');
     }
   };
+
+  const { data: dataStatusPeralatan, isLoading: isLoadingStatusPeralatan } =
+    useRemoteStatusPeralatan({
+      id: pengujian.orderId,
+    });
+
+  const { color: color_peralatan, text: text_peralatan } = StatusPeralatan({
+    status: dataStatusPeralatan?.data.status_peralatan,
+  });
   return (
     <Tr>
       <Td cursor="pointer">
@@ -34,13 +46,7 @@ const TableTaskPengujian = ({ pengujian }) => {
         </Flex>
       </Td>
       <Td textAlign="center" cursor="pointer">
-        {pengujian.order.proyek.no_surat}
-      </Td>
-      <Td textAlign="center" cursor="pointer">
         {pengujian.order.proyek.nama_proyek}
-      </Td>
-      <Td textAlign="center" cursor="pointer">
-        {pengujian.order.proyek.tujuan_proyek}
       </Td>
       <Td textAlign="center" cursor="pointer">
         {ParseDate(pengujian.order.proyek.tanggal_mulai)}
@@ -49,14 +55,25 @@ const TableTaskPengujian = ({ pengujian }) => {
         {ParseDate(pengujian.order.proyek.tanggal_selesai)}
       </Td>
       <Td textAlign="center" cursor="pointer">
+        <Badge ml="3" p="2" colorScheme={color_peralatan} rounded="md">
+          {text_peralatan}
+        </Badge>
+      </Td>
+      <Td textAlign="center" cursor="pointer">
         <Badge colorScheme="orange" p="2" rounded="md" w="full">
           Belum Dikerjakan
         </Badge>
       </Td>
       <Td textAlign="center" cursor="pointer">
         <Button
+          isDisabled={
+            dataStatusPeralatan?.data.status_peralatan ===
+            PengambilaAlatType.COMPLETED
+              ? false
+              : true
+          }
           variant="lateksil-solid"
-          isLoading={isLoadingTaskProgress}
+          isLoading={isLoadingTaskProgress || isLoadingStatusPeralatan}
           onClick={onClickTaskToInProgress}
         >
           Kerjakan
