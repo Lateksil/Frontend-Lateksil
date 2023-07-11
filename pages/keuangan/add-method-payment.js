@@ -2,8 +2,10 @@ import React from 'react';
 import {
   Box,
   Button,
+  Center,
   Flex,
   HStack,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
@@ -21,11 +23,12 @@ import TableMetodePembayaran from '../../components/tables/keuanganTable/TableMe
 import useRemoteMethodTransactionAll from '../../components/hooks/remote/useRemoteMethodTransactionAll';
 
 const MethodPaymnet = () => {
-  const { data: dataMetodePembayaran } = useRemoteMethodTransactionAll({
-    page: 1,
-    limit: 10,
-    search: '',
-  });
+  const { data: dataMetodePembayaran, isLoading: isLoadingMetodePembayaran } =
+    useRemoteMethodTransactionAll({
+      page: 1,
+      limit: 10,
+      search: '',
+    });
 
   return (
     <VStack align="stretch" spacing={4}>
@@ -53,6 +56,11 @@ const MethodPaymnet = () => {
               </Tbody>
             </Table>
           </TableContainer>
+          {isLoadingMetodePembayaran && (
+            <Center my="6">
+              <Spinner />
+            </Center>
+          )}
         </Box>
         <Box flex={1} h="full">
           <Box py="2">

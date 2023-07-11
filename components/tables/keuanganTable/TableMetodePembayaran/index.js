@@ -1,8 +1,15 @@
-import { Button, Td, Tr } from '@chakra-ui/react';
+import { Button, Td, Tr, useDisclosure } from '@chakra-ui/react';
 import React from 'react';
 import { BooleanType } from '../../../../utils/enum/BooleanType';
+import ActiveMethodModal from '../../../modals/keuanganModal/activeMethodModal';
 
 const TableMetodePembayaran = ({ account }) => {
+  const {
+    isOpen: isOpenActiveMethod,
+    onOpen: onOpenActiveMethod,
+    onClose: onCloseActiveMethod,
+  } = useDisclosure();
+
   return (
     <>
       <Tr>
@@ -11,15 +18,22 @@ const TableMetodePembayaran = ({ account }) => {
         <Td textAlign="center">{account.type_transaction}</Td>
         <Td textAlign="center">{account.no_rek}</Td>
         <Td textAlign="center">
-          <Button
-            colorScheme={
-              account.is_Active === BooleanType.TRUE ? 'green' : 'gray'
-            }
-          >
-            {account.is_Active === BooleanType.TRUE ? 'Active' : 'Non-Active'}
-          </Button>
+          {account.is_Active === BooleanType.TRUE ? (
+            <Button w="full" colorScheme="green">
+              Active
+            </Button>
+          ) : (
+            <Button w="full" colorScheme="red" onClick={onOpenActiveMethod}>
+              Non-Active
+            </Button>
+          )}
         </Td>
       </Tr>
+      <ActiveMethodModal
+        id={account.id}
+        isOpen={isOpenActiveMethod}
+        onClose={onCloseActiveMethod}
+      />
     </>
   );
 };
