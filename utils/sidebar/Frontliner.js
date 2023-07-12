@@ -12,9 +12,13 @@ function generateSidebaritemFrontliner() {
           name: 'Pengajuan Pemesanan',
           path: '/frontliner',
         },
+        // {
+        //   name: 'Proses Pengujian',
+        //   path: '/frontliner/proses-pengujian',
+        // },
         {
-          name: 'Proses Pengujian',
-          path: '/frontliner/proses-pengujian',
+          name: 'Tahap Pengerjaan',
+          path: '/frontliner/tahap-pengerjaan',
         },
       ],
     },

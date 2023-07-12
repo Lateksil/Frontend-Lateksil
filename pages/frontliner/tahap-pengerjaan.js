@@ -1,6 +1,4 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import Head from 'next/head';
-
 import {
   Flex,
   HStack,
@@ -17,30 +15,30 @@ import {
   Tr,
   VStack,
 } from '@chakra-ui/react';
-
+import Head from 'next/head';
 import { FiSearch } from 'react-icons/fi';
-import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
-import DashboardLayout from '../../components/dashboard/DashboardLayout';
-import DashboardPagination from '../../components/dashboard/DashboardPagination';
-import useRemoteDataTeknisi from '../../components/hooks/remote/useRemoteDataTeknisi';
-import TableDataTeknisi from '../../components/tables/managerTable/TableDataTeknisi';
-import { getServerSidePropsManager } from '../../utils/getServerSidePropsManager';
-import LoadingData from '../../utils/LoadingData';
-import MessageNotFoundData from '../../utils/MessageNotFoundData';
 import Select from '../../components/core/select';
+import DashboardLayout from '../../components/dashboard/DashboardLayout';
+import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
+import DashboardPagination from '../../components/dashboard/DashboardPagination';
+import LoadingData from '../../utils/LoadingData';
+import MessageSearchNotFound from '../../utils/MessageSearchNotFound';
+import useRemoteTahapPengerjaan from '../../components/hooks/remote/useRemoteTahapPengerjaan';
+import { getServerSidePropsFrontliner } from '../../utils/getServerSidePropsFrontliner';
+import TableTahapPengerjaanPesananFrontliner from '../../components/tables/frontlinerTable/TableTahapPengerjaanPesanan';
 
-const DataTeknisi = () => {
+const TahapPengerjaanFrontliner = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
-  const dataTeknisiRef = useRef(null);
+  const pengujianListRef = useRef(null);
   const [pageIndex, setPageIndex] = useState(1);
   const [dataLimit, setDataLimit] = useState(10);
 
   const {
-    data: dataAllTeknisi,
-    isLoading: isLoadingDataAllTeknisi,
+    data: dataProsePengujian,
+    isLoading: isLoadingProsesPengujian,
     error,
-  } = useRemoteDataTeknisi({
+  } = useRemoteTahapPengerjaan({
     page: pageIndex,
     limit: dataLimit,
   });
@@ -56,22 +54,20 @@ const DataTeknisi = () => {
   const handlePageClick = (page) => {
     setPageIndex(page);
 
-    if (dataTeknisiRef && dataTeknisiRef.current) {
-      dataTeknisiRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (pengujianListRef && pengujianListRef.current) {
+      pengujianListRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  // console.log(dataAllTeknisi);
   return (
-    <VStack align="stretch" spacing={5}>
+    <VStack align="stretch" spacing={4}>
       <Head>
-        <title>Data Teknisi | Lateksil</title>
+        <title>Tahap Pengerjaan | Lateksil</title>
       </Head>
-      <HStack borderBottomWidth="1px" pb="6">
-        <Text color="blue.700" fontWeight="bold" fontSize="xl">
-          Data Teknisi
+      <HStack borderBottomWidth="1px" pb="4">
+        <Text color="blue.700" fontWeight="bold" fontSize="2xl">
+          Tahap Pengerjaan
         </Text>
-        <Spacer />
       </HStack>
       <HStack>
         <Text>Show</Text>
@@ -89,7 +85,7 @@ const DataTeknisi = () => {
           </InputLeftElement>
           <Input
             type="text"
-            placeholder="Search..."
+            placeholder="Search ..."
             variant="outline"
             shadow="none"
             // onChange={(e) => setSearchInput(e.target.value)}
@@ -101,23 +97,26 @@ const DataTeknisi = () => {
         <Table size="md" variant="striped">
           <Thead>
             <Tr>
-              <Th textAlign="center">Nama Teknisi</Th>
-              <Th textAlign="center">Email</Th>
-              <Th textAlign="center">No. Telp</Th>
-              <Th textAlign="center">Jumlah</Th>
-              <Th textAlign="center">Riwayat Proyek</Th>
-              <Th textAlign="center">Penugasan</Th>
+              <Th textAlign="center">Nama Pelanggan</Th>
+              <Th textAlign="center">Nama Proyek</Th>
+              <Th textAlign="center">No Surat</Th>
+              <Th textAlign="center">Teknisi</Th>
+              <Th textAlign="center">Progress</Th>
+              <Th textAlign="center">Result</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {dataAllTeknisi?.data.map((teknisi, i) => (
-              <TableDataTeknisi teknisi={teknisi} key={i} />
+            {dataProsePengujian?.data?.map((pengujian, i) => (
+              <TableTahapPengerjaanPesananFrontliner
+                pengujian={pengujian}
+                key={i}
+              />
             ))}
           </Tbody>
         </Table>
       </TableContainer>
-      {dataAllTeknisi?.totalData === 0 && <MessageNotFoundData />}
-      {isLoadingDataAllTeknisi && <LoadingData />}
+      {dataProsePengujian?.data === null && <MessageSearchNotFound />}
+      {isLoadingProsesPengujian && <LoadingData />}
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}
         justifyContent="end"
@@ -127,7 +126,7 @@ const DataTeknisi = () => {
       >
         <DashboardPagination
           current={pageIndex}
-          total={dataAllTeknisi ? dataAllTeknisi?.totalPages : 0}
+          total={dataProsePengujian ? dataProsePengujian?.totalPages : 0}
           onPageClick={handlePageClick}
         />
       </Flex>
@@ -135,10 +134,10 @@ const DataTeknisi = () => {
   );
 };
 
-export const getServerSideProps = getServerSidePropsManager;
+export const getServerSideProps = getServerSidePropsFrontliner;
 
-DataTeknisi.getLayout = (page) => (
-  <DashboardLayout sidebarFor="manager">{page}</DashboardLayout>
+TahapPengerjaanFrontliner.getLayout = (page) => (
+  <DashboardLayout sidebarFor="frontliner">{page}</DashboardLayout>
 );
 
-export default DataTeknisi;
+export default TahapPengerjaanFrontliner;

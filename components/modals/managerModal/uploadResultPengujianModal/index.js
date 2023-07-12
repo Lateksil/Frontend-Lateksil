@@ -1,8 +1,9 @@
+import React, { useState } from 'react';
 import {
   Box,
   Button,
   ButtonGroup,
-  Image,
+  Flex,
   Modal,
   ModalBody,
   ModalContent,
@@ -12,55 +13,65 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import React, { useRef, useState } from 'react';
-import useMutationAddKwitansi from '../../../hooks/mutation/useMutationAddKwitansi';
+import { Document, Page, pdfjs } from 'react-pdf';
+import useToastNotification from '../../../hooks/useToastNotification';
+import useMutationAddResultPengujian from '../../../hooks/mutation/useMutationAddResultPengujian';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const UploadResultPengujianModal = ({ id, isOpen, onClose }) => {
+  const showToast = useToastNotification();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadImage, setUploadImage] = useState(null);
-  const fileInputRef = useRef(null);
+  const [numPages, setNumPages] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { mutate: mutateAddKwitansi, isLoading: isLoadingAddKwitansi } =
-    useMutationAddKwitansi();
+  const {
+    mutateAsync: mutateUploadResultFilePengujian,
+    isLoading: isLoadingUploadResultPengujian,
+  } = useMutationAddResultPengujian();
 
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
-    setUploadImage(file);
-    setSelectedFile(URL.createObjectURL(file));
+    setSelectedFile(file);
+    setCurrentPage(1);
   };
 
-  const handleDrop = (event) => {
-    event.preventDefault();
-    const file = event.dataTransfer.files[0];
-    setUploadImage(file);
-    setSelectedFile(URL.createObjectURL(file));
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
   };
 
-  const handleDragOver = (event) => {
-    event.preventDefault();
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
   };
 
-  const handleClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  const handleUploadKwitansi = async () => {
-    const formData = new FormData();
-    formData.append('id', id);
-    formData.append('image_kwitansi', uploadImage);
-
-    mutateAddKwitansi(formData);
+  const onCloseUploaded = () => {
+    setSelectedFile(null);
     onClose();
   };
 
+  const handleUploadResultPengujian = async () => {
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('file_result_pengujian', selectedFile);
+
+    try {
+      await mutateUploadResultFilePengujian(formData);
+    } catch (error) {
+      showToast('Gagal memperbarui data', 'error');
+    } finally {
+      onCloseUploaded();
+    }
+  };
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={onCloseUploaded}
       isCentered
-      size="xl"
+      size="3xl"
       scrollBehavior="inside"
       closeOnOverlayClick={false}
     >
@@ -71,60 +82,103 @@ const UploadResultPengujianModal = ({ id, isOpen, onClose }) => {
           <VStack>
             <Box py="2" borderBottomWidth={2} w="full">
               <Text fontWeight="semibold" fontSize="xl">
-                Upload Result Pengujian
+                Upload Result Pengujian PDF*
               </Text>
             </Box>
-            <Box py="2" w="full">
-              <Text>Silahkan Unggah File Berbentuk PDF*</Text>
+            <Box py="2" borderBottomWidth={2} w="full">
+              {selectedFile && (
+                <Flex direction="column" alignItems="end">
+                  <ButtonGroup>
+                    <Button
+                      size="sm"
+                      colorScheme="teal"
+                      mt={2}
+                      onClick={goToPreviousPage}
+                      disabled={currentPage <= 1}
+                      style={{ marginRight: '5px' }}
+                    >
+                      Previous
+                    </Button>
+                    <Button
+                      size="sm"
+                      colorScheme="teal"
+                      mt={2}
+                      onClick={goToNextPage}
+                      disabled={currentPage >= numPages}
+                      style={{ marginLeft: '5px' }}
+                    >
+                      Next
+                    </Button>
+                  </ButtonGroup>
+                  <Text mt={2}>
+                    Page {currentPage} of {numPages}
+                  </Text>
+                </Flex>
+              )}
             </Box>
             <Box
-              width="full"
-              bg="gray.200"
-              py={selectedFile ? '0' : '20'}
-              border="2px dashed gray"
-              borderRadius="md"
+              border="2px dashed #ccc"
+              borderRadius="5px"
+              textAlign="center"
               display="flex"
-              flexDirection="column"
               justifyContent="center"
               alignItems="center"
-              onDrop={handleDrop}
-              onDragOver={handleDragOver}
+              flexDirection="column"
+              mb={5}
+              p={0}
+              m={0}
             >
               {selectedFile ? (
-                <Image src={selectedFile} alt="Choose File Images" />
+                <Box>
+                  <Document
+                    file={selectedFile}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                  >
+                    <Page pageNumber={currentPage} />
+                  </Document>
+                </Box>
               ) : (
-                <>
-                  <Text>Tarik dan Lepaskan kesini atau </Text>
-                  <Box cursor="pointer" onClick={handleClick}>
-                    <Text fontWeight="semibold" textDecoration="underline">
-                      Pilih File
-                    </Text>
-                  </Box>
-                </>
+                <Box>
+                  <Text>Drag and drop file here</Text>
+                  <Button
+                    size="sm"
+                    colorScheme="teal"
+                    mt={3}
+                    onClick={() =>
+                      document.querySelector('input[type="file"]').click()
+                    }
+                  >
+                    Select File
+                  </Button>
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleFileSelect}
+                    style={{ display: 'none' }}
+                  />
+                </Box>
               )}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileSelect}
-                style={{ display: 'none' }}
-                ref={fileInputRef}
-              />
             </Box>
           </VStack>
         </ModalBody>
 
         <ModalFooter bg="gray.100">
           <ButtonGroup display="flex" flexGrow={1}>
-            <Button flexGrow={1} rounded="md" onClick={onClose} border="1px">
+            <Button
+              flexGrow={1}
+              rounded="md"
+              onClick={onCloseUploaded}
+              border="1px"
+            >
               Tutup
             </Button>
             <Button
               isDisabled={selectedFile ? false : true}
+              isLoading={isLoadingUploadResultPengujian}
               flexGrow={1}
+              onClick={handleUploadResultPengujian}
               rounded="md"
               variant="lateksil-solid"
-              isLoading={isLoadingAddKwitansi}
-              onClick={handleUploadKwitansi}
             >
               Selesai
             </Button>

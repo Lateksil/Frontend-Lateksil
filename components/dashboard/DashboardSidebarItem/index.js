@@ -19,8 +19,6 @@ const DashboardSidebarItem = ({ item, pathname }) => {
 
   const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: isActive });
 
-  console.log('INI Item', item);
-
   if (item.sub)
     return (
       <React.Fragment>

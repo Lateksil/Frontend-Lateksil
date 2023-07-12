@@ -15,8 +15,10 @@ import {
 import React from 'react';
 import { MdOutlinePayments } from 'react-icons/md';
 import useMutationActiveMethodPayment from '../../../hooks/mutation/put/useMutationActiveMethodPayment';
+import useToastNotification from '../../../hooks/useToastNotification';
 
 const ActiveMethodModal = ({ isOpen, onClose, id }) => {
+  const showToast = useToastNotification();
   const {
     mutateAsync: mutateMethodPayment,
     isLoading: isLoadingMutatePayment,
@@ -28,7 +30,7 @@ const ActiveMethodModal = ({ isOpen, onClose, id }) => {
     try {
       mutateMethodPayment();
     } catch (error) {
-      console.log(error);
+      showToast('Server Sedang Bermasalah', 'error');
     } finally {
       onClose();
     }

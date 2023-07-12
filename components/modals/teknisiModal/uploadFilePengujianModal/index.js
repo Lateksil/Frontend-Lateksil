@@ -41,7 +41,9 @@ const UploadFilePengujianTeknisi = ({ id, isOpen, onClose }) => {
       formData.append('status_pengerjaan', PengerjaanTypes.UPLOADED_FILE);
       formData.append('file_task_pengujian', selectedFile);
 
-      mutateTaskToComplete(formData).then(() => router.push('/teknisi/report'));
+      await mutateTaskToComplete(formData).then(() =>
+        router.push('/teknisi/report')
+      );
     } catch (error) {
       showToast('Gagal memperbarui data', 'error');
     }

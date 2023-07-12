@@ -10,9 +10,8 @@ import {
 } from '@chakra-ui/react';
 import DetailTeknisiProgress from '../../../modals/managerModal/detailTeknisiProgress';
 import DetailTahapPengerjaan from '../../../modals/managerModal/detailTahapPengerjaan';
-import UploadResultPengujianModal from '../../../modals/managerModal/uploadResultPengujianModal';
 
-const TableTahapPengerjaanPesanan = ({ pengujian }) => {
+const TableTahapPengerjaanPesananFrontliner = ({ pengujian }) => {
   const {
     isOpen: isOpenDetailPengujian,
     onOpen: onOpenDetailPengujian,
@@ -24,22 +23,6 @@ const TableTahapPengerjaanPesanan = ({ pengujian }) => {
     onOpen: onOpenTeknisiProgress,
     onClose: onCloseTeknisiProgress,
   } = useDisclosure();
-
-  const {
-    isOpen: isOpengUploadResult,
-    onOpen: onOpenUploadResult,
-    onClose: onCloseUploadResult,
-  } = useDisclosure();
-
-  // const isDone = dataTeknisi?.data.every(
-  //   (status) => status.status_pengerjaan === PengerjaanTypes.COMPLETED
-  // );
-
-  // if (isDone) {
-  //   console.log('done');
-  // } else {
-  //   console.log('progress');
-  // }
 
   return (
     <>
@@ -62,18 +45,12 @@ const TableTahapPengerjaanPesanan = ({ pengujian }) => {
           </Button>
         </Td>
         <Td textAlign="center" onClick={onOpenDetailPengujian}>
-          <Badge w="full" colorScheme="pink" px="4" py="2">
-            on progress
+          <Badge colorScheme="pink" px="4" py="2">
+            On Progress
           </Badge>
         </Td>
         <Td textAlign="center">
-          <Button
-            variant="lateksil-solid"
-            isDisabled={pengujian.file_result_pengujian === null ? false : true}
-            onClick={onOpenUploadResult}
-          >
-            {pengujian.file_result_pengujian === null ? 'Upload' : 'Terkirim'}
-          </Button>
+          <Button variant="lateksil-solid">Download</Button>
         </Td>
       </Tr>
       <DetailTahapPengerjaan
@@ -86,13 +63,8 @@ const TableTahapPengerjaanPesanan = ({ pengujian }) => {
         isOpen={isOpenTeknisiProgress}
         onClose={onCloseTeknisiProgress}
       />
-      <UploadResultPengujianModal
-        id={pengujian.id}
-        isOpen={isOpengUploadResult}
-        onClose={onCloseUploadResult}
-      />
     </>
   );
 };
 
-export default TableTahapPengerjaanPesanan;
+export default TableTahapPengerjaanPesananFrontliner;

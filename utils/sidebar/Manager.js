@@ -21,8 +21,8 @@ function generateSidebaritemManager() {
           path: '/manager/tahap-pengerjaan',
         },
         {
-          name: 'Selesai',
-          path: '/manager/selesai',
+          name: 'Selesai Pemesanan',
+          path: '/manager/selesai-pemesanan',
         },
       ],
     },
