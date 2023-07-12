@@ -103,6 +103,7 @@ const TahapPengerjaanFrontliner = () => {
               <Th textAlign="center">Teknisi</Th>
               <Th textAlign="center">Progress</Th>
               <Th textAlign="center">Result</Th>
+              <Th textAlign="center">Aksi</Th>
             </Tr>
           </Thead>
           <Tbody>

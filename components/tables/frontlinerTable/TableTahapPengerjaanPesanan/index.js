@@ -3,6 +3,7 @@ import {
   Badge,
   Button,
   Flex,
+  IconButton,
   Td,
   Text,
   Tr,
@@ -10,8 +11,12 @@ import {
 } from '@chakra-ui/react';
 import DetailTeknisiProgress from '../../../modals/managerModal/detailTeknisiProgress';
 import DetailTahapPengerjaan from '../../../modals/managerModal/detailTahapPengerjaan';
+import { FiDownload } from 'react-icons/fi';
+import { useRouter } from 'next/router';
+import { baseUrl } from '../../../../libs/axios';
 
 const TableTahapPengerjaanPesananFrontliner = ({ pengujian }) => {
+  const router = useRouter();
   const {
     isOpen: isOpenDetailPengujian,
     onOpen: onOpenDetailPengujian,
@@ -39,18 +44,49 @@ const TableTahapPengerjaanPesananFrontliner = ({ pengujian }) => {
         <Td textAlign="center" onClick={onOpenDetailPengujian}>
           {pengujian.proyek.no_identifikasi}
         </Td>
-        <Td textAlign="center">
-          <Button variant="lateksil-solid" onClick={onOpenTeknisiProgress}>
+        <Td textAlign="center" onClick={onOpenTeknisiProgress}>
+          <Text
+            color="blackAlpha.700"
+            fontWeight="semibold"
+            cursor="pointer"
+            _hover={{ textDecoration: 'underline' }}
+          >
             Lihat
-          </Button>
+          </Text>
         </Td>
         <Td textAlign="center" onClick={onOpenDetailPengujian}>
-          <Badge colorScheme="pink" px="4" py="2">
-            On Progress
+          <Badge
+            w="full"
+            colorScheme={
+              pengujian.file_result_pengujian !== null ? 'green' : 'pink'
+            }
+            px="4"
+            py="2"
+          >
+            {pengujian.file_result_pengujian !== null ? 'Done' : 'On Progress'}
           </Badge>
         </Td>
         <Td textAlign="center">
-          <Button variant="lateksil-solid">Download</Button>
+          <IconButton
+            isDisabled={pengujian.file_result_pengujian !== null ? false : true}
+            onClick={() =>
+              router.push(
+                `${baseUrl}view-result/download/${pengujian.file_result_pengujian}`
+              )
+            }
+            variant="outline"
+            colorScheme="facebook"
+            aria-label="download result"
+            icon={<FiDownload size={20} />}
+          />
+        </Td>
+        <Td textAlign="center">
+          <Button
+            colorScheme="orange"
+            isDisabled={pengujian.file_result_pengujian !== null ? false : true}
+          >
+            Kirim Costumer
+          </Button>
         </Td>
       </Tr>
       <DetailTahapPengerjaan
