@@ -24,8 +24,10 @@ import ParseDate from '../../../core/parseDate';
 import StatusOrderTransaction from '../../../core/status/StatusOrderTransaction';
 import useToastNotification from '../../../hooks/useToastNotification';
 import ModalPayment from '../../../modals/userModal/ModalPayment';
+import { useRouter } from 'next/router';
 
 const TableCardHistoryTransaction = ({ order }) => {
+  const router = useRouter();
   const showToast = useToastNotification();
 
   const {
@@ -206,6 +208,30 @@ const TableCardHistoryTransaction = ({ order }) => {
               >
                 Bukti Kwitansi
               </Button>
+            )}
+            {order.status.status_transaction === TransactionTypes.DONE && (
+              <ButtonGroup>
+                <Button
+                  w="full"
+                  variant="lateksil-solid"
+                  onClick={() =>
+                    handleDownloadKwitansi(order.payment.image_kwitansi)
+                  }
+                >
+                  Bukti Kwitansi
+                </Button>
+                <Button
+                  w="full"
+                  variant="lateksil-solid"
+                  onClick={() =>
+                    router.push(
+                      `${baseUrl}view-result/download/${order.file_result_pengujian}`
+                    )
+                  }
+                >
+                  Download Hasil
+                </Button>
+              </ButtonGroup>
             )}
           </ButtonGroup>
         </HStack>

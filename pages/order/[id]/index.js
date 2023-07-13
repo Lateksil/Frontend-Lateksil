@@ -26,8 +26,10 @@ import { TransactionTypes } from '../../../utils/enum/TransactionTypes';
 import { BooleanType } from '../../../utils/enum/BooleanType';
 import useToastNotification from '../../../components/hooks/useToastNotification';
 import ModalPayment from '../../../components/modals/userModal/ModalPayment';
+import { useRouter } from 'next/router';
 
 const DetailOrderPengujian = ({ order }) => {
+  const router = useRouter();
   const showToast = useToastNotification();
 
   const {
@@ -268,6 +270,30 @@ const DetailOrderPengujian = ({ order }) => {
                 >
                   Bukti Kwitansi
                 </Button>
+              )}
+              {order.status.status_transaction === TransactionTypes.DONE && (
+                <ButtonGroup>
+                  <Button
+                    w="full"
+                    variant="lateksil-solid"
+                    onClick={() =>
+                      handleDownloadKwitansi(order.payment.image_kwitansi)
+                    }
+                  >
+                    Bukti Kwitansi
+                  </Button>
+                  <Button
+                    w="full"
+                    variant="lateksil-solid"
+                    onClick={() =>
+                      router.push(
+                        `${baseUrl}view-result/download/${order.file_result_pengujian}`
+                      )
+                    }
+                  >
+                    Download Hasil
+                  </Button>
+                </ButtonGroup>
               )}
             </ButtonGroup>
           </HStack>

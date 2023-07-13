@@ -20,6 +20,10 @@ function generateSidebaritemFrontliner() {
           name: 'Tahap Pengerjaan',
           path: '/frontliner/tahap-pengerjaan',
         },
+        {
+          name: 'Selesai Pemesanan',
+          path: '/frontliner/selesai-pemesanan',
+        },
       ],
     },
     {
