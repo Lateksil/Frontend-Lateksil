@@ -1,5 +1,5 @@
 import NextImage from '../nextimage';
-import Logo from '../../../assets/images/logo.webp';
+import Logo from '../../../assets/images/Logo_Lateksil.jpeg';
 
 const LogoSidebar = ({ multiplySize = 1, responsive = false }) => {
   const baseWidth = 128 * multiplySize;
