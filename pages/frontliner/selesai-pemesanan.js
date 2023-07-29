@@ -26,6 +26,7 @@ import { getServerSidePropsFrontliner } from '../../utils/getServerSidePropsFron
 import useRemoteSelesaiPemesanan from '../../components/hooks/remote/useRemoteSelesaiPemesanan';
 import LoadingData from '../../utils/LoadingData';
 import TableSelesaiPemesananFrontliner from '../../components/tables/frontlinerTable/TableSelesaiPemesanan';
+import MessageNotFoundData from '../../utils/MessageNotFoundData';
 
 const SelesaiPemesananFrontliner = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
@@ -94,7 +95,7 @@ const SelesaiPemesananFrontliner = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      {/* {dataSelesaiPengujian?.totalData === 0 && <MessageNotFoundData />} */}
+      {dataSelesaiPemesanan?.totalData === 0 && <MessageNotFoundData />}
       {isLoadingSelesaiPemesanan && <LoadingData />}
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}
