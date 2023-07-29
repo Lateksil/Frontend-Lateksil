@@ -6,8 +6,8 @@ const StatusOrderPengujian = ({ status }) => {
       return { color: 'orange', text: 'Waiting' };
     case TransactionTypes.IN_PROGRESS:
       return { color: 'pink', text: 'In Progress' };
-    case TransactionTypes.ACCEPT:
-      return { color: 'pink', text: 'Selesai' };
+    case TransactionTypes.DONE:
+      return { color: 'green', text: 'Done' };
     default:
       return { color: 'gray', text: 'Error' };
   }

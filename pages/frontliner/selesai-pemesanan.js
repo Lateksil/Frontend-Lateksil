@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import Head from 'next/head';
-
 import {
   Flex,
   HStack,
@@ -24,9 +23,18 @@ import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import Select from '../../components/core/select';
 import { getServerSidePropsFrontliner } from '../../utils/getServerSidePropsFrontliner';
+import useRemoteSelesaiPemesanan from '../../components/hooks/remote/useRemoteSelesaiPemesanan';
+import LoadingData from '../../utils/LoadingData';
+import TableSelesaiPemesananFrontliner from '../../components/tables/frontlinerTable/TableSelesaiPemesanan';
 
 const SelesaiPemesananFrontliner = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
+
+  const { data: dataSelesaiPemesanan, isLoading: isLoadingSelesaiPemesanan } =
+    useRemoteSelesaiPemesanan({
+      page: 1,
+      limit: 10,
+    });
 
   //   const SelesaiPemesananRef = useRef(null);
   //   const [pageIndex, setPageIndex] = useState(1);
@@ -79,11 +87,15 @@ const SelesaiPemesananFrontliner = () => {
               <Th textAlign="center">Result</Th>
             </Tr>
           </Thead>
-          <Tbody></Tbody>
+          <Tbody>
+            {dataSelesaiPemesanan?.data?.map((pengujian, i) => (
+              <TableSelesaiPemesananFrontliner pengujian={pengujian} key={i} />
+            ))}
+          </Tbody>
         </Table>
       </TableContainer>
-      {/* {dataAllTeknisi?.totalData === 0 && <MessageNotFoundData />} */}
-      {/* {isLoadingDataAllTeknisi && <LoadingData />} */}
+      {/* {dataSelesaiPengujian?.totalData === 0 && <MessageNotFoundData />} */}
+      {isLoadingSelesaiPemesanan && <LoadingData />}
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}
         justifyContent="end"

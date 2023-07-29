@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Badge,
-  Button,
   Flex,
   IconButton,
   Td,
@@ -9,14 +8,13 @@ import {
   Tr,
   useDisclosure,
 } from '@chakra-ui/react';
-import DetailTeknisiProgress from '../../../modals/managerModal/detailTeknisiProgress';
-import DetailTahapPengerjaan from '../../../modals/managerModal/detailTahapPengerjaan';
-import { FiDownload } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import { baseUrl } from '../../../../libs/axios';
-import SendResultToCostumerModal from '../../../modals/frontlinerModal/sendResultToCostumerModal';
+import { FiDownload } from 'react-icons/fi';
+import DetailTahapPengerjaan from '../../../modals/managerModal/detailTahapPengerjaan';
+import DetailTeknisiProgressFrontliner from '../../../modals/frontlinerModal/detailTeknisiModalFrontliner';
 
-const TableTahapPengerjaanPesananFrontliner = ({ pengujian }) => {
+const TableSelesaiPemesananFrontliner = ({ pengujian }) => {
   const router = useRouter();
   const {
     isOpen: isOpenDetailPengujian,
@@ -28,12 +26,6 @@ const TableTahapPengerjaanPesananFrontliner = ({ pengujian }) => {
     isOpen: isOpenTeknisiProgress,
     onOpen: onOpenTeknisiProgress,
     onClose: onCloseTeknisiProgress,
-  } = useDisclosure();
-
-  const {
-    isOpen: isOpenResultToCostumer,
-    onOpen: onOpenResultToCostumer,
-    onClose: onCloseResultToCostumer,
   } = useDisclosure();
 
   return (
@@ -87,33 +79,19 @@ const TableTahapPengerjaanPesananFrontliner = ({ pengujian }) => {
             icon={<FiDownload size={20} />}
           />
         </Td>
-        <Td textAlign="center">
-          <Button
-            colorScheme="orange"
-            isDisabled={pengujian.file_result_pengujian !== null ? false : true}
-            onClick={onOpenResultToCostumer}
-          >
-            Kirim Costumer
-          </Button>
-        </Td>
       </Tr>
+      <DetailTeknisiProgressFrontliner
+        id={pengujian.id}
+        isOpen={isOpenTeknisiProgress}
+        onClose={onCloseTeknisiProgress}
+      />
       <DetailTahapPengerjaan
         id={pengujian.id}
         isOpen={isOpenDetailPengujian}
         onClose={onCloseDetailPengujian}
       />
-      <DetailTeknisiProgress
-        id={pengujian.id}
-        isOpen={isOpenTeknisiProgress}
-        onClose={onCloseTeknisiProgress}
-      />
-      <SendResultToCostumerModal
-        id={pengujian.id}
-        isOpen={isOpenResultToCostumer}
-        onClose={onCloseResultToCostumer}
-      />
     </>
   );
 };
 
-export default TableTahapPengerjaanPesananFrontliner;
+export default TableSelesaiPemesananFrontliner;
