@@ -29,6 +29,7 @@ import useRemotePengujian from '../../components/hooks/remote/useRemotePengujian
 import PengujianTableFrontliner from '../../components/tables/frontlinerTable/pengujianTable';
 import { generateOptionTempatPengujian } from '../../utils/entryOptions/generateEntryPengujian';
 import { getServerSidePropsFrontliner } from '../../utils/getServerSidePropsFrontliner';
+import MessageNotFoundData from '../../utils/MessageNotFoundData';
 import MessageSearchNotFound from '../../utils/MessageSearchNotFound';
 
 const InputPengujian = () => {
@@ -151,6 +152,7 @@ const InputPengujian = () => {
           </Tbody>
         </Table>
         {dataPengujian?.data === null && <MessageSearchNotFound />}
+        {dataPengujian?.totalData === 0 && <MessageNotFoundData />}
         {isLoadingDataPengujian && (
           <Center my="6">
             <Spinner />

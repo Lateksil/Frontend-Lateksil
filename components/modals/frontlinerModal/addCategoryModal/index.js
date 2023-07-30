@@ -57,7 +57,7 @@ const AddCategoryModal = ({ isOpen, onClose }) => {
           <ModalBody>
             <Stack>
               <Flex flexWrap="wrap">
-                {dataCategories?.data.map((category) => (
+                {dataCategories?.data?.map((category) => (
                   <Flex
                     key={category.id}
                     border="1px solid black"

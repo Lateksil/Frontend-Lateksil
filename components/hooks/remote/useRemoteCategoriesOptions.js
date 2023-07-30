@@ -15,7 +15,7 @@ const useRemoteCategoriesOptions = () => {
     })
   );
 
-  const newData = data?.data.map((item) => ({
+  const newData = data?.data?.map((item) => ({
     label: item.name_category,
     value: item.name_category,
   }));

@@ -67,7 +67,7 @@ const HomeDashboard = () => {
             spacing={5}
           >
             {dataCategoryClient &&
-              dataCategoryClient?.data.map((category, i) => (
+              dataCategoryClient?.data?.map((category, i) => (
                 <React.Fragment key={i}>
                   <ButtonTab
                     label={dataCat}
