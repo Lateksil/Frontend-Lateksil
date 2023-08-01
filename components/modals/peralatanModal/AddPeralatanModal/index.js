@@ -95,7 +95,7 @@ const AddPeralatanPengujianModal = ({ isOpen, onClose }) => {
                 )}
               </FormControl>
               <FormControl id="nama_alat" isRequired>
-                <FormLabel>Jenis Pengujian</FormLabel>
+                <FormLabel>Tambah Alat</FormLabel>
                 <Input
                   type="text"
                   placeholder="Tambah Alat Pengujian"

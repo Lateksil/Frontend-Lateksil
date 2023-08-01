@@ -215,7 +215,7 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
                 </TableContainer>
               </Box>
               <FormControl id="name_category">
-                <FormLabel>Catatan Ke Peralatan</FormLabel>
+                <FormLabel>Catatan Ke Peralatan(opsional)</FormLabel>
                 <Input
                   type="text"
                   placeholder="Tambah Alat yang ingin anda tambahkan"
