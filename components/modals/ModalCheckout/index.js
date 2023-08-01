@@ -133,7 +133,7 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
                 isInvalid={!!errors.tujuan_proyek}
                 isRequired
               >
-                <FormLabel>Tujuan Pegujian</FormLabel>
+                <FormLabel>Tujuan Pengujian</FormLabel>
                 <Input
                   type="text"
                   placeholder="Tujuan Pengujian yang akan anda pesan"

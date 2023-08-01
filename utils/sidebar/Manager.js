@@ -1,5 +1,5 @@
 import { IoDocumentText } from 'react-icons/io5';
-import { MdPostAdd } from 'react-icons/md';
+// import { MdPostAdd } from 'react-icons/md';
 
 function generateSidebaritemManager() {
   return [
@@ -26,11 +26,11 @@ function generateSidebaritemManager() {
         },
       ],
     },
-    {
-      name: 'Data Teknisi',
-      path: '/manager/data-teknisi',
-      icon: MdPostAdd,
-    },
+    // {
+    //   name: 'Data Teknisi',
+    //   path: '/manager/data-teknisi',
+    //   icon: MdPostAdd,
+    // },
   ];
 }
 

@@ -26,6 +26,7 @@ import LoadingData from '../../utils/LoadingData';
 import MessageSearchNotFound from '../../utils/MessageSearchNotFound';
 import useRemoteTahapPengerjaan from '../../components/hooks/remote/useRemoteTahapPengerjaan';
 import TableTahapPengerjaanPesanan from '../../components/tables/managerTable/TableTahapPengerjaanPesanan';
+import MessageNotFoundData from '../../utils/MessageNotFoundData';
 
 const TahapPengerjaan = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
@@ -114,19 +115,23 @@ const TahapPengerjaan = () => {
       </TableContainer>
       {dataProsePengujian?.data === null && <MessageSearchNotFound />}
       {isLoadingProsesPengujian && <LoadingData />}
-      <Flex
-        flexDir={{ base: 'column', md: 'row', xl: 'row' }}
-        justifyContent="end"
-        borderTopWidth="1px"
-        alignItems="center"
-        py="2"
-      >
-        <DashboardPagination
-          current={pageIndex}
-          total={dataProsePengujian ? dataProsePengujian?.totalPages : 0}
-          onPageClick={handlePageClick}
-        />
-      </Flex>
+      {dataProsePengujian?.totalData === 0 ? (
+        <MessageNotFoundData />
+      ) : (
+        <Flex
+          flexDir={{ base: 'column', md: 'row', xl: 'row' }}
+          justifyContent="end"
+          borderTopWidth="1px"
+          alignItems="center"
+          py="2"
+        >
+          <DashboardPagination
+            current={pageIndex}
+            total={dataProsePengujian ? dataProsePengujian?.totalPages : 0}
+            onPageClick={handlePageClick}
+          />
+        </Flex>
+      )}
     </VStack>
   );
 };

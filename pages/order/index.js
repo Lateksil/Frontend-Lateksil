@@ -54,7 +54,7 @@ const HistroyTransactions = () => {
       </Head>
       <HStack borderBottomWidth="1px" pb="4">
         <Text color="blue.700" fontWeight="bold" fontSize="xl">
-          Daftar Transaksi
+          Riwayat Transaksi
         </Text>
       </HStack>
       <TableContainer>

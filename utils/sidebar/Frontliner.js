@@ -1,5 +1,5 @@
 import { IoDocumentText } from 'react-icons/io5';
-import { MdOutlinePeopleOutline, MdPostAdd } from 'react-icons/md';
+import { MdPostAdd } from 'react-icons/md';
 
 function generateSidebaritemFrontliner() {
   return [
@@ -31,11 +31,11 @@ function generateSidebaritemFrontliner() {
       path: '/frontliner/input-pengujian',
       icon: MdPostAdd,
     },
-    {
-      name: 'Data Costumer',
-      path: '/frontliner/data-costumer',
-      icon: MdOutlinePeopleOutline,
-    },
+    // {
+    //   name: 'Data Costumer',
+    //   path: '/frontliner/data-costumer',
+    //   icon: MdOutlinePeopleOutline,
+    // },
   ];
 }
 
