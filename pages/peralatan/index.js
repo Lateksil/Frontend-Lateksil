@@ -104,6 +104,7 @@ const PengajuanPeralatan = () => {
               <Th textAlign="center" w="20%">
                 Jenis Pengujian
               </Th>
+              <Th textAlign="center">Catatan Khusus</Th>
               <Th textAlign="center" w="20%">
                 Alat Pengujian
               </Th>
