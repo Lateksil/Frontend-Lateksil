@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Head from 'next/head';
 
 import {
@@ -24,13 +24,44 @@ import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import DashboardPagination from '../../components/dashboard/DashboardPagination';
 import { getServerSidePropsManager } from '../../utils/getServerSidePropsManager';
 import Select from '../../components/core/select';
+import useRemoteSelesaiPemesanan from '../../components/hooks/remote/useRemoteSelesaiPemesanan';
+import MessageNotFoundData from '../../utils/MessageNotFoundData';
+import LoadingData from '../../utils/LoadingData';
+import TableSelesaiPemesananManager from '../../components/tables/managerTable/TableSelesaiPesanan';
 
 const SelesaiPemesanan = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
-  //   const SelesaiPemesananRef = useRef(null);
-  //   const [pageIndex, setPageIndex] = useState(1);
-  //   const [dataLimit, setDataLimit] = useState(10);
+  const SelesaiPemesananManagerRef = useRef(null);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [dataLimit, setDataLimit] = useState(10);
+
+  const {
+    data: dataSelesaiPemesanan,
+    isLoading: isLoadingSelesaiPemesanan,
+    error,
+  } = useRemoteSelesaiPemesanan({
+    page: pageIndex,
+    limit: dataLimit,
+  });
+
+  useEffect(() => {
+    setPageIndex(1);
+  }, [dataLimit]);
+
+  useEffect(() => {
+    if (error == null && pageIndex > 1) setPageIndex(pageIndex - 1);
+  }, [error]);
+
+  const handlePageClick = (page) => {
+    setPageIndex(page);
+
+    if (SelesaiPemesananManagerRef && SelesaiPemesananManagerRef.current) {
+      SelesaiPemesananManagerRef.current.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <VStack align="stretch" spacing={5}>
@@ -49,7 +80,7 @@ const SelesaiPemesanan = () => {
           isSearchable={false}
           options={showEntryOptions}
           defaultValue={showEntryOptions[0]}
-          //   onChange={(option) => setDataLimit(option.value)}
+          onChange={(option) => setDataLimit(option.value)}
         />
         <Text>Entries</Text>
         <Spacer />
@@ -79,11 +110,15 @@ const SelesaiPemesanan = () => {
               <Th textAlign="center">Result</Th>
             </Tr>
           </Thead>
-          <Tbody></Tbody>
+          <Tbody>
+            {dataSelesaiPemesanan?.data?.map((pengujian, i) => (
+              <TableSelesaiPemesananManager pengujian={pengujian} key={i} />
+            ))}
+          </Tbody>
         </Table>
       </TableContainer>
-      {/* {dataAllTeknisi?.totalData === 0 && <MessageNotFoundData />} */}
-      {/* {isLoadingDataAllTeknisi && <LoadingData />} */}
+      {dataSelesaiPemesanan?.totalData === 0 && <MessageNotFoundData />}
+      {isLoadingSelesaiPemesanan && <LoadingData />}
       <Flex
         flexDir={{ base: 'column', md: 'row', xl: 'row' }}
         justifyContent="end"
@@ -91,7 +126,11 @@ const SelesaiPemesanan = () => {
         alignItems="center"
         py="2"
       >
-        <DashboardPagination current={1} total={0} onPageClick={() => {}} />
+        <DashboardPagination
+          current={pageIndex}
+          total={dataSelesaiPemesanan ? dataSelesaiPemesanan?.totalPages : 0}
+          onPageClick={handlePageClick}
+        />
       </Flex>
     </VStack>
   );
