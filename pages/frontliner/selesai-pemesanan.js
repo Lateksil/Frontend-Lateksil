@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Head from 'next/head';
 import {
   Flex,
@@ -31,15 +31,39 @@ import MessageNotFoundData from '../../utils/MessageNotFoundData';
 const SelesaiPemesananFrontliner = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
 
-  const { data: dataSelesaiPemesanan, isLoading: isLoadingSelesaiPemesanan } =
-    useRemoteSelesaiPemesanan({
-      page: 1,
-      limit: 10,
-    });
+  const SelesaiPemesananFrontlinerRef = useRef(null);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [dataLimit, setDataLimit] = useState(10);
 
-  //   const SelesaiPemesananRef = useRef(null);
-  //   const [pageIndex, setPageIndex] = useState(1);
-  //   const [dataLimit, setDataLimit] = useState(10);
+  const {
+    data: dataSelesaiPemesanan,
+    isLoading: isLoadingSelesaiPemesanan,
+    error,
+  } = useRemoteSelesaiPemesanan({
+    page: pageIndex,
+    limit: dataLimit,
+  });
+
+  useEffect(() => {
+    setPageIndex(1);
+  }, [dataLimit]);
+
+  useEffect(() => {
+    if (error == null && pageIndex > 1) setPageIndex(pageIndex - 1);
+  }, [error]);
+
+  const handlePageClick = (page) => {
+    setPageIndex(page);
+
+    if (
+      SelesaiPemesananFrontlinerRef &&
+      SelesaiPemesananFrontlinerRef.current
+    ) {
+      SelesaiPemesananFrontlinerRef.current.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <VStack align="stretch" spacing={5}>
@@ -58,7 +82,7 @@ const SelesaiPemesananFrontliner = () => {
           isSearchable={false}
           options={showEntryOptions}
           defaultValue={showEntryOptions[0]}
-          //   onChange={(option) => setDataLimit(option.value)}
+          onChange={(option) => setDataLimit(option.value)}
         />
         <Text>Entries</Text>
         <Spacer />
@@ -104,7 +128,11 @@ const SelesaiPemesananFrontliner = () => {
         alignItems="center"
         py="2"
       >
-        <DashboardPagination current={1} total={0} onPageClick={() => {}} />
+        <DashboardPagination
+          current={pageIndex}
+          total={dataSelesaiPemesanan ? dataSelesaiPemesanan?.totalPages : 0}
+          onPageClick={handlePageClick}
+        />
       </Flex>
     </VStack>
   );

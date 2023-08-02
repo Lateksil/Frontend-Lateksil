@@ -55,8 +55,6 @@ const HomeDashboard = () => {
     tempat_pengujian: filterTempatPengujian,
   });
 
-  console.log('DATA Pengujian', dataPengujianClient);
-
   return (
     <VStack align="stretch">
       <Head>
