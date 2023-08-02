@@ -31,6 +31,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import MainPenugujianCardGrid from '../components/main/mainPengujianCardGrid';
 import MainCardPengujian from '../components/main/mainCardPengujian';
 import ButtonTab from '../components/core/ButtonTab';
+import MessageSearchNotFound from '../utils/MessageSearchNotFound';
 
 const HomeDashboard = () => {
   const [searchText, setSearchText] = useState('');
@@ -53,6 +54,8 @@ const HomeDashboard = () => {
     category: dataCat,
     tempat_pengujian: filterTempatPengujian,
   });
+
+  console.log('DATA Pengujian', dataPengujianClient);
 
   return (
     <VStack align="stretch">
@@ -156,6 +159,7 @@ const HomeDashboard = () => {
               </>
             ))
           )}
+
           {isLoadingPengujianClient && (
             <>
               <Card bg="white" shadow="md">
@@ -202,6 +206,7 @@ const HomeDashboard = () => {
           )}
         </MainPenugujianCardGrid>
       </VStack>
+      {dataPengujianClient?.pages[0].data === null && <MessageSearchNotFound />}
       <Flex justify="center" py="2">
         {hasNextPage && (
           <Button
