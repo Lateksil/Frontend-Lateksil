@@ -38,6 +38,7 @@ import { useRouter } from 'next/router';
 import AuthenticationLayout from '../components/main/AuthenticationLayout';
 import useToastNotification from '../components/hooks/useToastNotification';
 import useVerifyCodeStore from '../store/useVerifyCodeStore';
+import Head from 'next/head';
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -121,12 +122,18 @@ const RegisterPage = () => {
   if (!isRegisterSuccess)
     return (
       <Box as="form" w="full" maxW="md" onSubmit={handleSubmit(onSubmit)}>
+        <Head>
+          <title>Registrasi | Lateksil</title>
+        </Head>
         <VStack mb="3" w="full">
           <Heading fontSize="2xl" w="full">
             Daftar Sekarang
           </Heading>
           <Text mb="8" w="full">
-            Sudah memiliki akun? <NextLink href="/login">Masuk</NextLink>
+            Sudah memiliki akun?
+            <Text as="span" color="blue.600" fontWeight="bold">
+              <NextLink href="/login">Masuk</NextLink>
+            </Text>
           </Text>
           {errorMessage && (
             <Alert mt="4" status="error" variant="left-accent">
@@ -229,6 +236,9 @@ const RegisterPage = () => {
   if (isRegisterSuccess && !isVerifiedSuccess)
     return (
       <Box w="full" maxW="md" shadow="xl" p="5" rounded="md">
+        <Head>
+          <title>Check Email | Lateksil</title>
+        </Head>
         <Center>
           <Circle size="50px" bg="blue.600" color="white">
             <MdEmail size={30} />
@@ -287,6 +297,9 @@ const RegisterPage = () => {
   if (isVerifiedSuccess)
     return (
       <Box w="full" maxW="md" shadow="xl" p="5" rounded="md">
+        <Head>
+          <title>Berhasil Mendaftar | Lateksil</title>
+        </Head>
         <IconButton
           aria-label="back to register"
           variant="ghost"

@@ -29,6 +29,7 @@ import { loginSchema } from '../utils/schema/AuthenticationSchema';
 import useAxios from '../components/hooks/useAxios';
 import useAuthUserStore from '../store/useAuthUserStore';
 import AuthenticationLayout from '../components/main/AuthenticationLayout';
+import Head from 'next/head';
 
 const LoginPage = () => {
   const router = useRouter();
@@ -70,6 +71,9 @@ const LoginPage = () => {
       as="form"
       onSubmit={handleSubmit(onSubmit)}
     >
+      <Head>
+        <title>Login | Lateksil</title>
+      </Head>
       <Heading fontSize="2xl">Masuk</Heading>
       {errors && (
         <Alert status="error" variant="left-accent">
@@ -126,7 +130,10 @@ const LoginPage = () => {
         Masuk
       </Button>
       <Text textAlign="center" mt="8">
-        Belum memiliki akun? <NextLink href="/register">Daftar</NextLink>
+        Belum memiliki akun?{' '}
+        <Text as="span" color="blue.600" fontWeight="bold">
+          <NextLink href="/register">Daftar</NextLink>
+        </Text>
       </Text>
     </Stack>
   );
