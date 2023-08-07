@@ -27,13 +27,16 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { GrFormClose } from 'react-icons/gr';
 import Select from '../../../core/select';
+import useMutationDeleteTeknisiPengujian from '../../../hooks/mutation/delete/useMutationDeleteTeknisiPengujian';
 import useMutationProsesToTahapPengujian from '../../../hooks/mutation/put/useMutationProsesToTahapPengujian';
 import useMutationAddTeknisiPengujian from '../../../hooks/mutation/useMutationAddTeknisiPengujian';
 import useRemotePeralatanByIdOrder from '../../../hooks/remote/useRemotePeralatanByIdOrder';
 import useRemoteTeknisibyOrderId from '../../../hooks/remote/useRemoteTeknisibyOrderId';
 import useRemoteTeknisiOptions from '../../../hooks/remote/useRemoteTeknisiOptions';
+import useToastNotification from '../../../hooks/useToastNotification';
 
 const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
+  const showToast = useToastNotification();
   const [dataNamaAlat, setDataNamaAlat] = useState([]);
   const [catatanPeralatan, setCatatanPeralatan] = useState(
     'Tidak ada catatan khusus peralatan'
@@ -79,6 +82,19 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
     setDataNamaAlat(mergedArray);
   }, [isOpen]);
 
+  const {
+    mutateAsync: mutateDeleteTeknisiPengujian,
+    isLoading: isLoadingDeleteTeknisiPengujian,
+  } = useMutationDeleteTeknisiPengujian();
+
+  const handleDeleteTeknisiPengujian = async (id_teknisi_pengujian) => {
+    try {
+      mutateDeleteTeknisiPengujian(id_teknisi_pengujian);
+    } catch (error) {
+      showToast('Server Sedang Bermasalah', 'error');
+    }
+  };
+
   const onSubmit = async (data) => {
     const formData = {
       order_id: id,
@@ -104,7 +120,7 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
     <Modal
       isOpen={isOpen}
       onClose={onModalClose}
-      size="lg"
+      size="2xl"
       scrollBehavior="inside"
       isCentered
     >
@@ -146,6 +162,9 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
                                   as={GrFormClose}
                                   boxSize={5}
                                   cursor="pointer"
+                                  onClick={() =>
+                                    handleDeleteTeknisiPengujian(users.id)
+                                  }
                                 />
                               </Flex>
                             </Td>
@@ -173,7 +192,11 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
               <Button
                 type="submit"
                 colorScheme="green"
-                isLoading={isLoadingTeknisiPengujian || isLoadingTeknisiOption}
+                isLoading={
+                  isLoadingTeknisiPengujian ||
+                  isLoadingTeknisiOption ||
+                  isLoadingDeleteTeknisiPengujian
+                }
               >
                 Tambah Teknisi
               </Button>
@@ -215,7 +238,7 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
                 </TableContainer>
               </Box>
               <FormControl id="name_category">
-                <FormLabel>Catatan Ke Peralatan(opsional)</FormLabel>
+                <FormLabel>Catatan Ke Peralatan (opsional)</FormLabel>
                 <Input
                   type="text"
                   placeholder="Tambah Alat yang ingin anda tambahkan"
