@@ -35,9 +35,11 @@ import useRemoteOrderById from '../../../hooks/remote/useRemoteOrderById';
 import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 import TableToName from '../../../core/tableToName';
 import ParseDate from '../../../core/parseDate';
-import { BooleanType } from '../../../../utils/enum/BooleanType';
+import StatusOrderPengujian from '../../../core/status/StatusOrderPengujian';
+import StatusPembayaran from '../../../core/status/StatusPayment';
+import StatusPersetujuan from '../../../core/status/StatusPersetujuan';
 
-const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
+const DetailTeknisiPengerjaan = ({ id, isOpen, onClose }) => {
   const {
     data: dataDetailOrder,
     isSuccess,
@@ -46,17 +48,19 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
 
   const detailOrder = dataDetailOrder?.data;
 
-  const statusOrder = (status) => {
-    if (status === TransactionTypes.WAITING) {
-      return 'orange';
+  const { color: color_pengujian, text: text_pengujian } = StatusOrderPengujian(
+    {
+      status: detailOrder?.status.status_transaction,
     }
-    if (status === TransactionTypes.CANCELED) {
-      return 'red';
-    }
-    if (status === TransactionTypes.ACCEPT) {
-      return 'green';
-    }
-  };
+  );
+
+  const { color: color_persetujuan, text: text_persetujuan } =
+    StatusPersetujuan({
+      status: detailOrder?.status.status_persetujuan,
+    });
+  const { color: color_payment, text: text_payment } = StatusPembayaran({
+    status: detailOrder?.status.status_payment,
+  });
 
   return (
     <Modal
@@ -70,7 +74,7 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
       <ModalContent mx="4" overflow="hidden">
         <ModalCloseButton />
         <ModalHeader>
-          <Text>Detail Pemesanan</Text>
+          <Text>Detail Task Pengerjaan</Text>
         </ModalHeader>
         <ModalBody>
           <Stack pb="10" spacing={10}>
@@ -121,34 +125,29 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
                   <Spacer />
                   <HStack>
                     <Badge
-                      colorScheme={
-                        detailOrder?.status.status_payment === BooleanType.TRUE
-                          ? 'green'
-                          : 'gray'
-                      }
+                      colorScheme={color_payment}
                       rounded="md"
                       px={3}
                       py={1}
                     >
-                      {detailOrder?.status.status_payment === BooleanType.TRUE
-                        ? 'Sudah Lunas'
-                        : 'Belum Lunas'}
+                      {text_payment}
                     </Badge>
                     <Badge
-                      colorScheme={statusOrder(
-                        detailOrder.status.status_persetujuan
-                      )}
+                      colorScheme={color_persetujuan}
+                      rounded="md"
+                      px={3}
+                      py={1}
+                    >
+                      {text_persetujuan}
+                    </Badge>
+                    <Badge
+                      colorScheme={color_pengujian}
                       rounded="md"
                       px={3}
                       cursor="pointer"
                       py={1}
                     >
-                      {detailOrder.status.status_persetujuan ===
-                        TransactionTypes.WAITING && 'Waiting'}
-                      {detailOrder.status.status_persetujuan ===
-                        TransactionTypes.CANCELED && 'Canceled'}
-                      {detailOrder.status.status_persetujuan ===
-                        TransactionTypes.ACCEPT && 'Accept'}
+                      {text_pengujian}
                     </Badge>
                   </HStack>
                 </Flex>
@@ -225,7 +224,7 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
                     </Thead>
                     <Tbody>
                       {isSuccess &&
-                        detailOrder?.itemOrders?.map((item, i) => (
+                        detailOrder.itemOrders.map((item, i) => (
                           <Tr key={i}>
                             <Td>
                               <Flex direction="column">
@@ -248,7 +247,7 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
                             <Td isNumeric fontWeight="semibold">
                               Rp
                               {formatCurrency(
-                                parseInt(item.OrderPengujian.quantity) *
+                                parseInt(item.OrderPengujian?.quantity) *
                                   parseInt(item.Pengujian?.price)
                               )}
                             </Td>
@@ -279,4 +278,4 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
   );
 };
 
-export default DetailPengajuanPesanan;
+export default DetailTeknisiPengerjaan;

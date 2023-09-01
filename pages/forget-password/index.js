@@ -3,6 +3,7 @@ import {
   Center,
   Circle,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Input,
@@ -13,10 +14,26 @@ import {
 import React from 'react';
 import { MdMailLock } from 'react-icons/md';
 import AuthenticationLayout from '../../components/main/AuthenticationLayout';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { resetPasswordSchema } from '../../utils/schema/AuthenticationSchema';
 
 const MainForgetPassword = () => {
+  const { register, formState, handleSubmit } = useForm({
+    resolver: yupResolver(resetPasswordSchema),
+  });
+
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
   return (
-    <Stack spacing={4} w="full" maxW="md" as="form">
+    <Stack
+      spacing={4}
+      w="full"
+      maxW="md"
+      as="form"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Center>
         <VStack>
           <Circle size="50px" bg="blue.700" color="white">
@@ -35,12 +52,19 @@ const MainForgetPassword = () => {
           </Text>
         </VStack>
       </Center>
-      <FormControl id="email">
+      <FormControl
+        id="email"
+        isInvalid={!!formState.errors?.email}
+        errortext={formState.errors?.email?.message}
+      >
         <FormLabel>Email</FormLabel>
-        <Input type="email" placeholder="Email" />
+        <Input type="email" placeholder="Email" {...register('email')} />
+        <FormErrorMessage fontSize="xs">
+          {formState.errors?.email?.message}
+        </FormErrorMessage>
       </FormControl>
       <Button type="submit" variant="lateksil-solid">
-        Reset Email
+        Kirim
       </Button>
     </Stack>
   );
