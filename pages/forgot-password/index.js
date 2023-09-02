@@ -22,7 +22,7 @@ import useToastNotification from '../../components/hooks/useToastNotification';
 
 const MainForgotPassword = () => {
   const showToast = useToastNotification();
-  const { register, formState, handleSubmit } = useForm({
+  const { register, formState, handleSubmit, setError } = useForm({
     resolver: yupResolver(resetPasswordSchema),
   });
 
@@ -33,9 +33,13 @@ const MainForgotPassword = () => {
 
   const onSubmit = async (data) => {
     try {
-      mutateSendEmailResetPassword(data).then(() =>
-        showToast('Berhasil Terkirim', 'success')
-      );
+      mutateSendEmailResetPassword(data)
+        .then(() => showToast('Berhasil Terkirim', 'success'))
+        .catch((error) => {
+          if (error.response.status === 404) {
+            setError('email', { message: error.response.data.message });
+          }
+        });
     } catch (error) {
       showToast('Server Sedang Bermasalah', 'error');
     }
