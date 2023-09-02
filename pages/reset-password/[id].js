@@ -23,8 +23,15 @@ import Head from 'next/head';
 import { getServerSidePropsWithNoAuth } from '../../utils/getServerSidePropsWithNoAuth';
 import { changePasswordSchema } from '../../utils/schema/AuthenticationSchema';
 import { MdMailLock } from 'react-icons/md';
+import { useRouter } from 'next/router';
+import useToastNotification from '../../components/hooks/useToastNotification';
+import useMutationResetPassword from '../../components/hooks/mutation/put/useMutationResetPassword';
 
 const ResetPasswordPage = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const showToast = useToastNotification();
   const { isOpen: isPasswordOpen, onToggle: onPasswordToggle } =
     useDisclosure();
 
@@ -32,8 +39,29 @@ const ResetPasswordPage = () => {
     resolver: yupResolver(changePasswordSchema),
   });
 
+  const {
+    mutateAsync: mutateResetPassword,
+    isLoading: isLoadingResetPassword,
+  } = useMutationResetPassword({
+    id: id,
+  });
+
   const onSubmit = async (data) => {
-    console.log(data);
+    const validPassword = data.password === data.repassword;
+
+    const formData = {
+      password: data.password,
+    };
+    if (validPassword) {
+      try {
+        mutateResetPassword(formData).then(() => {
+          showToast('Berhasil Ganti Kata Sandi Baru', 'success');
+          router.push('/login');
+        });
+      } catch (error) {
+        showToast('Server Sedang Bermasalah', 'error');
+      }
+    }
   };
 
   return (
@@ -130,7 +158,11 @@ const ResetPasswordPage = () => {
             {formState.errors?.repassword?.message}
           </FormErrorMessage>
         </FormControl>
-        <Button type="submit" variant="lateksil-solid">
+        <Button
+          type="submit"
+          variant="lateksil-solid"
+          isLoading={isLoadingResetPassword}
+        >
           Simpan
         </Button>
       </Stack>
