@@ -122,7 +122,7 @@ const LoginPage = () => {
       </FormControl>
       <Flex>
         <Spacer />
-        <Link href="/forget-password" color="blue.500">
+        <Link href="/forgot-password" color="blue.500">
           Lupa Password?
         </Link>
       </Flex>

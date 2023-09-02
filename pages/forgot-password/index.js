@@ -17,14 +17,28 @@ import AuthenticationLayout from '../../components/main/AuthenticationLayout';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { resetPasswordSchema } from '../../utils/schema/AuthenticationSchema';
+import useMutationSendEmailReset from '../../components/hooks/mutation/useMutationSendEmailReset';
+import useToastNotification from '../../components/hooks/useToastNotification';
 
-const MainForgetPassword = () => {
+const MainForgotPassword = () => {
+  const showToast = useToastNotification();
   const { register, formState, handleSubmit } = useForm({
     resolver: yupResolver(resetPasswordSchema),
   });
 
+  const {
+    mutateAsync: mutateSendEmailResetPassword,
+    isLoading: isLoadingSendEmail,
+  } = useMutationSendEmailReset();
+
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      mutateSendEmailResetPassword(data).then(() =>
+        showToast('Berhasil Terkirim', 'success')
+      );
+    } catch (error) {
+      showToast('Server Sedang Bermasalah', 'error');
+    }
   };
   return (
     <Stack
@@ -63,15 +77,19 @@ const MainForgetPassword = () => {
           {formState.errors?.email?.message}
         </FormErrorMessage>
       </FormControl>
-      <Button type="submit" variant="lateksil-solid">
+      <Button
+        type="submit"
+        variant="lateksil-solid"
+        isLoading={isLoadingSendEmail}
+      >
         Kirim
       </Button>
     </Stack>
   );
 };
 
-MainForgetPassword.getLayout = (page) => (
+MainForgotPassword.getLayout = (page) => (
   <AuthenticationLayout>{page}</AuthenticationLayout>
 );
 
-export default MainForgetPassword;
+export default MainForgotPassword;
