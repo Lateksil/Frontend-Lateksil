@@ -1,5 +1,4 @@
-import { IoDocumentText } from 'react-icons/io5';
-// import { MdPostAdd } from 'react-icons/md';
+import { IoDocumentText, IoPeopleSharp } from 'react-icons/io5';
 
 function generateSidebaritemManager() {
   return [
@@ -26,11 +25,11 @@ function generateSidebaritemManager() {
         },
       ],
     },
-    // {
-    //   name: 'Data Teknisi',
-    //   path: '/manager/data-teknisi',
-    //   icon: MdPostAdd,
-    // },
+    {
+      name: 'Data Teknisi',
+      path: '/manager/data-teknisi',
+      icon: IoPeopleSharp,
+    },
   ];
 }
 

@@ -1,6 +1,7 @@
-import { Button, Td, Tr, useDisclosure } from '@chakra-ui/react';
 import React from 'react';
+import { Button, IconButton, Td, Tr, useDisclosure } from '@chakra-ui/react';
 import { BooleanType } from '../../../../utils/enum/BooleanType';
+import { FiTrash } from 'react-icons/fi';
 import ActiveMethodModal from '../../../modals/keuanganModal/activeMethodModal';
 
 const TableMetodePembayaran = ({ account }) => {
@@ -27,6 +28,13 @@ const TableMetodePembayaran = ({ account }) => {
               Non-Active
             </Button>
           )}
+        </Td>
+        <Td>
+          <IconButton
+            aria-label="Delete Method Transaction"
+            colorScheme="red"
+            icon={<FiTrash />}
+          />
         </Td>
       </Tr>
       <ActiveMethodModal
