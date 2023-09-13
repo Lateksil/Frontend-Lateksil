@@ -30,7 +30,7 @@ import {
   BsPersonFill,
 } from 'react-icons/bs';
 import { MdEmail } from 'react-icons/md';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from '../utils/schema/AuthenticationSchema';
 import useAxios from '../components/hooks/useAxios';
@@ -44,10 +44,10 @@ const RegisterPage = () => {
   const router = useRouter();
   const showToast = useToastNotification();
   const [errorMessage, setErrorMessage] = useState();
-  const [pinCode, setPinCode] = useState(['', '', '', '']);
   const [isRegisterSuccess, setIsRegisterSuccess] = useBoolean();
   const [isVerifiedSuccess, setIsVerifiedSuccess] = useBoolean();
   const [isLoading, setIsloading] = useBoolean();
+  const [isLoadingVerify, setIsloadingVerify] = useBoolean();
   const { isOpen: isPasswordOpen, onToggle: onPasswordToggle } =
     useDisclosure();
 
@@ -58,6 +58,7 @@ const RegisterPage = () => {
 
   const {
     register,
+    control,
     formState: { errors },
     handleSubmit,
   } = useForm({
@@ -87,35 +88,22 @@ const RegisterPage = () => {
       });
   };
 
-  const handleInputCodeChange = (event, index) => {
-    const value = event.target.value;
-    if (value.length > 1) {
-      return;
-    }
-    const newPinCode = [...pinCode];
-    newPinCode[index] = value;
-    setPinCode(newPinCode);
-    if (value === '' && index > 0) {
-      const prevInput = document.getElementsByName(`pinCode-${index - 1}`)[0];
-      prevInput.focus();
-    } else if (index < 3) {
-      const nextInput = document.getElementsByName(`pinCode-${index + 1}`)[0];
-      nextInput.focus();
-    }
-  };
-
-  const onSubmitVerify = async () => {
+  const onSubmitVerify = async (data) => {
+    setIsloadingVerify.on();
+    const pinCode = data.code1 + data.code2 + data.code3 + data.code4;
     await makeVerify({
       data: {
         email: email,
-        code: pinCode.join(''),
+        code: pinCode,
       },
     })
       .then(() => {
         setIsVerifiedSuccess.on();
+        setIsloadingVerify.off();
       })
       .catch((error) => {
         showToast(error.response?.data.message, 'error');
+        setIsloadingVerify.off();
       });
   };
 
@@ -235,7 +223,15 @@ const RegisterPage = () => {
 
   if (isRegisterSuccess && !isVerifiedSuccess)
     return (
-      <Box w="full" maxW="md" shadow="xl" p="5" rounded="md">
+      <Box
+        w="full"
+        as="form"
+        onSubmit={handleSubmit(onSubmitVerify)}
+        maxW="md"
+        shadow="xl"
+        p="5"
+        rounded="md"
+      >
         <Head>
           <title>Check Email | Lateksil</title>
         </Head>
@@ -264,30 +260,37 @@ const RegisterPage = () => {
             >
               Masukan Code yang telah terkirim di Email
             </Text>
-            <HStack>
-              <PinInput otp type="number">
-                <PinInputField
-                  onChange={(e) => handleInputCodeChange(e, 0)}
-                  name="pinCode-0"
+            <HStack spacing={4}>
+              {[1, 2, 3, 4].map((index) => (
+                <Controller
+                  key={index}
+                  name={`code${index}`}
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <PinInput>
+                      <PinInputField
+                        {...field}
+                        type="text"
+                        maxLength={1}
+                        textAlign="center"
+                        border="2px solid #CBD5E0"
+                        borderRadius="md"
+                      />
+                    </PinInput>
+                  )}
                 />
-                <PinInputField
-                  onChange={(e) => handleInputCodeChange(e, 1)}
-                  name="pinCode-1"
-                />
-                <PinInputField
-                  onChange={(e) => handleInputCodeChange(e, 2)}
-                  name="pinCode-2"
-                />
-                <PinInputField
-                  onChange={(e) => handleInputCodeChange(e, 3)}
-                  name="pinCode-3"
-                />
-              </PinInput>
+              ))}
             </HStack>
           </VStack>
         </Center>
         <Center mt="5">
-          <Button w="100%" colorScheme="blue" onClick={onSubmitVerify}>
+          <Button
+            w="100%"
+            isLoading={isLoadingVerify}
+            colorScheme="blue"
+            type="submit"
+          >
             Verify
           </Button>
         </Center>
