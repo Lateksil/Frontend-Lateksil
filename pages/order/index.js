@@ -18,6 +18,7 @@ import useRemoteOrder from '../../components/hooks/remote/useRemoteOrder';
 import MessageDataNotFoundClient from '../../utils/MessageDataNotFoundClient';
 import MessageClientNotFoundData from '../../utils/MessageClientNotFoundData';
 import useAuthUserStore from '../../store/useAuthUserStore';
+import useRemoteNotifHistoryTransaction from '../../components/hooks/remote/useRemoteNotifHistoryTransaction';
 const HistroyTransactions = () => {
   const router = useRouter();
   const id = useAuthUserStore((state) => state.id);
@@ -47,6 +48,12 @@ const HistroyTransactions = () => {
     status_transaction: type,
   });
 
+  const { data: dataNotifRiwayatTransaksi, isSuccess } =
+    useRemoteNotifHistoryTransaction({
+      id: id,
+    });
+
+  console.log(dataNotifRiwayatTransaksi);
   return (
     <VStack align="stretch" spacing={5}>
       <Head>
@@ -63,6 +70,7 @@ const HistroyTransactions = () => {
             label={TransactionTypes.WAITING}
             value={type}
             onClick={() => handleChangeType(TransactionTypes.WAITING)}
+            count={isSuccess ? dataNotifRiwayatTransaksi?.tahap_permintaan : 0}
           >
             Tahap Permintaan
           </ButtonTab>
@@ -70,6 +78,7 @@ const HistroyTransactions = () => {
             label={TransactionTypes.ACCEPT}
             value={type}
             onClick={() => handleChangeType(TransactionTypes.ACCEPT)}
+            count={isSuccess ? dataNotifRiwayatTransaksi?.tahap_pembayaran : 0}
           >
             Tahap Pembayaran
           </ButtonTab>
@@ -77,6 +86,7 @@ const HistroyTransactions = () => {
             label={TransactionTypes.IN_PROGRESS}
             value={type}
             onClick={() => handleChangeType(TransactionTypes.IN_PROGRESS)}
+            count={isSuccess ? dataNotifRiwayatTransaksi?.tahap_pengerjaan : 0}
           >
             Tahap Pengerjaan
           </ButtonTab>
@@ -84,6 +94,7 @@ const HistroyTransactions = () => {
             label={TransactionTypes.DONE}
             value={type}
             onClick={() => handleChangeType(TransactionTypes.DONE)}
+            count={isSuccess ? dataNotifRiwayatTransaksi?.tahap_selesai : 0}
           >
             Selesai
           </ButtonTab>
@@ -91,6 +102,7 @@ const HistroyTransactions = () => {
             label={TransactionTypes.CANCELED}
             value={type}
             onClick={() => handleChangeType(TransactionTypes.CANCELED)}
+            count={isSuccess ? dataNotifRiwayatTransaksi?.dibatalkan : 0}
           >
             Dibatalkan
           </ButtonTab>

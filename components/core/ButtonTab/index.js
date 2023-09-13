@@ -1,12 +1,14 @@
-import { Box, Text } from '@chakra-ui/react';
 import React from 'react';
+import { Box, Text } from '@chakra-ui/react';
 
-const ButtonTab = ({ label, value, children, ...props }) => {
+const ButtonTab = ({ label, count = 0, value, children, ...props }) => {
   return (
     <Box
       w="max-content"
       cursor="pointer"
       rounded="md"
+      display="flex"
+      alignItems="center"
       border={label === value ? '1px solid #102D62' : '1px solid gray'}
       p="3"
       bg={label === value ? 'blue.700' : 'gray.100'}
@@ -19,6 +21,19 @@ const ButtonTab = ({ label, value, children, ...props }) => {
       >
         {children}
       </Text>
+      {count !== 0 && (
+        <Box
+          color={label === value ? 'white' : 'gray.500'}
+          top={-2}
+          px="3"
+          ml="2"
+          right={-1}
+          zIndex={11}
+          rounded="sm"
+        >
+          {count}
+        </Box>
+      )}
     </Box>
   );
 };
