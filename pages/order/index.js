@@ -53,7 +53,6 @@ const HistroyTransactions = () => {
       id: id,
     });
 
-  console.log(dataNotifRiwayatTransaksi);
   return (
     <VStack align="stretch" spacing={5}>
       <Head>

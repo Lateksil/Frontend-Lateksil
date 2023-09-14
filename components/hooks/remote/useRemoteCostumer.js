@@ -2,18 +2,16 @@ import { useQuery } from '@tanstack/react-query';
 import { postFetcher } from '../../../libs/axios';
 
 const useRemoteCostumer = ({ page, limit, isActive, search }) => {
-  const uri = `/users`;
+  const uri = `/costumers`;
 
   const { data, ...others } = useQuery(
-    ['users', page, page, isActive, search],
+    ['costumers', page, limit, isActive, search],
     () =>
       postFetcher(uri, {
         page,
         limit,
         search,
-        filter: {
-          isActive_payment: isActive,
-        },
+        isActive_payment: isActive,
       })
   );
 

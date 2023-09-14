@@ -1,5 +1,5 @@
 import { IoDocumentText } from 'react-icons/io5';
-import { MdPostAdd } from 'react-icons/md';
+import { MdPostAdd, MdOutlinePeopleOutline } from 'react-icons/md';
 
 function generateSidebaritemFrontliner() {
   return [
@@ -12,10 +12,6 @@ function generateSidebaritemFrontliner() {
           name: 'Pengajuan Pemesanan',
           path: '/frontliner',
         },
-        // {
-        //   name: 'Proses Pengujian',
-        //   path: '/frontliner/proses-pengujian',
-        // },
         {
           name: 'Tahap Pengerjaan',
           path: '/frontliner/tahap-pengerjaan',
@@ -31,11 +27,11 @@ function generateSidebaritemFrontliner() {
       path: '/frontliner/input-pengujian',
       icon: MdPostAdd,
     },
-    // {
-    //   name: 'Data Costumer',
-    //   path: '/frontliner/data-costumer',
-    //   icon: MdOutlinePeopleOutline,
-    // },
+    {
+      name: 'Data Costumer',
+      path: '/frontliner/data-costumer',
+      icon: MdOutlinePeopleOutline,
+    },
   ];
 }
 
