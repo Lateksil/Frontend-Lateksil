@@ -1,5 +1,5 @@
-import { Badge, Td, Tr } from '@chakra-ui/react';
 import React from 'react';
+import { Badge, Td, Tr } from '@chakra-ui/react';
 
 const TableDataCostumer = ({ user }) => {
   return (

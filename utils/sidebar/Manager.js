@@ -1,3 +1,4 @@
+import { FaUserEdit } from 'react-icons/fa';
 import { IoDocumentText, IoPeopleSharp } from 'react-icons/io5';
 
 function generateSidebaritemManager() {
@@ -29,6 +30,11 @@ function generateSidebaritemManager() {
       name: 'Data Teknisi',
       path: '/manager/data-teknisi',
       icon: IoPeopleSharp,
+    },
+    {
+      name: 'Role Permissions',
+      path: '/manager/role-permissions',
+      icon: FaUserEdit,
     },
   ];
 }
