@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { FaRegEdit } from 'react-icons/fa';
 import RolePermissionsModal from '../../../modals/managerModal/rolePermissionsModal';
+import { baseUrl } from '../../../../libs/axios';
 
 const TableRolePermissions = ({ user }) => {
   const {
@@ -22,7 +23,13 @@ const TableRolePermissions = ({ user }) => {
       <Tr>
         <Td>
           <Flex gap={3}>
-            <Avatar />
+            <Avatar
+              loading="lazy"
+              variant="outline"
+              src={`${baseUrl}profile/${user?.image_profile}`}
+              name={user?.full_name}
+              size={{ base: 'sm', md: 'md' }}
+            />
             <Flex direction="column" justify="center">
               <Text fontWeight="bold">{user.company_name}</Text>
               <Text>{user.full_name}</Text>

@@ -36,6 +36,7 @@ import { TransactionTypes } from '../../../../utils/enum/TransactionTypes';
 import TableToName from '../../../core/tableToName';
 import ParseDate from '../../../core/parseDate';
 import { BooleanType } from '../../../../utils/enum/BooleanType';
+import { baseUrl } from '../../../../libs/axios';
 
 const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
   const {
@@ -96,7 +97,11 @@ const DetailPengajuanPesanan = ({ id, isOpen, onClose }) => {
                 <Box py="2">
                   <Flex>
                     <Flex flex={0.5} justify="center" align="center">
-                      <Avatar src="" name="Deva Aji Saputra" size="xl" />
+                      <Avatar
+                        src={`${baseUrl}profile/${detailOrder.User.image_profile}`}
+                        name={detailOrder.User.full_name}
+                        size="xl"
+                      />
                     </Flex>
                     <Box h="full" flex={1.5}>
                       <VStack w="full" align="start">

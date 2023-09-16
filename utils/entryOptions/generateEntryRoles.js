@@ -1,6 +1,6 @@
 export function generateOptionsRoles() {
   return [
-    { label: 'semua', value: '' },
+    { label: 'Semua', value: '' },
     { label: 'Costumer', value: 'user' },
     { label: 'Frontliner', value: 'frontliner' },
     { label: 'Keuangan', value: 'keuangan' },
