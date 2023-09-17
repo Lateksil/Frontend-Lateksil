@@ -1,6 +1,7 @@
 import React from 'react';
-import { Badge, Td, Text, Tr } from '@chakra-ui/react';
+import { Avatar, Badge, Flex, Td, Text, Tr } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { baseUrl } from '../../../../libs/axios';
 
 const TableDataTeknisi = ({ teknisi }) => {
   const router = useRouter();
@@ -11,7 +12,21 @@ const TableDataTeknisi = ({ teknisi }) => {
 
   return (
     <Tr>
-      <Td textAlign="center">{teknisi.full_name}</Td>
+      <Td>
+        <Flex gap={3}>
+          <Avatar
+            loading="lazy"
+            variant="outline"
+            src={`${baseUrl}profile/${teknisi?.image_profile}`}
+            name={teknisi?.full_name}
+            size={{ base: 'sm', md: 'md' }}
+          />
+          <Flex direction="column" justify="center">
+            <Text fontWeight="bold">{teknisi.company_name}</Text>
+            <Text>{teknisi.full_name}</Text>
+          </Flex>
+        </Flex>
+      </Td>
       <Td textAlign="center">{teknisi.email}</Td>
       <Td textAlign="center">{teknisi.no_whatsapp}</Td>
       <Td textAlign="center">{teknisi.TeknisiPengujians.length}</Td>
