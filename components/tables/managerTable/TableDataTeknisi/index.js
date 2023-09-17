@@ -1,9 +1,14 @@
+import React from 'react';
 import { Badge, Td, Text, Tr } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import React from 'react';
 
 const TableDataTeknisi = ({ teknisi }) => {
   const router = useRouter();
+
+  const onGoingStatus = teknisi.TeknisiPengujians.some(
+    (item) => item.status_penugasan === '0'
+  );
+
   return (
     <Tr>
       <Td textAlign="center">{teknisi.full_name}</Td>
@@ -22,8 +27,13 @@ const TableDataTeknisi = ({ teknisi }) => {
         </Text>
       </Td>
       <Td textAlign="center">
-        <Badge p="2" alignSelf="start" colorScheme="green" rounded="md">
-          Stand-by
+        <Badge
+          p="2"
+          alignSelf="start"
+          colorScheme={onGoingStatus ? 'yellow' : 'green'}
+          rounded="md"
+        >
+          {onGoingStatus ? 'on-going' : 'stand-by'}
         </Badge>
       </Td>
     </Tr>

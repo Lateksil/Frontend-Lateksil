@@ -29,6 +29,7 @@ import {
 import useRemoteRiwayatTeknisiStandbyId from '../../../../components/hooks/remote/useRemoteRiwayatTeknisiStandbyId';
 import ParseDate from '../../../../components/core/parseDate';
 import useRemoteRiwayatTeknisiOnGoingId from '../../../../components/hooks/remote/useRemoteRiwayatTeknisiOnGoingId';
+import { baseUrl } from '../../../../libs/axios';
 
 const RiwayatProyekTeknisi = () => {
   const router = useRouter();
@@ -53,7 +54,7 @@ const RiwayatProyekTeknisi = () => {
             <Flex align="center" gap={1} cursor="pointer">
               <Icon color="blue.700" w={5} h={5} as={AiOutlineLeft} />
               <Text color="blue.700" fontWeight="bold" fontSize="xl">
-                Riwayat Tugas Teknisi {id}
+                Riwayat Tugas Teknisi
               </Text>
             </Flex>
           </NextLink>
@@ -232,7 +233,15 @@ const RiwayatProyekTeknisi = () => {
                   <HStack align="center" mt="2">
                     <Spacer />
                     <ButtonGroup>
-                      <Button w="full" variant="lateksil-solid">
+                      <Button
+                        w="full"
+                        variant="lateksil-solid"
+                        onClick={() =>
+                          router.push(
+                            `${baseUrl}view-task/${dataRiwayat.file_task_pengujian}`
+                          )
+                        }
+                      >
                         lihat hasil
                       </Button>
                     </ButtonGroup>
