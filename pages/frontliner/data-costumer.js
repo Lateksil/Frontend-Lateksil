@@ -118,7 +118,6 @@ const DataCostumer = () => {
           <Thead>
             <Tr>
               <Th textAlign="center">Nama Pelanggan</Th>
-              <Th textAlign="center">Nama Perusahaan</Th>
               <Th textAlign="center">Email</Th>
               <Th textAlign="center">No. WhatsApp</Th>
               <Th textAlign="center">Alamat</Th>

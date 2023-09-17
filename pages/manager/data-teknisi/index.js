@@ -19,15 +19,15 @@ import {
 } from '@chakra-ui/react';
 
 import { FiSearch } from 'react-icons/fi';
-import { generateEntryOptions } from '../../components/core/select/helper/entryOptions';
-import DashboardLayout from '../../components/dashboard/DashboardLayout';
-import DashboardPagination from '../../components/dashboard/DashboardPagination';
-import useRemoteDataTeknisi from '../../components/hooks/remote/useRemoteDataTeknisi';
-import TableDataTeknisi from '../../components/tables/managerTable/TableDataTeknisi';
-import { getServerSidePropsManager } from '../../utils/getServerSidePropsManager';
-import LoadingData from '../../utils/LoadingData';
-import MessageNotFoundData from '../../utils/MessageNotFoundData';
-import Select from '../../components/core/select';
+import { generateEntryOptions } from '../../../components/core/select/helper/entryOptions';
+import DashboardLayout from '../../../components/dashboard/DashboardLayout';
+import DashboardPagination from '../../../components/dashboard/DashboardPagination';
+import useRemoteDataTeknisi from '../../../components/hooks/remote/useRemoteDataTeknisi';
+import TableDataTeknisi from '../../../components/tables/managerTable/TableDataTeknisi';
+import { getServerSidePropsManager } from '../../../utils/getServerSidePropsManager';
+import LoadingData from '../../../utils/LoadingData';
+import MessageNotFoundData from '../../../utils/MessageNotFoundData';
+import Select from '../../../components/core/select';
 
 const DataTeknisi = () => {
   const showEntryOptions = useMemo(() => generateEntryOptions(), []);
