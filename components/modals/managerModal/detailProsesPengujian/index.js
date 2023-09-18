@@ -65,6 +65,7 @@ const DetailProsesPengujian = ({ id, isOpen, onClose }) => {
       scrollBehavior="inside"
       size="4xl"
       isCentered
+      motionPreset="slideInBottom"
     >
       <ModalOverlay />
       <ModalContent mx="4" overflow="hidden">

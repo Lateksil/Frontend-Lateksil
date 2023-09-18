@@ -14,6 +14,7 @@ import {
   Text,
   Tooltip,
   VStack,
+  useDisclosure,
 } from '@chakra-ui/react';
 import DashboardLayout from '../../../../components/dashboard/DashboardLayout';
 import { AiOutlineLeft } from 'react-icons/ai';
@@ -30,10 +31,17 @@ import useRemoteRiwayatTeknisiStandbyId from '../../../../components/hooks/remot
 import ParseDate from '../../../../components/core/parseDate';
 import useRemoteRiwayatTeknisiOnGoingId from '../../../../components/hooks/remote/useRemoteRiwayatTeknisiOnGoingId';
 import { baseUrl } from '../../../../libs/axios';
+import DetailRiwayatDataPemesananModal from '../../../../components/modals/managerModal/detailRiwayatDataPemesananModal';
 
 const RiwayatProyekTeknisi = () => {
   const router = useRouter();
   const { id } = router.query;
+
+  const {
+    isOpen: isOpenDetailRiwayat,
+    onOpen: onOpenDetailRiwayat,
+    onClose: onCloseDetailRiwayat,
+  } = useDisclosure();
 
   const { data: dataRiwayatStandBy } = useRemoteRiwayatTeknisiStandbyId({
     id: id,
@@ -192,11 +200,16 @@ const RiwayatProyekTeknisi = () => {
           </Text>
         </Flex>
         {dataRiwayatStandBy?.data?.TeknisiPengujians.map((dataRiwayat, i) => (
-          <Box key={i} p="3" borderWidth={1} boxShadow="base" cursor="pointer">
+          <Box key={i} p="3" borderWidth={1} boxShadow="base">
             <Tooltip label="Detail Order" hasArrow arrowSize={15}>
               <Flex gap={3}>
                 <Box align="stretch" flexGrow={1} direction="column">
-                  <Flex align="center" gap={1} cursor="pointer">
+                  <Flex
+                    align="center"
+                    gap={1}
+                    cursor="pointer"
+                    onClick={onOpenDetailRiwayat}
+                  >
                     <Icon w={5} h={5} as={MdCorporateFare} />
                     <Text fontWeight="semibold" fontSize="lg">
                       {dataRiwayat.order.User.company_name}
@@ -252,6 +265,10 @@ const RiwayatProyekTeknisi = () => {
           </Box>
         ))}
       </Flex>
+      <DetailRiwayatDataPemesananModal
+        isOpen={isOpenDetailRiwayat}
+        onClose={onCloseDetailRiwayat}
+      />
     </React.Fragment>
   );
 };

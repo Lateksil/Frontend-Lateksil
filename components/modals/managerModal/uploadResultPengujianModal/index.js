@@ -55,6 +55,7 @@ const UploadResultPengujianModal = ({ id, isOpen, onClose }) => {
       size="3xl"
       scrollBehavior="inside"
       closeOnOverlayClick={false}
+      motionPreset="slideInBottom"
     >
       <ModalOverlay />
       <ModalContent mx="4" overflow="hidden">

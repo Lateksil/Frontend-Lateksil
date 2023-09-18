@@ -56,6 +56,7 @@ const DetailTeknisiProgress = ({ id, isOpen, onClose }) => {
       size="xl"
       scrollBehavior="inside"
       isCentered
+      motionPreset="slideInBottom"
     >
       <ModalOverlay />
       <ModalContent mx="4">

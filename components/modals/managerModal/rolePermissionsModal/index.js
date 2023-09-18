@@ -42,6 +42,7 @@ const RolePermissionsModal = ({ id, role, isOpen, onClose }) => {
       isCentered
       scrollBehavior="inside"
       closeOnOverlayClick={false}
+      motionPreset="slideInBottom"
     >
       <ModalOverlay />
       <ModalContent mx="4" overflow="hidden">

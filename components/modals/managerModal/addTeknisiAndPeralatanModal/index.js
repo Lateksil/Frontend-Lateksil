@@ -123,6 +123,7 @@ const AddTeknisiAndPeralatanModal = ({ id, isOpen, onClose }) => {
       size="2xl"
       scrollBehavior="inside"
       isCentered
+      motionPreset="slideInBottom"
     >
       <ModalOverlay />
       <ModalContent mx="4" as="form" onSubmit={handleSubmit(onSubmit)}>
