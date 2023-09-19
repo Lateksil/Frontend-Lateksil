@@ -1,113 +1,160 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
-  Heading,
   Avatar,
-  Box,
-  Image,
   Flex,
   Text,
   Stack,
   Button,
+  VStack,
+  HStack,
+  FormControl,
+  FormLabel,
+  Input,
+  Box,
   useDisclosure,
 } from '@chakra-ui/react';
 import DashboardLayout from '../components/dashboard/DashboardLayout';
 import useRemoteUserProfile from '../components/hooks/remote/useRemoteUserProfile';
 import { getServerSideWithAllAuth } from '../utils/getServerSideWithAllAuth';
-import ModalUpdateProfile from '../components/modals/userModal/ModalUpdateProfile';
 import { baseUrl } from '../libs/axios';
+import Head from 'next/head';
+import { useForm } from 'react-hook-form';
+import useMutationUpdateProfile from '../components/hooks/mutation/put/useMutationUpdateProfile';
+import { useRouter } from 'next/router';
+import ModalChangePassword from '../components/modals/userModal/ModalChangePassword';
 
 const ProfileUser = () => {
-  const { data: userProfileData } = useRemoteUserProfile();
+  const router = useRouter();
+  const { data: userProfileData, isSuccess } = useRemoteUserProfile();
 
   const {
-    isOpen: isOpenUpdateProfile,
-    onOpen: onOpenUpdateProfile,
-    onClose: onCloseUpdateProfile,
+    isOpen: isOpenChangePassword,
+    onOpen: onOpenChangePassword,
+    onClose: onCloseChangePassword,
   } = useDisclosure();
+
+  const {
+    mutateAsync: mutateUpdateProfile,
+    isLoading: isLoadingUpdateProfile,
+  } = useMutationUpdateProfile();
+
+  const { register, handleSubmit, setValue } = useForm();
+
+  const id_user = userProfileData?.data?.id;
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append('full_name', data.full_name);
+    formData.append('email', data.email);
+    formData.append('no_whatsapp', data.no_whatsapp);
+    formData.append('address', data.address);
+    formData.append('image_profile', data.image_profile[0]);
+
+    mutateUpdateProfile({ id: id_user, formData: formData }).then(() =>
+      router.reload('/profile')
+    );
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setValue('full_name', userProfileData?.data.full_name);
+      setValue('email', userProfileData?.data.email);
+      setValue('no_whatsapp', userProfileData?.data.no_whatsapp);
+      setValue('address', userProfileData?.data.address);
+    }
+  }, [isSuccess]);
+
   return (
-    <>
-      <Box
-        w={{ base: '100%', md: '50%' }}
-        boxShadow={'md'}
-        rounded={'md'}
-        overflow={'hidden'}
+    <VStack align="stretch" spacing={4}>
+      <Head>
+        <title>Management Account | Lateksil</title>
+      </Head>
+      <HStack borderBottomWidth="1px" pb="4">
+        <Text color="blue.700" fontWeight="bold" fontSize="2xl">
+          Account
+        </Text>
+      </HStack>
+      <Stack
+        spacing={4}
+        w="full"
+        maxW="xl"
+        fontSize="sm"
+        as="form"
+        onSubmit={handleSubmit(onSubmit)}
       >
-        <Image
-          h={'190px'}
-          w={'full'}
-          src={
-            'https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'
-          }
-          objectFit="cover"
-          alt="#"
-        />
-        <Flex justify={'center'} mt={-12}>
+        <Flex py="2" bg="gray.100" justify={'center'}>
           <Avatar
             size={'xl'}
             src={`${baseUrl}profile/${userProfileData?.data?.image_profile}`}
+            name={userProfileData?.data.full_name}
             css={{
               border: '2px solid white',
             }}
           />
         </Flex>
+        <FormControl id="full_name">
+          <FormLabel>Nama Lengkap</FormLabel>
+          <Input
+            type="text"
+            placeholder="Nama Lengkap"
+            {...register('full_name')}
+          />
+        </FormControl>
+        <FormControl id="email">
+          <FormLabel>Email</FormLabel>
+          <Input
+            type="email"
+            isDisabled={true}
+            placeholder="Email"
+            {...register('email')}
+          />
+        </FormControl>
+        <FormControl id="password">
+          <FormLabel>Password</FormLabel>
+          <HStack>
+            <Text>*******</Text>
+            <Box
+              onClick={onOpenChangePassword}
+              color="blue"
+              _hover={{ textDecoration: 'underline' }}
+              cursor="pointer"
+            >
+              Ubah kata sandi
+            </Box>
+          </HStack>
+        </FormControl>
+        <FormControl id="no_whatsapp">
+          <FormLabel>No WA</FormLabel>
+          <Input
+            type="text"
+            placeholder="No WhatsApp"
+            {...register('no_whatsapp')}
+          />
+        </FormControl>
+        <FormControl id="address">
+          <FormLabel>Alamat</FormLabel>
+          <Input type="text" placeholder="Address" {...register('address')} />
+        </FormControl>
 
-        <Box p={6}>
-          <Stack spacing={0} align={'center'} mb={5}>
-            <Heading fontSize={'2xl'} fontWeight={500} fontFamily={'body'}>
-              {userProfileData?.data?.full_name}
-            </Heading>
-            <Text color={'gray.500'}>
-              {userProfileData?.data?.company_name}
-            </Text>
-          </Stack>
-
-          <Stack direction={'row'} justify={'center'} spacing={6}>
-            <Stack spacing={0} align={'center'}>
-              <Text fontSize={'sm'} color={'gray.500'}>
-                email:
-              </Text>
-              <Text fontWeight={600}>{userProfileData?.data?.email}</Text>
-            </Stack>
-          </Stack>
-          <Stack direction={'row'} mt="5" justify={'center'} spacing={6}>
-            <Stack spacing={0} align={'center'}>
-              <Text fontSize={'sm'} color={'gray.500'}>
-                No WhatsApp:
-              </Text>
-              <Text fontWeight={500}>{userProfileData?.data?.no_whatsapp}</Text>
-            </Stack>
-          </Stack>
-          <Stack direction={'row'} mt="5" justify={'center'} spacing={6}>
-            <Stack spacing={0} align={'center'}>
-              <Text fontSize={'sm'} color={'gray.500'}>
-                Alamat:
-              </Text>
-              <Text fontWeight={300}>{userProfileData?.data?.address}</Text>
-            </Stack>
-          </Stack>
-
-          <Button
-            w={'full'}
-            mt={8}
-            bg="lateksil-main-2"
-            color={'white'}
-            rounded={'md'}
-            _hover={{
-              transform: 'translateY(-2px)',
-              boxShadow: 'lg',
-            }}
-            onClick={onOpenUpdateProfile}
-          >
-            Ubah
-          </Button>
-        </Box>
-      </Box>
-      <ModalUpdateProfile
-        data={userProfileData?.data}
-        isOpen={isOpenUpdateProfile}
-        onClose={onCloseUpdateProfile}
+        <FormControl id="upload_image">
+          <FormLabel>Upload Image</FormLabel>
+          <Input type="file" p={0} {...register('image_profile')} />
+        </FormControl>
+        <Button
+          type="submit"
+          w="full"
+          variant="lateksil-solid"
+          isLoading={isLoadingUpdateProfile}
+        >
+          Simpan
+        </Button>
+      </Stack>
+      <ModalChangePassword
+        userId={id_user}
+        isOpen={isOpenChangePassword}
+        onClose={onCloseChangePassword}
       />
-    </>
+    </VStack>
   );
 };
 

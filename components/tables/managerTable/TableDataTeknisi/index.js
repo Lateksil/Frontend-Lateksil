@@ -22,8 +22,8 @@ const TableDataTeknisi = ({ teknisi }) => {
             size={{ base: 'sm', md: 'md' }}
           />
           <Flex direction="column" justify="center">
-            <Text fontWeight="bold">{teknisi.company_name}</Text>
-            <Text>{teknisi.full_name}</Text>
+            <Text fontWeight="bold">{teknisi.full_name}</Text>
+            <Text fontSize="sm">{teknisi.company_name}</Text>
           </Flex>
         </Flex>
       </Td>
