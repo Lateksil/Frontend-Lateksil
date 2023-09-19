@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Head from 'next/head';
 import {
   Avatar,
   Flex,
@@ -17,14 +18,15 @@ import DashboardLayout from '../components/dashboard/DashboardLayout';
 import useRemoteUserProfile from '../components/hooks/remote/useRemoteUserProfile';
 import { getServerSideWithAllAuth } from '../utils/getServerSideWithAllAuth';
 import { baseUrl } from '../libs/axios';
-import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import useMutationUpdateProfile from '../components/hooks/mutation/put/useMutationUpdateProfile';
 import { useRouter } from 'next/router';
 import ModalChangePassword from '../components/modals/userModal/ModalChangePassword';
+import useToastNotification from '../components/hooks/useToastNotification';
 
 const ProfileUser = () => {
   const router = useRouter();
+  const showToast = useToastNotification();
   const { data: userProfileData, isSuccess } = useRemoteUserProfile();
 
   const {
@@ -50,9 +52,13 @@ const ProfileUser = () => {
     formData.append('address', data.address);
     formData.append('image_profile', data.image_profile[0]);
 
-    mutateUpdateProfile({ id: id_user, formData: formData }).then(() =>
-      router.reload('/profile')
-    );
+    try {
+      mutateUpdateProfile({ id: id_user, formData: formData }).then(() =>
+        router.reload('/profile')
+      );
+    } catch (error) {
+      showToast('Server Sedang Bermasalah', 'error');
+    }
   };
 
   useEffect(() => {
