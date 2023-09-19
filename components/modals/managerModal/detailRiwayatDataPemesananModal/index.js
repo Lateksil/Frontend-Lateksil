@@ -23,8 +23,12 @@ import { FaTasks, FaUser } from 'react-icons/fa';
 import { MdCall, MdCorporateFare, MdEmail } from 'react-icons/md';
 import { AiOutlineProject } from 'react-icons/ai';
 import useRemoteDetailRiwayatPemesanan from '../../../hooks/remote/useRemoteDetailRiwayatPemesanan';
+import formatCurrency from '../../../../utils/formatCurrently';
+import { useRouter } from 'next/router';
+import { baseUrl } from '../../../../libs/axios';
 
 const DetailRiwayatDataPemesananModal = ({ id, isOpen, onClose }) => {
+  const router = useRouter();
   const { data: dataDetailRiwayatPemesanan } = useRemoteDetailRiwayatPemesanan({
     id: id,
   });
@@ -173,7 +177,9 @@ const DetailRiwayatDataPemesananModal = ({ id, isOpen, onClose }) => {
                     fontWeight="semibold"
                     fontSize={{ base: 'sm', lg: 'md' }}
                   >
-                    Detail Pengujian (2 Pengujian)
+                    Detail Pengujian (
+                    {dataDetailRiwayatPemesanan?.data?.order.itemOrders.length}{' '}
+                    Pengujian)
                   </Text>
                 </Flex>
                 {dataDetailRiwayatPemesanan?.data?.order.itemOrders.map(
@@ -191,14 +197,18 @@ const DetailRiwayatDataPemesananModal = ({ id, isOpen, onClose }) => {
                           </Text>
                           <Flex justify="space-between" align="center">
                             <Badge
-                              colorScheme="green"
+                              colorScheme={
+                                item.Pengujian.tempat_pengujian === 'Lapangan'
+                                  ? 'blue'
+                                  : 'green'
+                              }
                               w="max"
                               px="2"
                               py="1"
                               rounded="md"
                               mt="2"
                             >
-                              Laboratorium
+                              {item.Pengujian.tempat_pengujian}
                             </Badge>
                             <Box>
                               <Text textAlign="end" fontSize="smaller">
@@ -211,7 +221,11 @@ const DetailRiwayatDataPemesananModal = ({ id, isOpen, onClose }) => {
                             <Spacer />
                             <Text fontSize="x-small">Harga : </Text>
                             <Text fontWeight="semibold" color="blue.700">
-                              Rp150000
+                              Rp
+                              {formatCurrency(
+                                parseInt(item.Pengujian.price) *
+                                  parseInt(item.OrderPengujian.quantity)
+                              )}
                             </Text>
                           </HStack>
                         </Box>
@@ -226,11 +240,22 @@ const DetailRiwayatDataPemesananModal = ({ id, isOpen, onClose }) => {
                     color="blue.700"
                     fontSize={{ base: 'md', lg: '2xl' }}
                   >
-                    Rp2500000
+                    Rp
+                    {formatCurrency(
+                      dataDetailRiwayatPemesanan?.data?.order.total_price
+                    )}
                   </Text>
                   <Spacer />
                   <ButtonGroup>
-                    <Button w="full" variant="lateksil-solid">
+                    <Button
+                      w="full"
+                      variant="lateksil-solid"
+                      onClick={() =>
+                        router.push(
+                          `${baseUrl}view-task/${dataDetailRiwayatPemesanan?.data?.file_task_pengujian}`
+                        )
+                      }
+                    >
                       Lihat Hasil
                     </Button>
                   </ButtonGroup>
