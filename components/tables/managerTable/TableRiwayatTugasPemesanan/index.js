@@ -44,14 +44,16 @@ const TableRiwayatTugasPemesanan = ({ data }) => {
               </Text>
               <Flex justify="space-between" align="center">
                 <Badge
-                  colorScheme="green"
+                  colorScheme={
+                    data.status_penugasan === '1' ? 'green' : 'yellow'
+                  }
                   w="max"
                   px="2"
                   py="1"
                   rounded="md"
                   mt="2"
                 >
-                  selesai
+                  {data.status_penugasan === '1' ? 'Selesai' : 'On-going'}
                 </Badge>
                 <Box>
                   <Text textAlign="end" fontSize="smaller">
@@ -69,6 +71,7 @@ const TableRiwayatTugasPemesanan = ({ data }) => {
               <ButtonGroup>
                 <Button
                   w="full"
+                  isDisabled={data.status_penugasan === '1' ? false : true}
                   variant="lateksil-solid"
                   onClick={() =>
                     router.push(

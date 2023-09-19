@@ -5,14 +5,10 @@ import {
   Avatar,
   Badge,
   Box,
-  Button,
-  ButtonGroup,
   Flex,
   HStack,
   Icon,
-  Spacer,
   Text,
-  Tooltip,
   VStack,
 } from '@chakra-ui/react';
 import DashboardLayout from '../../../../components/dashboard/DashboardLayout';
@@ -20,14 +16,8 @@ import { AiOutlineLeft } from 'react-icons/ai';
 import { FaTasks, FaUser } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { BsListTask } from 'react-icons/bs';
-import {
-  MdAssignmentTurnedIn,
-  MdCall,
-  MdCorporateFare,
-  MdEmail,
-} from 'react-icons/md';
+import { MdAssignmentTurnedIn, MdCall, MdEmail } from 'react-icons/md';
 import useRemoteRiwayatTeknisiStandbyId from '../../../../components/hooks/remote/useRemoteRiwayatTeknisiStandbyId';
-import ParseDate from '../../../../components/core/parseDate';
 import useRemoteRiwayatTeknisiOnGoingId from '../../../../components/hooks/remote/useRemoteRiwayatTeknisiOnGoingId';
 import TableRiwayatTugasPemesanan from '../../../../components/tables/managerTable/TableRiwayatTugasPemesanan';
 
@@ -121,66 +111,7 @@ const RiwayatProyekTeknisi = () => {
             </Text>
           )}
           {dataRiwayatOnGoing?.data?.TeknisiPengujians.map((dataRiwayat, i) => (
-            <Box
-              key={i}
-              p="3"
-              borderWidth={1}
-              boxShadow="base"
-              cursor="pointer"
-            >
-              <Tooltip label="Detail Order" hasArrow arrowSize={15}>
-                <Flex gap={3}>
-                  <Box align="stretch" flexGrow={1} direction="column">
-                    <Flex align="center" gap={1} cursor="pointer">
-                      <Icon w={5} h={5} as={MdCorporateFare} />
-                      <Text fontWeight="semibold" fontSize="lg">
-                        {dataRiwayat.order.User.company_name}
-                      </Text>
-                    </Flex>
-                    <Text fontSize="smaller">
-                      {dataRiwayat.order.User.full_name}
-                    </Text>
-                    <Text fontWeight="semibold">
-                      Proyek : {dataRiwayat.order.proyek.nama_proyek}
-                    </Text>
-                    <Flex justify="space-between" align="center">
-                      <Badge
-                        colorScheme="yellow"
-                        w="max"
-                        px="2"
-                        py="1"
-                        rounded="md"
-                        mt="2"
-                      >
-                        on-going
-                      </Badge>
-                      <Box>
-                        <Text textAlign="end" fontSize="smaller">
-                          Tanggal Mulai:{' '}
-                          {ParseDate(dataRiwayat.order.proyek.tanggal_mulai)}
-                        </Text>
-                        <Text textAlign="end" fontSize="smaller">
-                          Tanggal Selesai:{' '}
-                          {ParseDate(dataRiwayat.order.proyek.tanggal_selesai)}
-                        </Text>
-                      </Box>
-                    </Flex>
-                    <HStack align="center" mt="2">
-                      <Spacer />
-                      <ButtonGroup>
-                        <Button
-                          w="full"
-                          isDisabled={true}
-                          variant="lateksil-solid"
-                        >
-                          lihat hasil
-                        </Button>
-                      </ButtonGroup>
-                    </HStack>
-                  </Box>
-                </Flex>
-              </Tooltip>
-            </Box>
+            <TableRiwayatTugasPemesanan key={i} data={dataRiwayat} />
           ))}
         </Box>
       </Flex>

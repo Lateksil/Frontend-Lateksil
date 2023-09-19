@@ -30,7 +30,7 @@ const StatusOrderTransaction = ({ status, message_canceled = '' }) => {
         color: 'green',
         text: 'Selesai',
         color_ket: 'green.600',
-        text_ket: `Yeah!!! Hasil Pengujianmu telah selesai`,
+        text_ket: `Terima kasih, Hasil Pengujianmu telah selesai`,
       };
     case TransactionTypes.CANCELED:
       return {

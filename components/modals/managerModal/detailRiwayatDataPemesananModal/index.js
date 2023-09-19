@@ -49,6 +49,45 @@ const DetailRiwayatDataPemesananModal = ({ id, isOpen, onClose }) => {
           <ModalCloseButton />
           <ModalBody>
             <VStack align="stretch" spacing={5}>
+              <Flex
+                bg={
+                  dataDetailRiwayatPemesanan?.data?.status_penugasan === '1'
+                    ? `green.100`
+                    : `orange.100`
+                }
+                rounded="md"
+                direction="column"
+                gap={3}
+                borderBottomWidth="1px"
+                p="4"
+              >
+                <Badge
+                  p="2"
+                  alignSelf="start"
+                  colorScheme={
+                    dataDetailRiwayatPemesanan?.data?.status_penugasan === '1'
+                      ? `green`
+                      : `orange`
+                  }
+                  variant="outline"
+                  rounded="md"
+                >
+                  {dataDetailRiwayatPemesanan?.data?.status_penugasan === '1'
+                    ? `Selesai`
+                    : `on-going`}
+                </Badge>
+                <Text
+                  color={
+                    dataDetailRiwayatPemesanan?.data?.status_penugasan === '1'
+                      ? `green.600`
+                      : `orange.600`
+                  }
+                >
+                  {dataDetailRiwayatPemesanan?.data?.status_penugasan === '1'
+                    ? `Teknisi telah berhasil menyelesaikan pesanan ini! Adapun riwayat pengerjaan dapat di lihat pada detail pesanan di bawah ini`
+                    : `Teknisi Sedang Mengerjakan Pengujian ini, adapun spesifikasi pengerjaan dapat dilihat pada detail pemesanan di bawah ini`}
+                </Text>
+              </Flex>
               <Flex direction="column" mt={8}>
                 <Flex align="center" gap={2} borderBottomWidth="1px" pb="4">
                   <Icon w={3} h={3} as={FaUser} />
@@ -249,6 +288,12 @@ const DetailRiwayatDataPemesananModal = ({ id, isOpen, onClose }) => {
                   <ButtonGroup>
                     <Button
                       w="full"
+                      isDisabled={
+                        dataDetailRiwayatPemesanan?.data?.status_penugasan ===
+                        '1'
+                          ? false
+                          : true
+                      }
                       variant="lateksil-solid"
                       onClick={() =>
                         router.push(
