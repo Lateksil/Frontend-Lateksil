@@ -36,3 +36,15 @@ export const changePasswordSchema = Yup.object().shape({
     .required('Password harus diisi')
     .oneOf([Yup.ref('password'), null], 'Perubahan password harus sama'),
 });
+
+export const changeNewPasswordSchema = Yup.object().shape({
+  old_password: Yup.string()
+    .required('Password harus diisi')
+    .min(6, 'Minimal terdiri dari 6 karakter'),
+  new_password: Yup.string()
+    .required('Password harus diisi')
+    .min(6, 'Minimal terdiri dari 6 karakter'),
+  new_repassword: Yup.string()
+    .required('Password harus diisi')
+    .oneOf([Yup.ref('new_password'), null], 'Perubahan password harus sama'),
+});
