@@ -14,12 +14,14 @@ const AuthenticationLayout = ({ children }) => {
         direction="column"
         justifyContent="center"
       >
-        <Heading size={{ base: 'md', md: 'xl' }} color="blue.700">
-          LABORATORIUM TEKNIK SIPIL
+        <Heading
+          fontWeight="bold"
+          size={{ base: 'md', md: 'md' }}
+          color="blue.700"
+        >
+          LABORATORIUM PENGUJIAN TEKNIK SIPIL
         </Heading>
-        <Text fontWeight="semibold">
-          Laboratorium Pengujian Teknik Sipil UBL
-        </Text>
+        <Text fontWeight="semibold">Universitas Bandar Lampung</Text>
         <Box h="max">
           <Link href="/">
             <NextImage

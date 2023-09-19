@@ -14,7 +14,6 @@ import {
   Text,
   Tooltip,
   VStack,
-  useDisclosure,
 } from '@chakra-ui/react';
 import DashboardLayout from '../../../../components/dashboard/DashboardLayout';
 import { AiOutlineLeft } from 'react-icons/ai';
@@ -30,18 +29,11 @@ import {
 import useRemoteRiwayatTeknisiStandbyId from '../../../../components/hooks/remote/useRemoteRiwayatTeknisiStandbyId';
 import ParseDate from '../../../../components/core/parseDate';
 import useRemoteRiwayatTeknisiOnGoingId from '../../../../components/hooks/remote/useRemoteRiwayatTeknisiOnGoingId';
-import { baseUrl } from '../../../../libs/axios';
-import DetailRiwayatDataPemesananModal from '../../../../components/modals/managerModal/detailRiwayatDataPemesananModal';
+import TableRiwayatTugasPemesanan from '../../../../components/tables/managerTable/TableRiwayatTugasPemesanan';
 
 const RiwayatProyekTeknisi = () => {
   const router = useRouter();
   const { id } = router.query;
-
-  const {
-    isOpen: isOpenDetailRiwayat,
-    onOpen: onOpenDetailRiwayat,
-    onClose: onCloseDetailRiwayat,
-  } = useDisclosure();
 
   const { data: dataRiwayatStandBy } = useRemoteRiwayatTeknisiStandbyId({
     id: id,
@@ -76,7 +68,7 @@ const RiwayatProyekTeknisi = () => {
           </Text>
         </Flex>
         <HStack gap={5} mt="2">
-          <Avatar src="" name="Deva Aji saputra" size="2xl" />
+          <Avatar src="" name={dataRiwayatStandBy?.data.full_name} size="2xl" />
           <Box mt="2" ml="5">
             <Text fontSize={{ base: 'sm', lg: 'lg' }} fontWeight="semibold">
               {dataRiwayatStandBy?.data.full_name}
@@ -200,75 +192,9 @@ const RiwayatProyekTeknisi = () => {
           </Text>
         </Flex>
         {dataRiwayatStandBy?.data?.TeknisiPengujians.map((dataRiwayat, i) => (
-          <Box key={i} p="3" borderWidth={1} boxShadow="base">
-            <Tooltip label="Detail Order" hasArrow arrowSize={15}>
-              <Flex gap={3}>
-                <Box align="stretch" flexGrow={1} direction="column">
-                  <Flex
-                    align="center"
-                    gap={1}
-                    cursor="pointer"
-                    onClick={onOpenDetailRiwayat}
-                  >
-                    <Icon w={5} h={5} as={MdCorporateFare} />
-                    <Text fontWeight="semibold" fontSize="lg">
-                      {dataRiwayat.order.User.company_name}
-                    </Text>
-                  </Flex>
-                  <Text fontSize="smaller">
-                    {dataRiwayat.order.User.full_name}
-                  </Text>
-                  <Text fontWeight="semibold">
-                    Proyek : {dataRiwayat.order.proyek.nama_proyek}
-                  </Text>
-                  <Flex justify="space-between" align="center">
-                    <Badge
-                      colorScheme="green"
-                      w="max"
-                      px="2"
-                      py="1"
-                      rounded="md"
-                      mt="2"
-                    >
-                      selesai
-                    </Badge>
-                    <Box>
-                      <Text textAlign="end" fontSize="smaller">
-                        Tanggal Mulai:{' '}
-                        {ParseDate(dataRiwayat.order.proyek.tanggal_mulai)}
-                      </Text>
-                      <Text textAlign="end" fontSize="smaller">
-                        Tanggal Selesai:{' '}
-                        {ParseDate(dataRiwayat.order.proyek.tanggal_selesai)}
-                      </Text>
-                    </Box>
-                  </Flex>
-                  <HStack align="center" mt="2">
-                    <Spacer />
-                    <ButtonGroup>
-                      <Button
-                        w="full"
-                        variant="lateksil-solid"
-                        onClick={() =>
-                          router.push(
-                            `${baseUrl}view-task/${dataRiwayat.file_task_pengujian}`
-                          )
-                        }
-                      >
-                        lihat hasil
-                      </Button>
-                    </ButtonGroup>
-                  </HStack>
-                </Box>
-              </Flex>
-            </Tooltip>
-          </Box>
+          <TableRiwayatTugasPemesanan key={i} data={dataRiwayat} />
         ))}
       </Flex>
-      <DetailRiwayatDataPemesananModal
-        isOpen={isOpenDetailRiwayat}
-        onClose={onCloseDetailRiwayat}
-      />
     </React.Fragment>
   );
 };
