@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  Box,
   Flex,
   HStack,
   Input,
   InputGroup,
   InputLeftElement,
-  Spacer,
   Table,
   TableContainer,
   Tbody,
@@ -66,26 +66,28 @@ const TahapPengerjaan = () => {
         <title>Tahap Pengerjaan | Lateksil</title>
       </Head>
       <HStack borderBottomWidth="1px" pb="4">
-        <Text color="blue.700" fontWeight="bold" fontSize="2xl">
+        <Text color="blue.700" fontWeight="bold" fontSize="md">
           Tahap Pengerjaan
         </Text>
       </HStack>
-      <HStack>
-        <Text>Show</Text>
-        <Select
-          isSearchable={false}
-          options={showEntryOptions}
-          defaultValue={showEntryOptions[0]}
-          onChange={(option) => setDataLimit(option.value)}
-        />
-        <Text>Entries</Text>
-        <Spacer />
-        <InputGroup maxW="xs">
+      <HStack fontSize="xx-small">
+        <Text display={{ base: 'none', md: 'block' }}>Show</Text>
+        <Box w={{ base: '100px', md: '80px' }}>
+          <Select
+            isSearchable={false}
+            options={showEntryOptions}
+            defaultValue={showEntryOptions[0]}
+            onChange={(option) => setDataLimit(option.value)}
+          />
+        </Box>
+        <Text display={{ base: 'none', md: 'block' }}>Entries</Text>
+        <InputGroup>
           <InputLeftElement pointerEvents="none">
             <FiSearch />
           </InputLeftElement>
           <Input
             type="text"
+            fontSize="xs"
             placeholder="Search ..."
             variant="outline"
             shadow="none"
@@ -95,15 +97,27 @@ const TahapPengerjaan = () => {
         </InputGroup>
       </HStack>
       <TableContainer>
-        <Table size="md" variant="striped">
+        <Table size="md" fontSize="xs" variant="striped">
           <Thead>
             <Tr>
-              <Th textAlign="center">Nama Pelanggan</Th>
-              <Th textAlign="center">Nama Proyek</Th>
-              <Th textAlign="center">No Surat</Th>
-              <Th textAlign="center">Teknisi</Th>
-              <Th textAlign="center">Progress</Th>
-              <Th textAlign="center">Result</Th>
+              <Th textAlign="center" fontSize="xx-small">
+                Nama Pelanggan
+              </Th>
+              <Th textAlign="center" fontSize="xx-small">
+                Nama Proyek
+              </Th>
+              <Th textAlign="center" fontSize="xx-small">
+                No Surat
+              </Th>
+              <Th textAlign="center" fontSize="xx-small">
+                Teknisi
+              </Th>
+              <Th textAlign="center" fontSize="xx-small">
+                Progress
+              </Th>
+              <Th textAlign="center" fontSize="xx-small">
+                Result
+              </Th>
             </Tr>
           </Thead>
           <Tbody>

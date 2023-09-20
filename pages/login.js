@@ -74,7 +74,7 @@ const LoginPage = () => {
       <Head>
         <title>Login | Lateksil</title>
       </Head>
-      <Heading fontSize="2xl">Masuk</Heading>
+      <Heading fontSize="md">Masuk</Heading>
       {errors && (
         <Alert status="error" variant="left-accent">
           <AlertIcon />
@@ -86,9 +86,15 @@ const LoginPage = () => {
         isInvalid={!!formState.errors?.email}
         errortext={formState.errors?.email?.message}
       >
-        <FormLabel>Email</FormLabel>
-        <Input type="email" placeholder="Email" {...register('email')} />
-        <FormErrorMessage fontSize="xs">
+        <FormLabel fontSize="xs">Email</FormLabel>
+        <Input
+          type="email"
+          fontSize="xs"
+          size="sm"
+          placeholder="Email"
+          {...register('email')}
+        />
+        <FormErrorMessage fontSize="xx-small">
           {formState.errors?.email?.message}
         </FormErrorMessage>
       </FormControl>
@@ -97,16 +103,20 @@ const LoginPage = () => {
         isInvalid={!!formState.errors?.password}
         errortext={formState.errors?.password?.message}
       >
-        <FormLabel>Password</FormLabel>
+        <FormLabel fontSize="xs">Password</FormLabel>
         <InputGroup>
           <Input
             placeholder="Password"
+            fontSize="xs"
+            size="sm"
             type={isPasswordOpen ? 'text' : 'password'}
             {...register('password')}
           />
           <InputRightElement>
             <IconButton
               bg="transparent"
+              height="10px"
+              alignSelf="center"
               _hover={{ bg: 'transparent' }}
               variant="ghost"
               color="ims-linebox"
@@ -116,20 +126,20 @@ const LoginPage = () => {
             />
           </InputRightElement>
         </InputGroup>
-        <FormErrorMessage fontSize="xs">
+        <FormErrorMessage fontSize="xx-small">
           {formState.errors?.password?.message}
         </FormErrorMessage>
       </FormControl>
       <Flex>
         <Spacer />
-        <Link href="/forgot-password" color="blue.500">
+        <Link href="/forgot-password" color="blue.500" fontSize="xs">
           Lupa Password?
         </Link>
       </Flex>
       <Button type="submit" isLoading={isLoading} variant="lateksil-solid">
         Masuk
       </Button>
-      <Text textAlign="center" mt="8">
+      <Text textAlign="center" mt="8" fontSize="xs">
         Belum memiliki akun?{' '}
         <Text as="span" color="blue.600" fontWeight="bold">
           <NextLink href="/register">Daftar</NextLink>

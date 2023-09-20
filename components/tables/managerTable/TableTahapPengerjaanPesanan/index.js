@@ -59,6 +59,7 @@ const TableTahapPengerjaanPesanan = ({ pengujian }) => {
         <Td textAlign="center">
           <Button
             variant="lateksil-solid"
+            size="sm"
             isDisabled={pengujian.file_result_pengujian === null ? false : true}
             onClick={onOpenUploadResult}
           >

@@ -31,6 +31,7 @@ const DashboardSidebar = ({ items }) => {
         minW="xs"
         py="6"
         h="100vh"
+        fontSize="xs"
         overflow="hidden"
         _hover={{ overflow: 'auto' }}
       >

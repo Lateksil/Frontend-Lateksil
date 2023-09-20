@@ -121,14 +121,24 @@ const RolePermissons = () => {
         </InputGroup>
       </HStack>
       <TableContainer>
-        <Table size="md" variant="striped">
+        <Table size="md" fontSize="xs" variant="striped">
           <Thead>
             <Tr>
-              <Th textAlign="center">Nama Perusahaan</Th>
-              <Th textAlign="center">Email</Th>
-              <Th textAlign="center">No. Telp</Th>
-              <Th textAlign="center">Role</Th>
-              <Th textAlign="center">Aksi</Th>
+              <Th textAlign="center" fontSize="xx-small">
+                Nama Perusahaan
+              </Th>
+              <Th textAlign="center" fontSize="xx-small">
+                Email
+              </Th>
+              <Th textAlign="center" fontSize="xx-small">
+                No. Telp
+              </Th>
+              <Th textAlign="center" fontSize="xx-small">
+                Role
+              </Th>
+              <Th textAlign="center" fontSize="xx-small">
+                Aksi
+              </Th>
             </Tr>
           </Thead>
           <Tbody>

@@ -47,7 +47,7 @@ const DashboardNavbar = () => {
           <Flex w="full">
             <Flex alignItems="center">
               <IconButton
-                icon={<FiMenu />}
+                icon={<FiMenu fontSize="10px" />}
                 variant="ghost"
                 onClick={onSidebarToggle}
                 aria-label="Menu"
@@ -57,7 +57,7 @@ const DashboardNavbar = () => {
             <HStack spacing={3}>
               {isSuccess && userProfileData && (
                 <>
-                  <Text fontSize="md" fontStyle="heading" fontWeight="bold">
+                  <Text fontSize="xs" fontStyle="heading" fontWeight="bold">
                     Hi, {userProfileData.data?.full_name}
                   </Text>
                   <DashboardUserNavbar

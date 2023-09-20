@@ -38,7 +38,7 @@ const DashboardSidebarItem = ({ item, pathname }) => {
           <Box ml="2" mr="4" color={isActive ? 'white' : 'grey'}>
             <Icon as={item.icon} />
           </Box>
-          <Text fontSize="md">{item.name}</Text>
+          <Text fontSize="xs">{item.name}</Text>
           <Box ml="auto">
             {isOpen ? <ViChevronBack /> : <ViChevronForward />}
           </Box>
@@ -49,6 +49,7 @@ const DashboardSidebarItem = ({ item, pathname }) => {
               <Link href={subItem.path} passHref>
                 <Text
                   display="block"
+                  fontSize="xs"
                   p="2"
                   bg={isActive ? 'grey.100' : undefined}
                   color={subItem.path === pathname ? 'white' : 'grey'}
@@ -92,7 +93,7 @@ const DashboardSidebarItem = ({ item, pathname }) => {
           >
             <Icon as={item.icon} />
           </Box>
-          <Text fontSize="md">{item.name}</Text>
+          <Text fontSize="xs">{item.name}</Text>
         </Flex>
       </Link>
     </React.Fragment>

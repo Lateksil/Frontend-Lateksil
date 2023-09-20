@@ -27,8 +27,6 @@ const AuthenticationLayout = ({ children }) => {
             <NextImage
               src={LateksilImage}
               alt="Civil Engginering Illustration"
-              width="326"
-              height="345"
               layout="responsive"
               placeholder="blur"
             />

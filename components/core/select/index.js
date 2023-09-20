@@ -11,7 +11,7 @@ const Select = forwardRef(
       controlContext && controlContext.isReadOnly
         ? controlContext.isReadOnly
         : undefined;
-    const fontSizeSm = useToken('fontSizes', 'sm');
+    const fontSizeSm = useToken('fontSizes', '8px');
 
     const customStyles = {
       indicatorSeparator: () => ({
@@ -22,7 +22,7 @@ const Select = forwardRef(
       }),
       dropdownIndicator: (provided) => ({
         ...provided,
-        color: 'gray',
+        color: 'black',
       }),
       container: (provided) => ({
         ...provided,

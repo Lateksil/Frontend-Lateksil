@@ -1,12 +1,12 @@
 const sizeLg = {
   lg: {
-    fontSize: 'md',
+    fontSize: 'xs',
   },
 };
 
 const sizesMd = {
   md: {
-    fontSize: 'sm',
+    fontSize: 'xs',
   },
 };
 
@@ -21,6 +21,7 @@ const variantSolid = {
     _hover: {
       bg: 'lateksil-main-2',
     },
+    fontSize: 'xx-small',
     _loading: {
       bg: 'lateksil-main',
     },
@@ -31,6 +32,7 @@ const variantDanger = {
   'lateksil-danger': () => ({
     ...baseVariantSolid,
     bg: 'lateksil-red',
+    fontSize: 'xx-small',
     _hover: {
       bg: 'lateksil-red',
     },
