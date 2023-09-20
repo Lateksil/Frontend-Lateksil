@@ -8,7 +8,7 @@ const useMutationAddToCart = () => {
 
   const uri = '/cart/create';
 
-  const { mutate, ...others } = useMutation(
+  const { mutateAsync, ...others } = useMutation(
     async (formData) => {
       const data = await postFetcher(uri, formData);
       return data;
@@ -22,7 +22,7 @@ const useMutationAddToCart = () => {
     }
   );
 
-  return { mutate, ...others };
+  return { mutateAsync, ...others };
 };
 
 export default useMutationAddToCart;

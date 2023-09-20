@@ -93,7 +93,8 @@ const MainCardPengujianBase = ({ pengujian, ...props }) => {
           </Flex>
         </Card>
         <ModalDetailPengujian
-          pengujian={pengujian}
+          pengujianId={pengujian.id}
+          minQuantity={pengujian.min_quantity}
           isOpen={isOpenCardDetail}
           onClose={onCloseCardDetail}
         />
