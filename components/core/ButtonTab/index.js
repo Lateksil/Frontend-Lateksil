@@ -26,13 +26,15 @@ const ButtonTab = ({ label, count = 0, value, children, ...props }) => {
         <Box
           color={label === value ? 'white' : 'gray.500'}
           top={-2}
-          px="3"
-          ml="2"
+          px="1"
+          ml="1"
           right={-1}
           zIndex={11}
           rounded="sm"
         >
-          {count}
+          <Text fontWeight="bold" fontSize="xx-small">
+            {count}
+          </Text>
         </Box>
       )}
     </Box>
