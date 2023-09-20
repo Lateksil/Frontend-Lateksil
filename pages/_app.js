@@ -7,6 +7,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import theme from '../themes';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function MyApp({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page);
@@ -25,6 +26,7 @@ function MyApp({ Component, pageProps }) {
           <Hydrate state={pageProps.dehydratedState}>
             {getLayout(<Component {...pageProps} />)}
           </Hydrate>
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ChakraProvider>
     </React.Fragment>
