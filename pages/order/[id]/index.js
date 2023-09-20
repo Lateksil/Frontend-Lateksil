@@ -77,20 +77,16 @@ const DetailOrderPengujian = ({ order }) => {
         <HStack borderBottomWidth="1px" pb="4">
           <NextLink href={`/order`} passHref>
             <Flex align="center" gap={1} cursor="pointer">
-              <Icon color="blue.700" w={5} h={5} as={AiOutlineLeft} />
-              <Text color="blue.700" fontWeight="bold" fontSize="xl">
+              <Icon color="blue.700" w={4} h={4} as={AiOutlineLeft} />
+              <Text color="blue.700" fontWeight="bold" ffontSize="md">
                 Rincian Pesanan
               </Text>
             </Flex>
           </NextLink>
         </HStack>
         <HStack align="center">
-          <Text fontSize={{ base: 'x-small', lg: 'sm' }}>
-            Tanggal Pemesanan :{' '}
-          </Text>
-          <Text fontSize={{ base: 'x-small', lg: 'sm' }}>
-            {ParseDate(order.createdAt)}
-          </Text>
+          <Text fontSize="xs">Tanggal Pemesanan : </Text>
+          <Text fontSize="xs">{ParseDate(order.createdAt)}</Text>
         </HStack>
         <Flex
           bg={`${colorStatusTransaction}.100`}
@@ -107,56 +103,52 @@ const DetailOrderPengujian = ({ order }) => {
             variant="outline"
             rounded="md"
           >
-            {textStatusTransaction}
+            <Text fontSize="xx-small">{textStatusTransaction}</Text>
           </Badge>
-          <Text color={colorKetTransaction}>{textKetTransaction}</Text>
+          <Text color={colorKetTransaction} fontSize="xs">
+            {textKetTransaction}
+          </Text>
         </Flex>
         <Flex direction="column">
-          <Flex align="center" gap={2} borderBottomWidth="1px" pb="4">
-            <Icon w={3} h={3} as={FaUser} />
-            <Text fontWeight="semibold" fontSize={{ base: 'sm', lg: 'md' }}>
+          <Flex align="center" gap={2} borderBottomWidth="1px" pb="3">
+            <Icon w={2.5} h={2.5} as={FaUser} />
+            <Text fontWeight="semibold" fontSize="sm">
               Informasi Pelanggan
             </Text>
           </Flex>
           <Box mt="2" ml="5">
-            <Text fontSize={{ base: 'sm', lg: 'md' }}>
+            <Text fontSize="sm" fontWeight="semibold">
               {order.User.company_name}
             </Text>
-            <Text fontSize={{ base: 'sm', lg: 'md' }}>
-              {order.User.full_name}
-            </Text>
-            <Text fontSize={{ base: 'sm', lg: 'md' }}>
-              {order.User.no_whatsapp}
-            </Text>
-            <Text fontSize={{ base: 'sm', lg: 'md' }}>
-              {order.User.address}
-            </Text>
+            <Text fontSize="sm">{order.User.full_name}</Text>
+            <Text fontSize="sm">{order.User.no_whatsapp}</Text>
+            <Text fontSize="sm">{order.User.address}</Text>
           </Box>
         </Flex>
 
         <Flex direction="column">
           <Flex align="center" gap={2} borderBottomWidth="1px" pb="4">
             <Icon w={3} h={3} as={AiOutlineProject} />
-            <Text fontWeight="semibold" fontSize={{ base: 'sm', lg: 'md' }}>
+            <Text fontWeight="semibold" fontSize="sm">
               Proyek
             </Text>
           </Flex>
           <Box mt="2" ml="5">
-            <Text fontSize="sm">Nama Pekerjaan </Text>
-            <Text mr="2" fontWeight="bold" color="blue.700">
+            <Text fontSize="xs">Nama Pekerjaan </Text>
+            <Text mr="2" fontSize="xs" fontWeight="bold" color="blue.700">
               {order.proyek.nama_proyek}
             </Text>
           </Box>
           <Box mt="2" ml="5">
-            <Text fontSize="sm">Tujuan Proyek </Text>
-            <Text mr="2" color="blue.700">
+            <Text fontSize="xs">Tujuan Proyek </Text>
+            <Text mr="2" fontSize="xs" color="blue.700">
               {order.proyek.tujuan_proyek}
             </Text>
           </Box>
           {order.status.status_transaction === TransactionTypes.ACCEPT && (
             <Box mt="2" ml="5">
-              <Text fontSize="sm">Tanggal Pengerjaan </Text>
-              <Text mr="2" fontSize="sm">
+              <Text fontSize="xs">Tanggal Pengerjaan </Text>
+              <Text mr="2" fontSize="xs">
                 {ParseDate(order.proyek.tanggal_mulai)} s/d{' '}
                 {ParseDate(order.proyek.tanggal_selesai)}
               </Text>
@@ -164,8 +156,8 @@ const DetailOrderPengujian = ({ order }) => {
           )}
           {order.status.status_transaction === TransactionTypes.IN_PROGRESS && (
             <Box mt="2" ml="5">
-              <Text fontSize="sm">Tanggal Pengerjaan </Text>
-              <Text mr="2" fontSize="sm">
+              <Text fontSize="xs">Tanggal Pengerjaan </Text>
+              <Text mr="2" fontSize="xs">
                 {ParseDate(order.proyek.tanggal_mulai)} s/d{' '}
                 {ParseDate(order.proyek.tanggal_selesai)}
               </Text>
@@ -175,7 +167,7 @@ const DetailOrderPengujian = ({ order }) => {
         <Flex direction="column" gap={4}>
           <Flex align="center" borderBottomWidth="1px" pb="4" gap={2}>
             <Icon w={3} h={3} as={FaTasks} />
-            <Text fontWeight="semibold" fontSize={{ base: 'sm', lg: 'md' }}>
+            <Text fontWeight="semibold" fontSize="sm">
               Detail Pengujian ({order.itemOrders.length} Pengujian)
             </Text>
           </Flex>
@@ -184,11 +176,11 @@ const DetailOrderPengujian = ({ order }) => {
               <Flex gap={3}>
                 <Box align="stretch" flexGrow={1} direction="column">
                   <Box>
-                    <Text fontWeight="semibold">
+                    <Text fontSize="xs" fontWeight="semibold">
                       {item.Pengujian.jenis_pengujian}
                     </Text>
                   </Box>
-                  <Text fontSize="smaller" color="orange.600">
+                  <Text fontSize="xs" color="orange.600">
                     {item.Pengujian.code}
                   </Text>
                   <Flex justify="space-between" align="center">
@@ -198,16 +190,17 @@ const DetailOrderPengujian = ({ order }) => {
                           ? 'blue'
                           : 'green'
                       }
-                      w="max"
                       px="2"
                       py="1"
                       rounded="md"
                       mt="2"
                     >
-                      {item.Pengujian.tempat_pengujian}
+                      <Text fontSize="xx-small">
+                        {item.Pengujian.tempat_pengujian}
+                      </Text>
                     </Badge>
                     <Box>
-                      <Text textAlign="end" fontSize="smaller">
+                      <Text textAlign="end" fontSize="xx-small">
                         {item.OrderPengujian.quantity} {item.Pengujian.sampler}
                       </Text>
                     </Box>
@@ -215,7 +208,7 @@ const DetailOrderPengujian = ({ order }) => {
                   <HStack align="center">
                     <Spacer />
                     <Text fontSize="x-small">Harga : </Text>
-                    <Text fontWeight="semibold" color="blue.700">
+                    <Text fontWeight="semibold" fontSize="sm" color="blue.700">
                       Rp
                       {formatCurrency(
                         parseInt(item.OrderPengujian.quantity) *
@@ -231,11 +224,7 @@ const DetailOrderPengujian = ({ order }) => {
           <HStack p="2" align="center">
             <Spacer />
             <Text fontSize="sm">Total Pesanan : </Text>
-            <Text
-              fontWeight="bold"
-              color="blue.700"
-              fontSize={{ base: 'md', lg: '2xl' }}
-            >
+            <Text fontWeight="bold" color="blue.700" fontSize="md">
               Rp{formatCurrency(order.total_price)}
             </Text>
           </HStack>
@@ -253,6 +242,7 @@ const DetailOrderPengujian = ({ order }) => {
                   onClick={onOpenPayment}
                   leftIcon={<FaWallet />}
                   variant="lateksil-solid"
+                  size="sm"
                 >
                   {order.status.status_payment === BooleanType.TRUE
                     ? 'Sudah Bayar'
@@ -264,6 +254,7 @@ const DetailOrderPengujian = ({ order }) => {
                 <Button
                   w="full"
                   variant="lateksil-solid"
+                  size="sm"
                   onClick={() =>
                     handleDownloadKwitansi(order.payment.image_kwitansi)
                   }
@@ -276,6 +267,7 @@ const DetailOrderPengujian = ({ order }) => {
                   <Button
                     w="full"
                     variant="lateksil-solid"
+                    size="sm"
                     onClick={() =>
                       handleDownloadKwitansi(order.payment.image_kwitansi)
                     }
@@ -285,6 +277,7 @@ const DetailOrderPengujian = ({ order }) => {
                   <Button
                     w="full"
                     variant="lateksil-solid"
+                    size="sm"
                     onClick={() =>
                       router.push(
                         `${baseUrl}view-result/download/${order.file_result_pengujian}`
