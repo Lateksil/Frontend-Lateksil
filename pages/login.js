@@ -76,9 +76,9 @@ const LoginPage = () => {
       </Head>
       <Heading fontSize="md">Masuk</Heading>
       {errors && (
-        <Alert status="error" variant="left-accent">
+        <Alert status="error" size="sm" variant="left-accent">
           <AlertIcon />
-          {errors}
+          <Text fontSize="xs">{errors}</Text>
         </Alert>
       )}
       <FormControl

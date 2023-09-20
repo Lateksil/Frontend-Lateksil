@@ -124,9 +124,9 @@ const RegisterPage = () => {
             </Text>
           </Text>
           {errorMessage && (
-            <Alert mt="4" status="error" variant="left-accent">
+            <Alert mt="4" status="error" size="sm" variant="left-accent">
               <AlertIcon />
-              {errorMessage}
+              <Text fontSize="xs">{errorMessage}</Text>
             </Alert>
           )}
         </VStack>
@@ -264,7 +264,7 @@ const RegisterPage = () => {
         <Text
           m={5}
           align="center"
-          fontSize="xl"
+          fontSize="sm"
           fontWeight="semibold"
           fontFamily="heading"
         >
@@ -278,6 +278,7 @@ const RegisterPage = () => {
               align="center"
               fontWeight="medium"
               fontFamily="body"
+              fontSize="xs"
             >
               Masukan Code yang telah terkirim di Email
             </Text>
@@ -309,7 +310,8 @@ const RegisterPage = () => {
           <Button
             w="100%"
             isLoading={isLoadingVerify}
-            colorScheme="blue"
+            variant="lateksil-solid"
+            size="sm"
             type="submit"
           >
             Verify
