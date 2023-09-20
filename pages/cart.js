@@ -62,10 +62,10 @@ const CartPage = () => {
         <Spacer />
       </HStack>
       <Flex direction={{ base: 'column', md: 'row' }}>
-        <VStack flex={1.3} mr={{ base: 0, md: 3 }}>
+        <VStack flex={1.3} mr={{ base: 0, md: 2 }}>
           {dataCartUserId?.data.map((cart) => (
             <Box w="full" borderWidth={2} key={cart.id}>
-              <Flex borderBottomWidth={1} p="3">
+              <Flex borderBottomWidth={1} p="2">
                 <VStack w="full" spacing={0}>
                   <Flex w="full">
                     <Box>
@@ -124,10 +124,11 @@ const CartPage = () => {
                         hasArrow
                       >
                         <IconButton
+                          size="sm"
                           onClick={() => handleDeleteCart(cart.id)}
                           variant="none"
                           color="red"
-                          icon={<FiTrash />}
+                          icon={<FiTrash fontSize={10} />}
                         />
                       </Tooltip>
                     </Flex>
