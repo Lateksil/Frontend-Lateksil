@@ -78,14 +78,14 @@ const MainCardPengujianBase = ({ pengujian, ...props }) => {
                     pengujian.tempat_pengujian === 'Lapangan' ? 'blue' : 'green'
                   }
                 >
-                  {pengujian.tempat_pengujian}
+                  <Text fontSize="xx-small">{pengujian.tempat_pengujian}</Text>
                 </Badge>
               </Box>
               <Flex justify="space-between">
                 <Text fontWeight="bold" color="blue.700" textAlign="left">
                   Rp {formatCurrency(pengujian.price)}
                 </Text>
-                <Text>
+                <Text fontSize="x-small">
                   Per {pengujian.min_quantity} {pengujian.sampler}
                 </Text>
               </Flex>

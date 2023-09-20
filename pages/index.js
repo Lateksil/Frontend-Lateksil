@@ -91,7 +91,7 @@ const HomeDashboard = () => {
         </TableContainer>
         <Flex justify="center" pb="6" mt="4">
           <Flex w="full" maxW="3xl">
-            <InputGroup>
+            <InputGroup size="sm">
               <InputLeftElement pointerEvents="none">
                 <FiSearch />
               </InputLeftElement>
@@ -108,6 +108,8 @@ const HomeDashboard = () => {
                 type="text"
                 placeholder={`Cari ${dataCat}`}
                 variant="outline"
+                fontSize="xs"
+                size="sm"
                 bg="#f5f5f5"
                 _placeholder={{ color: '#45414180' }}
                 onChange={(state) => setSearchText(state.target.value)}
@@ -116,14 +118,20 @@ const HomeDashboard = () => {
             </InputGroup>
             <Box ml="3">
               <Menu>
-                <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                  {filterTempatPengujian === ''
-                    ? 'Semua'
-                    : filterTempatPengujian}
+                <MenuButton
+                  size="sm"
+                  as={Button}
+                  rightIcon={<ChevronDownIcon />}
+                >
+                  <Text fontSize="xx-small">
+                    {filterTempatPengujian === ''
+                      ? 'Semua'
+                      : filterTempatPengujian}
+                  </Text>
                 </MenuButton>
-                <MenuList>
+                <MenuList fontSize="xs">
                   <MenuItem onClick={() => setFilterTempatPengujian('')}>
-                    Semua
+                    <Text>Semua</Text>
                   </MenuItem>
                   <MenuItem
                     onClick={() => setFilterTempatPengujian('Laboratorium')}
@@ -142,8 +150,8 @@ const HomeDashboard = () => {
         </Flex>
       </Box>
       <VStack align="stretch" mx="auto" spacing="4">
-        <Text fontSize="xl" fontWeight="semibold">
-          {dataCat}
+        <Text fontSize="sm" fontWeight="semibold">
+          Kategori : {dataCat}
         </Text>
         <MainPenugujianCardGrid>
           {dataPengujianClient?.pages.map((page) =>

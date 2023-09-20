@@ -5,7 +5,7 @@ import MainCardPengujianBase from '../mainCardPengujiaBase';
 const MainCardPengujian = ({ pengujian, isLoading, ...props }) => {
   return (
     <Card shadow="md" {...props}>
-      <Box h="full">
+      <Box h="full" fontSize="xs">
         <MainCardPengujianBase pengujian={pengujian} isLoading={isLoading} />
       </Box>
     </Card>
