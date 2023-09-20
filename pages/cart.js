@@ -56,7 +56,7 @@ const CartPage = () => {
         <title>Keranjang | Lateksil</title>
       </Head>
       <HStack borderBottomWidth="1px" pb="3">
-        <Text color="blue.700" fontWeight="bold" fontSize="xl">
+        <Text color="blue.700" fontWeight="bold" fontSize="md">
           Keranjang
         </Text>
         <Spacer />
@@ -66,7 +66,7 @@ const CartPage = () => {
           {dataCartUserId?.data.map((cart) => (
             <Box w="full" borderWidth={2} key={cart.id}>
               <Flex borderBottomWidth={1} p="3">
-                <VStack w="full">
+                <VStack w="full" spacing={0}>
                   <Flex w="full">
                     <Box>
                       <Image
@@ -85,28 +85,29 @@ const CartPage = () => {
                       flex={{ base: 1.2, md: 1 }}
                       w="full"
                       align="start"
-                      p="2"
+                      px="2"
                     >
                       <Text fontWeight="semibold" fontSize="sm">
                         {cart.Pengujian.jenis_pengujian}
                       </Text>
                       <Badge
-                        size="sm"
                         colorScheme={
                           cart.Pengujian.tempat_pengujian === 'Lapangan'
                             ? 'blue'
                             : 'green'
                         }
                       >
-                        {cart.Pengujian.tempat_pengujian}
+                        <Text fontSize="xx-small">
+                          {cart.Pengujian.tempat_pengujian}
+                        </Text>
                       </Badge>
                       <Flex>
-                        <Text fontSize="sm"> Jumlah : {cart.quantity}</Text>
-                        <Text ml="2" fontSize="sm">
+                        <Text fontSize="xs"> Jumlah : {cart.quantity}</Text>
+                        <Text ml="2" fontSize="xs">
                           {cart.Pengujian.sampler}
                         </Text>
                       </Flex>
-                      <Text fontWeight="semibold" fontSize="sm">
+                      <Text fontWeight="semibold" fontSize="xs">
                         Harga Satuan : Rp{formatCurrency(cart.Pengujian.price)}
                       </Text>
                     </VStack>
@@ -116,7 +117,12 @@ const CartPage = () => {
                       <InputQuantitas cart={cart} total={total} />
                     </Flex>
                     <Flex align="center" justifyContent="center">
-                      <Tooltip label="Delete" hasArrow>
+                      <Tooltip
+                        label="Delete"
+                        bg="gray.300"
+                        color="black"
+                        hasArrow
+                      >
                         <IconButton
                           onClick={() => handleDeleteCart(cart.id)}
                           variant="none"
@@ -153,16 +159,22 @@ const CartPage = () => {
           h="max-content"
           position="sticky"
         >
-          <Text fontWeight="semibold">Ringkasan Pengujian</Text>
+          <Text fontWeight="semibold" fontSize="sm">
+            Ringkasan Pengujian
+          </Text>
           <Flex justifyContent="space-between" borderBottomWidth={1} py={3}>
-            <Text>{`Total Harga (${
+            <Text fontSize="xs">{`Total Harga (${
               dataCartUserId ? dataCartUserId?.data.length : 0
             } Pengujian)`}</Text>
-            <Text>Rp{formatCurrency(total)}</Text>
+            <Text fontSize="xs">Rp{formatCurrency(total)}</Text>
           </Flex>
           <Flex justifyContent="space-between" py={3}>
-            <Text fontWeight="semibold">Total Harga</Text>
-            <Text fontWeight="semibold">Rp{formatCurrency(total)}</Text>
+            <Text fontWeight="semibold" fontSize="xs">
+              Total Harga
+            </Text>
+            <Text fontWeight="bold" fontSize="sm" color="blue.700">
+              Rp{formatCurrency(total)}
+            </Text>
           </Flex>
           <Button
             isDisabled={
@@ -171,6 +183,8 @@ const CartPage = () => {
             w="full"
             bg="green.500"
             color="white"
+            fontSize="x-small"
+            size="sm"
             onClick={onOpenCheckout}
             _hover={{ bg: 'green.600' }}
           >
