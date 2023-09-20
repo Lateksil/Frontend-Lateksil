@@ -16,12 +16,14 @@ const AuthenticationLayout = ({ children }) => {
       >
         <Heading
           fontWeight="bold"
-          size={{ base: 'md', md: 'md' }}
+          size={{ base: 'xs', md: 'md' }}
           color="blue.700"
         >
           LABORATORIUM PENGUJIAN TEKNIK SIPIL
         </Heading>
-        <Text fontWeight="semibold">Universitas Bandar Lampung</Text>
+        <Text fontWeight="semibold" fontSize={{ base: 'xs', md: 'sm' }}>
+          Universitas Bandar Lampung
+        </Text>
         <Box h="max">
           <Link href="/">
             <NextImage
