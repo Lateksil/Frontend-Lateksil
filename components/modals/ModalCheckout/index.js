@@ -78,9 +78,12 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
         as="form"
         onSubmit={handleSubmit(onSubmit)}
         noValidate
+        motionPreset="slideInBottom"
       >
         <ModalHeader>
-          <Text textAlign="center">Tambah Data Pesanan</Text>
+          <Text textAlign="center" fontSize="sm">
+            Tambah Data Pesanan
+          </Text>
         </ModalHeader>
         <ModalBody>
           {isLoadingUserProfile ? (
@@ -88,8 +91,10 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
           ) : (
             <Stack pb="10">
               <FormControl id="company_name">
-                <FormLabel>Nama Perusahaan</FormLabel>
+                <FormLabel fontSize="xs">Nama Perusahaan</FormLabel>
                 <Input
+                  fontSize="xs"
+                  size="sm"
                   variant="filled"
                   value={userProfileData?.data?.company_name}
                   isDisabled={true}
@@ -97,18 +102,22 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
                 />
               </FormControl>
               <FormControl id="full_name">
-                <FormLabel>Nama Pelanggan</FormLabel>
+                <FormLabel fontSize="xs">Nama Pelanggan</FormLabel>
                 <Input
                   variant="filled"
+                  fontSize="xs"
+                  size="sm"
                   value={userProfileData?.data?.full_name}
                   isDisabled={true}
                   type="text"
                 />
               </FormControl>
               <FormControl id="no_whatsapp" isRequired>
-                <FormLabel>No. Hp/WA</FormLabel>
+                <FormLabel fontSize="xs">No. Hp/WA</FormLabel>
                 <Input
                   variant="filled"
+                  fontSize="xs"
+                  size="sm"
                   value={userProfileData?.data?.no_whatsapp}
                   isDisabled={true}
                 />
@@ -118,13 +127,15 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
                 isInvalid={!!errors.nama_proyek}
                 isRequired
               >
-                <FormLabel>Nama Pekerjaan</FormLabel>
+                <FormLabel fontSize="xs">Nama Pekerjaan</FormLabel>
                 <Input
                   type="text"
+                  fontSize="xs"
+                  size="sm"
                   placeholder="Nama Pekerjaan yang akan anda pesan"
                   {...register('nama_proyek')}
                 />
-                <FormErrorMessage>
+                <FormErrorMessage fontSize="xx-small">
                   {errors.nama_proyek && errors.nama_proyek.message}
                 </FormErrorMessage>
               </FormControl>
@@ -133,13 +144,15 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
                 isInvalid={!!errors.tujuan_proyek}
                 isRequired
               >
-                <FormLabel>Tujuan Pengujian</FormLabel>
+                <FormLabel fontSize="xs">Tujuan Pengujian</FormLabel>
                 <Input
                   type="text"
+                  fontSize="xs"
+                  size="sm"
                   placeholder="Tujuan Pengujian yang akan anda pesan"
                   {...register('tujuan_proyek')}
                 />
-                <FormErrorMessage>
+                <FormErrorMessage fontSize="xx-small">
                   {errors.tujuan_proyek && errors.tujuan_proyek.message}
                 </FormErrorMessage>
               </FormControl>
@@ -149,17 +162,19 @@ const ModalCheckout = ({ isOpen, onClose, total_price }) => {
 
         <ModalFooter bg="gray.100">
           <ButtonGroup>
-            <Button onClick={onModalCloseCheckout} border="1px">
+            <Button
+              size="sm"
+              fontSize="xx-small"
+              onClick={onModalCloseCheckout}
+              border="1px"
+            >
               Batal
             </Button>
             <Button
               type="submit"
-              variant="solid"
-              bg="blue.700"
-              _hover={{ bg: 'blue.800' }}
+              variant="lateksil-solid"
               isLoading={isLoadingCreateOrdering}
-              color="white"
-              rounded="md"
+              size="sm"
             >
               Selesai
             </Button>
