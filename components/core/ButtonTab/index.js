@@ -16,6 +16,7 @@ const ButtonTab = ({ label, count = 0, value, children, ...props }) => {
     >
       <Text
         textAlign="center"
+        fontSize="xx-small"
         color={label === value ? 'white' : 'gray.500'}
         fontWeight="normal"
       >
