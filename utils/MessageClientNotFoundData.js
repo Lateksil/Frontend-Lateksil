@@ -17,11 +17,11 @@ const MessageClientNotFoundData = ({ isLogin = false }) => {
             placeholder="blur"
           />
         </Box>
-        <Text textAlign="center" fontWeight="semibold">
+        <Text textAlign="center" fontSize="xs" fontWeight="semibold">
           Keranjang Kosong? Silahkan Cari Pengujian
         </Text>
         <NextLink href="/">
-          <Button w="full" mt="2">
+          <Button size="sm" fontSize="xx-small" w="full" mt="2">
             Cari Pengujian
           </Button>
         </NextLink>
@@ -37,7 +37,7 @@ const MessageClientNotFoundData = ({ isLogin = false }) => {
           placeholder="blur"
         />
       </Box>
-      <Text textAlign="center" fontWeight="semibold">
+      <Text textAlign="center" fontSize="xs" fontWeight="semibold">
         Belum Ada Pengujian? Silahkan Masuk Terlebih Dahulu
       </Text>
     </Flex>
