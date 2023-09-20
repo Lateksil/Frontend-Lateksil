@@ -79,17 +79,13 @@ const TableCardHistoryTransaction = ({ order }) => {
           <Flex direction="column">
             <Flex align="center" gap={2}>
               <Icon w={5} h={5} as={MdCorporateFare} />
-              <Text fontWeight="semibold" fontSize={{ base: 'sm', lg: 'xl' }}>
+              <Text fontSize="sm" fontWeight="semibold">
                 {order.User.company_name}
               </Text>
             </Flex>
             <HStack align="center">
-              <Text fontSize={{ base: 'x-small', lg: 'sm' }}>
-                Tanggal Pemesanan :{' '}
-              </Text>
-              <Text fontSize={{ base: 'x-small', lg: 'sm' }}>
-                {ParseDate(order.createdAt)}
-              </Text>
+              <Text fontSize="x-small">Tanggal Pemesanan : </Text>
+              <Text fontSize="x-small">{ParseDate(order.createdAt)}</Text>
             </HStack>
           </Flex>
           <Spacer />
@@ -98,12 +94,12 @@ const TableCardHistoryTransaction = ({ order }) => {
             borderRightWidth={1}
             p="1"
           >
-            <Text mr="2" fontSize="sm" color={colorKetTransaction}>
+            <Text mr="2" fontSize="x-small" color={colorKetTransaction}>
               {textKetTransaction}
             </Text>
           </HStack>
           <Badge p="2" colorScheme={colorStatusTransaction}>
-            {textStatusTransaction}
+            <Text fontSize="xx-small">{textStatusTransaction}</Text>
           </Badge>
         </HStack>
         <NextLink href={`/order/${order?.id}`} passHref>
@@ -114,14 +110,14 @@ const TableCardHistoryTransaction = ({ order }) => {
             cursor="pointer"
           >
             <Box p="1">
-              <Text fontSize="sm">Nama Pekerjaan </Text>
-              <Text mr="2" fontWeight="bold" color="blue.700">
+              <Text fontSize="xs">Nama Pekerjaan </Text>
+              <Text mr="2" fontSize="xs" fontWeight="bold" color="blue.700">
                 {order.proyek.nama_proyek}
               </Text>
             </Box>
             <Box p="1">
-              <Text fontSize="sm">Tujuan Proyek </Text>
-              <Text mr="2" color="blue.700">
+              <Text fontSize="xs">Tujuan Proyek </Text>
+              <Text mr="2" fontSize="xs" color="blue.700">
                 {order.proyek.tujuan_proyek}
               </Text>
             </Box>
@@ -135,8 +131,8 @@ const TableCardHistoryTransaction = ({ order }) => {
             cursor="pointer"
           >
             <Box p="1">
-              <Text fontSize="sm">Tanggal Pengerjaan </Text>
-              <Text mr="2" fontSize="sm">
+              <Text fontSize="xs">Tanggal Pengerjaan </Text>
+              <Text mr="2" fontSize="xs">
                 {ParseDate(order.proyek.tanggal_mulai)} s/d{' '}
                 {ParseDate(order.proyek.tanggal_selesai)}
               </Text>
@@ -151,8 +147,8 @@ const TableCardHistoryTransaction = ({ order }) => {
             cursor="pointer"
           >
             <Box p="1">
-              <Text fontSize="sm">Tanggal Pengerjaan </Text>
-              <Text mr="2" fontSize="sm">
+              <Text fontSize="xs">Tanggal Pengerjaan </Text>
+              <Text mr="2" fontSize="xs">
                 {ParseDate(order.proyek.tanggal_mulai)} s/d{' '}
                 {ParseDate(order.proyek.tanggal_selesai)}
               </Text>
@@ -160,20 +156,12 @@ const TableCardHistoryTransaction = ({ order }) => {
           </Flex>
         )}
         <HStack p="2" align="center">
-          <Text
-            mr="2"
-            fontSize={{ base: 'x-small', lg: 'sm' }}
-            color="blue.600"
-          >
+          <Text mr="2" fontSize="x-small" color="blue.600">
             {order.itemOrders.length} Pengujian
           </Text>
           <Spacer />
-          <Text fontSize="sm">Total Pesanan : </Text>
-          <Text
-            fontWeight="bold"
-            color="blue.700"
-            fontSize={{ base: 'md', lg: '2xl' }}
-          >
+          <Text fontSize="xs">Total Pesanan : </Text>
+          <Text fontWeight="bold" color="blue.700" fontSize="sm">
             Rp{formatCurrency(order.total_price)}
           </Text>
         </HStack>
@@ -191,6 +179,7 @@ const TableCardHistoryTransaction = ({ order }) => {
                 onClick={onOpenPayment}
                 leftIcon={<FaWallet />}
                 variant="lateksil-solid"
+                size="sm"
               >
                 {order.status.status_payment === BooleanType.TRUE
                   ? 'Sudah Bayar'
@@ -202,6 +191,7 @@ const TableCardHistoryTransaction = ({ order }) => {
               <Button
                 w="full"
                 variant="lateksil-solid"
+                size="sm"
                 onClick={() =>
                   handleDownloadKwitansi(order.payment.image_kwitansi)
                 }
@@ -214,6 +204,7 @@ const TableCardHistoryTransaction = ({ order }) => {
                 <Button
                   w="full"
                   variant="lateksil-solid"
+                  size="sm"
                   onClick={() =>
                     handleDownloadKwitansi(order.payment.image_kwitansi)
                   }
@@ -223,6 +214,7 @@ const TableCardHistoryTransaction = ({ order }) => {
                 <Button
                   w="full"
                   variant="lateksil-solid"
+                  size="sm"
                   onClick={() =>
                     router.push(
                       `${baseUrl}view-result/download/${order.file_result_pengujian}`

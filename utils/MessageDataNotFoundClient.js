@@ -15,7 +15,7 @@ const MessageDataNotFoundClient = ({ children }) => {
           placeholder="blur"
         />
       </Box>
-      <Text textAlign="center" fontWeight="semibold">
+      <Text textAlign="center" fontSize="xs" fontWeight="semibold">
         {children}
       </Text>
     </Flex>
