@@ -136,7 +136,12 @@ const LoginPage = () => {
           Lupa Password?
         </Link>
       </Flex>
-      <Button type="submit" isLoading={isLoading} variant="lateksil-solid">
+      <Button
+        type="submit"
+        size="sm"
+        isLoading={isLoading}
+        variant="lateksil-solid"
+      >
         Masuk
       </Button>
       <Text textAlign="center" mt="8" fontSize="xs">

@@ -114,10 +114,10 @@ const RegisterPage = () => {
           <title>Registrasi | Lateksil</title>
         </Head>
         <VStack mb="3" w="full">
-          <Heading fontSize="2xl" w="full">
+          <Heading fontSize="md" w="full">
             Daftar Sekarang
           </Heading>
-          <Text mb="8" w="full">
+          <Text mb="8" w="full" fontSize="xs">
             Sudah memiliki akun?
             <Text as="span" color="blue.600" fontWeight="bold">
               <NextLink href="/login">Masuk</NextLink>
@@ -132,57 +132,77 @@ const RegisterPage = () => {
         </VStack>
         <VStack w="full" maxW="md">
           <FormControl id="full_name" isInvalid={!!errors.full_name}>
-            <FormLabel>Nama Lengkap</FormLabel>
+            <FormLabel fontSize="xs">Nama Lengkap</FormLabel>
             <Input
               type="text"
+              fontSize="xs"
+              size="sm"
               placeholder="Nama Lengkap"
               {...register('full_name')}
             />
-            <FormErrorMessage>
+            <FormErrorMessage fontSize="xx-small">
               {errors.full_name && errors.full_name.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl id="company_name" isInvalid={!!errors.company_name}>
-            <FormLabel>Nama Perusahaan</FormLabel>
+            <FormLabel fontSize="xs">Nama Perusahaan</FormLabel>
             <Input
               type="text"
+              fontSize="xs"
+              size="sm"
               placeholder="Nama Perusahaan"
               {...register('company_name')}
             />
-            <FormErrorMessage>
+            <FormErrorMessage fontSize="xx-small">
               {errors.company_name && errors.company_name.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl id="address" isInvalid={!!errors.address}>
-            <FormLabel>Alamat</FormLabel>
-            <Input type="text" placeholder="Alamat" {...register('address')} />
-            <FormErrorMessage>
+            <FormLabel fontSize="xs">Alamat</FormLabel>
+            <Input
+              type="text"
+              fontSize="xs"
+              size="sm"
+              placeholder="Alamat"
+              {...register('address')}
+            />
+            <FormErrorMessage fontSize="xx-small">
               {errors.address && errors.address.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl id="no_whatsapp" isInvalid={!!errors.no_whatsapp}>
-            <FormLabel>No. WhatsApp</FormLabel>
+            <FormLabel fontSize="xs">No. WhatsApp</FormLabel>
             <Input
               type="text"
+              fontSize="xs"
+              size="sm"
               placeholder="No WhatsApp"
               {...register('no_whatsapp')}
             />
-            <FormErrorMessage>
+            <FormErrorMessage fontSize="xx-small">
               {errors.no_whatsapp && errors.no_whatsapp.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl id="email" isInvalid={!!errors.email}>
-            <FormLabel>Email</FormLabel>
-            <Input type="email" placeholder="Email" {...register('email')} />
-            <FormErrorMessage>
+            <FormLabel fontSize="xs">Email</FormLabel>
+            <Input
+              type="email"
+              fontSize="xs"
+              size="sm"
+              placeholder="Email"
+              {...register('email')}
+            />
+            <FormErrorMessage fontSize="xx-small">
               {errors.email && errors.email.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl id="password" isInvalid={!!errors.password}>
-            <FormLabel>Password</FormLabel>
+            <FormLabel fontSize="xs">Password</FormLabel>
             <InputGroup>
               <Input
                 placeholder="Password"
+                fontSize="xs"
+                size="sm"
                 type={isPasswordOpen ? 'text' : 'password'}
                 {...register('password')}
               />
@@ -190,6 +210,7 @@ const RegisterPage = () => {
               <InputRightElement>
                 <IconButton
                   bg="transparent"
+                  height="10px"
                   _hover={{ bg: 'transparent' }}
                   variant="ghost"
                   color="ims-linebox"
@@ -203,7 +224,7 @@ const RegisterPage = () => {
                 />
               </InputRightElement>
             </InputGroup>
-            <FormErrorMessage>
+            <FormErrorMessage fontSize="xx-small">
               {errors.password && errors.password.message}
             </FormErrorMessage>
           </FormControl>
@@ -211,7 +232,7 @@ const RegisterPage = () => {
         <Button
           mt="8"
           w="full"
-          maxW="md"
+          size="sm"
           type="submit"
           variant="lateksil-solid"
           isLoading={isLoading}

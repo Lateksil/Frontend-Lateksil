@@ -99,7 +99,7 @@ const ResetPasswordPage = () => {
           isInvalid={!!formState.errors?.password}
           errortext={formState.errors?.password?.message}
         >
-          <FormLabel>Kata Sandi Baru</FormLabel>
+          <FormLabel fontSize="xs">Kata Sandi Baru</FormLabel>
           <InputGroup>
             <Input
               placeholder="Kata Sandi Baru"

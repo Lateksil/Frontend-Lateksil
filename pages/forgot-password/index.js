@@ -57,11 +57,12 @@ const MainForgotPassword = () => {
           <Circle size="50px" bg="blue.700" color="white">
             <MdMailLock size={30} />
           </Circle>
-          <Heading fontSize="2xl">Lupa Kata Sandi?</Heading>
+          <Heading fontSize="md">Lupa Kata Sandi?</Heading>
           <Text
             mb={5}
             w="80%"
             align="center"
+            fontSize="small"
             fontWeight="medium"
             fontFamily="body"
           >
@@ -75,14 +76,21 @@ const MainForgotPassword = () => {
         isInvalid={!!formState.errors?.email}
         errortext={formState.errors?.email?.message}
       >
-        <FormLabel>Email</FormLabel>
-        <Input type="email" placeholder="Email" {...register('email')} />
-        <FormErrorMessage fontSize="xs">
+        <FormLabel fontSize="xs">Email</FormLabel>
+        <Input
+          type="email"
+          fontSize="xs"
+          size="sm"
+          placeholder="Email"
+          {...register('email')}
+        />
+        <FormErrorMessage fontSize="xx-small">
           {formState.errors?.email?.message}
         </FormErrorMessage>
       </FormControl>
       <Button
         type="submit"
+        size="sm"
         variant="lateksil-solid"
         isLoading={isLoadingSendEmail}
       >
