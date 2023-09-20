@@ -102,15 +102,17 @@ const DashboardNavbar = () => {
           <HStack spacing={3}>
             <ButtonGroup>
               <NextLink href="/login" passHref>
-                <Button bg="blue.700" color="white" _hover={{ bg: 'blue.800' }}>
+                <Button variant="lateksil-solid" size="sm" fonsi color="white">
                   Masuk
                 </Button>
               </NextLink>
               <NextLink href="/register" passHref>
                 <Button
                   variant="outline"
+                  size="sm"
                   borderColor="blue.700"
                   color="blue.700"
+                  fontSize="xx-small"
                 >
                   Daftar
                 </Button>
